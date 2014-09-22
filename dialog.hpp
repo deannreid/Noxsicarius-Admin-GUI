@@ -1,56 +1,56 @@
-class adminDialog
+class noxAT
 {
-	name=adminDialog;
+	name=noxAT;
 	idd=-1;
 	movingEnable=0;
-	controlsBackground[]={rscAdminPList, rscAdminTitle, rscAdminBG, rscAdminBGF};
+	controlsBackground[]={noxBG};
 	objects[]={};
-	controls[]={rscAdminPLT};
+	controls[]={noxPlrTitle, noxTitle, noxPlrFrame, noxBGFrame};
 
-	class rscAdminPLT:RscText
+	class noxPlrTitle:RscText
 	{
 		idc=-1;
 		title="Player List";
-		x=0.15;
+		x=0.766666666666667;
 		y=0.0888888888888889;
-		w=0.2;
+		w=0.133333333333333;
 		h=0.0296296296296296;
 	};
 
-	class rscAdminPList:RscBgFrame
-	{
-		idc=-1;
-		x=0.15;
-		y=0.0888888888888889;
-		w=0.2;
-		h=0.82962962962963;
-	};
-
-	class rscAdminTitle:RscText
+	class noxTitle:RscText
 	{
 		idc=-1;
 		text="Admin Tools V2 by NoxSicarius";
-		x=0.383333333333333;
+		x=0.1;
 		y=0.0888888888888889;
-		w=0.233333333333333;
+		w=0.683333333333333;
 		h=0.0296296296296296;
 	};
 
-	class rscAdminBG:RscBackground
+	class noxPlrFrame:RscBgFrame
 	{
 		idc=-1;
-		x=0.15;
+		x=0.766666666666667;
 		y=0.0888888888888889;
-		w=0.733333333333333;
+		w=0.133333333333333;
 		h=0.82962962962963;
 	};
 
-	class rscAdminBGF:RscBgFrame
+	class noxBGFrame:RscBgFrame
 	{
 		idc=-1;
-		x=0.15;
+		x=0.1;
 		y=0.0888888888888889;
-		w=0.733333333333333;
+		w=0.8;
+		h=0.82962962962963;
+	};
+
+	class noxBG:RscBackground
+	{
+		idc=-1;
+		x=0.1;
+		y=0.0888888888888889;
+		w=0.8;
 		h=0.82962962962963;
 	};
 };
