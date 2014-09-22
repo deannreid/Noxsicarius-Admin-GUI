@@ -38,11 +38,15 @@ _unauthorisedUse = true;
 
 
 /*
+ * Basic Anti-Cheat
+ */
+ 
+ 
+/*
  * Bad Key Checks
  */
 _keyKick = true;   //Kick users for pressing admin keys more than once.
 //#Don't Enable#/ _sideKick = false; //Kick users for using mic in side chat 
-
 
 /*
  * Hacker Checks
@@ -54,9 +58,7 @@ _hackBoxCheck = true; //This will check for hackers who spawn boxes in
 //#Don't Enable#/ _actionCheck = true;  //This will check and close unauthorised mousewheel actions
 
 //#Don't Enable#/ _allowedDialogs = [-1,106,2200,6900,6901,6902,6903,420420,41144];
-
 //#Don't Enable#/ _allowedCmdMenus = [];
-
 //#Don't Enable#/ _allowedActions = [];
 
 //////////////////////////////////////
