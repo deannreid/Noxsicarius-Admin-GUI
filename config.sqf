@@ -10,6 +10,7 @@
  */
 _noxDLLPath = ""; //Empty = arma2oa dir
 _OpenMenuKey = 0x3C;    /* google DIK_KeyCodes (0x3C is F2) */
+_isEpoch = true;
 
 /*
  * Admin Configs
@@ -69,17 +70,56 @@ _hackBoxCheck = true; //This will check for hackers who spawn boxes in
 
 //Insert Scripts Location Here
 
-/*
+
+//Admin Tools
+_admPBan  = ""; //Player Ban
+_admPKick = ""; //Player Kick
+_admZS    = ""; //Zombie Shield
+_admZsp   = ""; //Zombie Spawner
 
 
+//Player Tools
+_plrHeal  = ""; //Plr Heal
+_plrSpec  = ""; //Plr Spectate
+_plrHumP  = ""; //Plr Humanity Positive
+_plrHumN  = ""; //Plr Humanity Negative
+_plrTP2S  = ""; //Player Teleport to Self
+_plrTP2   = ""; //Player Teleport to
+_plrSZ    = ""; //Player Safezone
 
 
+//Vehicle Menu
+_p2rp     = ""; // Point to repair (Perm)
+_p2rt     = ""; // Point to repair (Temp)
+_p2dp     = ""; // Point to delete (Perm)
+_p2dt     = ""; // Point to delete (Temp)
+_p2f      = ""; // Point to flip
+_p2r      = ""; //Point to refuel
+
+_vLock    = ""; //Lock Vehicle
+_vUnlock  = ""; // Unlock Vehicle
+
+_vSpawnT  = ""; //Spawn Temp Vehicle
+_vSpawnP  = ""; //Spawn Perm Vehicle
+
+//Weather/Time
 
 
+//Crates
+_prvWcrate   = ""; //Private Weapons/Ammo Crate
+_prvIcrate   = ""; //Private Items Crate
+_prvAIOcrate = ""; //Private AIO Crate
+_prvBcrate   = ""; //Private Buildable Crate
+_prvBPcrate  = ""; //Private Backpack Crate
+
+_pubWcrate   = ""; //Public Weapons/Ammo Crate
+_pubIcrate   = ""; //Public Items Crate
+_pubAIOcrate = ""; //Public AIO Crate
+_pubBcrate   = ""; //Public Buildable Crate
+_pubBPcrate  = ""; //Public Backpack Crate
 
 
+//Weapons/Items
 
 
-
-
-*/
+//Skins
