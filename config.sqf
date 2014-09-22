@@ -46,27 +46,28 @@ _unauthorisedUse = true;
  * Bad Key Checks
  */
 _keyKick = true;   //Kick users for pressing admin keys more than once.
-//#Don't Enable#/ _sideKick = false; //Kick users for using mic in side chat 
+_sideKick = false; //Kick users for using mic in side chat 
+//#Don't Enable#/
 
 /*
  * Hacker Checks
  */
 _antiTeleport = true; //This will stop players from teleport hacking
 _hackBoxCheck = true; //This will check for hackers who spawn boxes in
-//#Don't Enable#/ _cmdMenuClose = true; //This will check and close unauthorised CMD Menus 
-//#Don't Enable#/ _dialogClose = true;  //This will check and close unauthorised open dialogues  
-//#Don't Enable#/ _actionCheck = true;  //This will check and close unauthorised mousewheel actions
+/*Don't Enable*/_cmdMenuClose = true; //This will check and close unauthorised CMD Menus 
+/*Don't Enable*/_dialogClose = true;  //This will check and close unauthorised open dialogues
+/*Don't Enable*/_actionCheck = false;  //This will check and close unauthorised mousewheel actions
 
-//#Don't Enable#/ _allowedDialogs = [-1,106,2200,6900,6901,6902,6903,420420,41144];
-//#Don't Enable#/ _allowedCmdMenus = [];
-//#Don't Enable#/ _allowedActions = [];
+/*Don't Enable*/_allowedDialogs = [-1,106,2200,6900,6901,6902,6903,420420,41144];
+/*Don't Enable*/_allowedCmdMenus = [];
+/*Don't Enable*/_allowedActions = [];
 
 //////////////////////////////////////
 //////Don't Edit Below This Line//////
 //Unless you know what you are doing//
 //////////////////////////////////////
 
-//Insert Scripts Here
+//Insert Scripts Location Here
 
 /*
 
