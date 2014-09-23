@@ -104,7 +104,7 @@ _plrCGod  = ""; //Car God
 _plrRBL   = ""; //Remove Build Limit
 _plr1SB   = ""; //1 Step Build
 _plrRPP   = ""; //Remove Plot Pole Req
-_plrROB   = ""  // Remove Overburden
+_plrROB   = ""; // Remove Overburden
 _plrZsp   = ""; //Zombie Spawner
 _plrNZA   = ""; //No Zed Aggro
 _plrHarryPotter - ""; // Player Invisibility

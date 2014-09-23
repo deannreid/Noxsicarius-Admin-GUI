@@ -102,7 +102,7 @@ diag_log format['NoxSicarius AdminTools - Creating'];
  * Create Menu
  */
  
- 
+ //Doing Menu Population first as that takes longer to do
  
  
 /*
@@ -135,7 +135,7 @@ diag_log format['NoxSicarius AdminTools - Creating'];
 	noxadmin = noxadmin + ["-----------------Teleport----------------",[]];		
 	noxadmin = noxadmin + ["Teleport to Player",_plrTP2,[]];	
 	noxadmin = noxadmin + ["Teleport Player to You",_plrTP2S,[]];	
-	noxadmin = noxadmin + ["Map Seleport",_plrTPWM,[]];	
+	noxadmin = noxadmin + ["Map Teleport",_plrTPWM,[]];	
 	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice	
 	noxadmin = noxadmin + ["-----------------Admin Tools----------------",[]];		
