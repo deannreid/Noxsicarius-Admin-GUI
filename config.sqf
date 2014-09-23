@@ -23,6 +23,7 @@ _LAdmins = ["0","0","0"];
 /*
  * Esc Menu Information
  */
+_escMod = true;
 _escTop = "Admin Tools V2 Dialog";
 _escLowTop = "by";
 _esclowBottom = "DeanReid";
@@ -74,19 +75,39 @@ _hackBoxCheck = true; //This will check for hackers who spawn boxes in
 //Admin Tools
 _admPBan  = ""; //Player Ban
 _admPKick = ""; //Player Kick
-_admZS    = ""; //Zombie Shield
-_admZsp   = ""; //Zombie Spawner
+_admPKill = ""; //Player Kill
+_admSpec  = ""; //Plr Spectate
 
+//Map Marker Stuff
+_plrMarker = ""; //Player Marker
+_corMarker = ""; //Corpse Marker
+_wreMarker = ""; //Wreck Marker
+_tntMarker = ""; //Tent Marker
+_sfeMarker = ""; //Safe Marker
+_pltMarker = ""; //Plot Marker
+_vlMarker = ""; //Locked Vehicle Marker
+_vulMarker = ""; // Unlocked Vehicle Marker
 
 //Player Tools
 _plrHeal  = ""; //Plr Heal
-_plrSpec  = ""; //Plr Spectate
 _plrHumP  = ""; //Plr Humanity Positive
 _plrHumN  = ""; //Plr Humanity Negative
 _plrTP2S  = ""; //Player Teleport to Self
 _plrTP2   = ""; //Player Teleport to
+_plrTPWM  = ""; //Player Teleport with Map
 _plrSZ    = ""; //Player Safezone
-
+_plrZS    = ""; //Zombie Shield
+_plrUA    = ""; //Unlimited Ammo
+_plrRR    = ""; //Player Remove Recoil
+_plrGod   = ""; //God Mode
+_plrCGod  = ""; //Car God
+_plrRBL   = ""; //Remove Build Limit
+_plr1SB   = ""; //1 Step Build
+_plrRPP   = ""; //Remove Plot Pole Req
+_plrROB   = ""  // Remove Overburden
+_plrZsp   = ""; //Zombie Spawner
+_plrNZA   = ""; //No Zed Aggro
+_plrHarryPotter - ""; // Player Invisibility
 
 //Vehicle Menu
 _p2rp     = ""; // Point to repair (Perm)
