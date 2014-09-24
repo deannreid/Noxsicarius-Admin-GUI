@@ -1,4 +1,4 @@
-private ["_titleString","_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_escLowTop","_esclowBottom","_escTop","_dstring","_escColour","_broadcastToolUse","_majorLog","_minorLog","_unauthorisedUse","_keyKick","_sideKick","_antiTeleport","_hackBoxCheck","_cmdMenuClose","_dialogClose","_actionCheck","_allowedDialogs","_allowedCmdMenus","_allowedActions","_tmpLA","_tmpNA","_tmpSA","_allAdmins","_version"];
+private ["_titleString","_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_escLowTop","_esclowBottom","_escTop","_dstring","_escColour","_broadcastToolUse","_majorLog","_minorLog","_unauthorisedUse","_keyKick","_sideKick","_antiTeleport","_hackBoxCheck","_cmdMenuClose","_dialogClose","_actionCheck","_allowedDialogs","_allowedCmdMenus","_allowedActions","_LA","_NA","_SA","_allAdmins","_version"];
 #include "config.sqf"
 
 /*
@@ -123,7 +123,7 @@ diag_log format['NoxSicarius AdminTools - Creating'];
 	noxadmin = noxadmin + ["Corpse Markers",_corMarker,[]];		
 	noxadmin = noxadmin + ["Wreck Markers",_wreMarker,[]];	
 	noxadmin = noxadmin + ["Tent Markers",_tntMarker,[]];
-		if (_isEpoch == true) then
+		if (_isEpoch) then
 			{
 				noxadmin = noxadmin + ["Safe Markers",_sfeMarker,[]];		
 				noxadmin = noxadmin + ["Plot Markers",_pltMarker,[]];
@@ -155,7 +155,7 @@ diag_log format['NoxSicarius AdminTools - Creating'];
 	noxadmin = noxadmin + ["God",_plrGod,[]];		
 	noxadmin = noxadmin + ["Car God",_plrCGod,[]];		
 	noxadmin = noxadmin + ["Invisibility",_plrHarryPotter,[]];		
-		if (_isEpoch == true) then
+		if (_isEpoch) then
 			{	
 				noxadmin = noxadmin + ["Remove Build Limit",_plrRBL,[]];		
 				noxadmin = noxadmin + ["1 Step Building",_plr1SB,[]];		
@@ -164,10 +164,23 @@ diag_log format['NoxSicarius AdminTools - Creating'];
 			};
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["-----------------Vehicle Tools----------------",[]];	
-	
+	noxadmin = noxadmin + ["Point to Repair (Perm)",_p2rp,[]];	
+	noxadmin = noxadmin + ["Point to Repair (Temp)",_p2rt,[]];
+	noxadmin = noxadmin + ["Point to Delete (Perm)",_p2dp,[]];	
+	noxadmin = noxadmin + ["Point to Delete (Temp)",_p2dt,[]];
+	noxadmin = noxadmin + ["Flip Vehicle",_p2f,[]];
+	noxadmin = noxadmin + ["Refuel Vehicle",_p2r,[]];
+	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice	
+	noxadmin = noxadmin + ["Lock Vehicle (1)",_vLock,[]];	
+	noxadmin = noxadmin + ["Unlock Vehicle (2)",_vUnlock,[]];	
+	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
+	noxadmin = noxadmin + ["Spawn Vehicle",_vSpawnT,[]];
+	noxadmin = noxadmin + ["Spawn Vehicle HIVE",_vSpawnP,[]];
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["-----------------Crates----------------",[]];	
-
+	noxadmin = noxadmin + ["---Private",[]];	
+	
+	noxadmin = noxadmin + ["---Public",[]];		
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["-----------------Weather/Time----------------",[]];	
 
