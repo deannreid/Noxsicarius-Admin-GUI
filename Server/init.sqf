@@ -92,34 +92,9 @@ if (_version < 103718) then{	diag_log format['Server Arma2OA beta is outdated! (
 	_puid = getPlayerUID player; noxLowList = "+str _LAdmins+";	noxNormalList = "+str _NAdmins+"; noxSuperList = "+str _SAdmins+";
 	
 if (_key == ("+str _OpenMenuKey+")) then {call adminInit;};
-
-
-
-
-noxAdminMain = {
-
-
-
-
-	
-	};
- 
 /*
  * Add Items to menu
  */ 
- 
-adminMenuFill = 
-	{
- if (_debug) then {diag_log format['Admin Menu Fill '];};
-_puid = getPlayerUID player; 
-if (_puid in noxSuperlist) then
-	{
-	noxadmin = noxadmin + ["-----------------------Welcome to the------------------------",[]];
-	noxadmin = noxadmin + ["------------------Nox Sicarius Admin Tools-------------------",[]];
-	noxadmin = noxadmin + ["-----------------------------GUI-----------------------------",[]];	
-	noxadmin = noxadmin + ["",[]];//Spacer to Keep it looking nice		
-	};
-		
 //Super Admin
 superAdminMenu {
 	noxadmin = noxadmin + ["-----------------Map Markers----------------",[]];		
@@ -228,7 +203,6 @@ normalAdminMenu {
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice	
 	noxadmin = noxadmin + ["-----------------Admin Tools----------------",[]];		
 	noxadmin = noxadmin + ["Kick Player",_admPKick,[]];	
-//	noxadmin = noxadmin + ["Ban Player",_admPBan,[]];		
 	noxadmin = noxadmin + ["Kill Player",_admPKill,[]];	
 	noxadmin = noxadmin + ["Remove Player Gear",_admRPG,[]];	
 	noxadmin = noxadmin + ["Spectate Player",_admSpec,[]];	
@@ -254,7 +228,6 @@ normalAdminMenu {
 	noxadmin = noxadmin + ["-----------------Vehicle Tools----------------",[]];	
 	noxadmin = noxadmin + ["Point to Repair (Perm)",_p2rp,[]];	
 	noxadmin = noxadmin + ["Point to Repair (Temp)",_p2rt,[]];
-//	noxadmin = noxadmin + ["Point to Delete (Perm)",_p2dp,[]];	
 	noxadmin = noxadmin + ["Point to Delete (Temp)",_p2dt,[]];
 	noxadmin = noxadmin + ["Flip Vehicle",_p2f,[]];
 	noxadmin = noxadmin + ["Refuel Vehicle",_p2r,[]];
@@ -269,7 +242,6 @@ normalAdminMenu {
 	noxadmin = noxadmin + ["---Private",[]];	
 	noxadmin = noxadmin + ["Weapons & Ammo",_prvWcrate,[]];
 	noxadmin = noxadmin + ["Items",_prvIcrate,[]];
-//	noxadmin = noxadmin + ["All in One",_prvAIOcrate,[]];
 		if (_isEpoch) then
 			{	
 				noxadmin = noxadmin + ["Epoch Crate",_prvBcrate,[]];
@@ -279,7 +251,6 @@ normalAdminMenu {
 	noxadmin = noxadmin + ["---Public",[]];	
 	noxadmin = noxadmin + ["Weapons & Ammo",_pubWcrate,[]];
 	noxadmin = noxadmin + ["Items",_pubIcrate,[]];
-//  noxadmin = noxadmin + ["All in One",_pubAIOcrate,[]];
 		if (_isEpoch) then
 			{	
 				noxadmin = noxadmin + ["Epoch Crate",_pubBcrate,[]];
@@ -287,8 +258,6 @@ normalAdminMenu {
 	noxadmin = noxadmin + ["Backpack Crate",_pubBPcrate,[]];	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice
 	noxadmin = noxadmin + ["-----------------Weather/Time----------------",[]];	
-
-
 	};
 //Low Admin
 lowAdminMenu {
@@ -297,11 +266,6 @@ lowAdminMenu {
 	noxadmin = noxadmin + ["Corpse Markers",_corMarker,[]];		
 	noxadmin = noxadmin + ["Wreck Markers",_wreMarker,[]];	
 	noxadmin = noxadmin + ["Tent Markers",_tntMarker,[]];
-		if (_isEpoch) then
-			{
-//				noxadmin = noxadmin + ["Safe Markers",_sfeMarker,[]];		
-//				noxadmin = noxadmin + ["Plot Markers",_pltMarker,[]];
-			};
 	noxadmin = noxadmin + ["Vehicle Markers (Unlocked)",_vulMarker,[]];	
 	noxadmin = noxadmin + ["Vehicle Markers (Locked)",_vlMarker,[]];	
 	
@@ -314,21 +278,13 @@ lowAdminMenu {
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice	
 	noxadmin = noxadmin + ["-----------------Admin Tools----------------",[]];		
 	noxadmin = noxadmin + ["Kick Player",_admPKick,[]];	
-//	noxadmin = noxadmin + ["Ban Player",_admPBan,[]];		
-//	noxadmin = noxadmin + ["Kill Player",_admPKill,[]];	
-//	noxadmin = noxadmin + ["Remove Player Gear",_admRPG,[]];	
 	noxadmin = noxadmin + ["Spectate Player",_admSpec,[]];	
 	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice			
 	noxadmin = noxadmin + ["-----------------Player Tools----------------",[]];	
-	noxadmin = noxadmin + ["Heal Player",_plrHeal,[]];	
-//	noxadmin = noxadmin + ["Zombie Shield",_plrZS,[]];		
-//	noxadmin = noxadmin + ["Zombie Remove Aggro",_plrNZA,[]];		
-//	noxadmin = noxadmin + ["Infinite Ammo",_plrUA,[]];		
+	noxadmin = noxadmin + ["Heal Player",_plrHeal,[]];		
 	noxadmin = noxadmin + ["No Recoil",_plrRR,[]];		
-	noxadmin = noxadmin + ["God",_plrGod,[]];		
-//	noxadmin = noxadmin + ["Car God",_plrCGod,[]];		
-//	noxadmin = noxadmin + ["Invisibility",_plrHarryPotter,[]];		
+	noxadmin = noxadmin + ["God",_plrGod,[]];			
 		if (_isEpoch) then
 			{		
 				noxadmin = noxadmin + ["1 Step Building",_plr1SB,[]];		
@@ -339,8 +295,6 @@ lowAdminMenu {
 	noxadmin = noxadmin + ["-----------------Vehicle Tools----------------",[]];	
 	noxadmin = noxadmin + ["Point to Repair (Perm)",_p2rp,[]];	
 	noxadmin = noxadmin + ["Point to Repair (Temp)",_p2rt,[]];
-//	noxadmin = noxadmin + ["Point to Delete (Perm)",_p2dp,[]];	
-//	noxadmin = noxadmin + ["Point to Delete (Temp)",_p2dt,[]];
 	noxadmin = noxadmin + ["Flip Vehicle",_p2f,[]];
 	noxadmin = noxadmin + ["Refuel Vehicle",_p2r,[]];
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice	
