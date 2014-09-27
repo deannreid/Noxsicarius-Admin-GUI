@@ -6,7 +6,7 @@ private ["_titleString","_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_escLow
  * if not, call them
  */
 _titleString = 'by NoxSicarius';
-if (isNil '_OpenMenuKey') then {_OpenMenuKey = 0x3C;};
+//if (isNil '_OpenMenuKey') then {_OpenMenuKey = 0x3C;};
 if (isNil '_LAdmins') then {_LAdmins = [];};
 if (isNil '_NAdmins') then {_NAdmins = [];};
 if (isNil '_SAdmins') then {_SAdmins = [];};
@@ -36,10 +36,10 @@ if (isnil '_debug') then {_debug = true;};
 _version = productVersion select 3;
 if (_version < 103718) then {
 								diag_log format['Server Arma2OA beta is outdated! (%1)',_version];
-								titleText ['This server is using an outdated version of ArmA OA, Version Required: 103718 or Higher | Version Installed: (%1)',_version];
+								titleText ['This server is using an outdated version of ArmA OA, Version Required: 103718 or Higher | Version Installed: (%1)', "PLAIN",_version];
 							}else {
 									diag_log format['Server Version Up-to-Date!'];
-									titleText ['This server is Up-to-Date'];
+									titleText ["This Server is Up-To-Date", "PLAIN"];
 								  };
 
 /*
@@ -83,8 +83,19 @@ if (_version < 103718) then {
 /*
  * Find Admins
  */
-	_puid = getPlayerUID player; noxLowList = _LAdmins;	noxNormalList = _NAdmins; noxSuperList = _SAdmins;
-	if (_key == ("+str _OpenMenuKey+")) then {call adminInit;};
+	_puid = getPlayerUID player; 
+	noxLowList = _LAdmins;	
+	noxNormalList = _NAdmins; 
+	noxSuperList = _SAdmins;
+	
+	
+	keyBinds = {
+	private = [_key];
+	_key = _this select 1;
+	
+//  if (_key == ("+str _OpenMenuKey+")) then {call adminInit;};
+	if (_key == (0x3C)) then {call adminInit;};
+	};
 /*
  * Add Items to menu
  */ 
@@ -320,7 +331,7 @@ lowAdminMenu {
  
 adminInit = {
 
-if (!(dialog)) then {createDialog "RscConfigEditor_Main";};
+if !(dialog) then {createDialog "RscConfigEditor_Main";};
 disableSerialization;
 
 if (enableAdmin) then {
