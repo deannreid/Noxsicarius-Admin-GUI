@@ -114,8 +114,4 @@ _pubAIOcrate = ""; //Public AIO Crate
 _pubBcrate   = ""; //Public Buildable Crate
 _pubBPcrate  = ""; //Public Backpack Crate
 
-
-//Weapons/Items
-
-
 //Skins

@@ -14,7 +14,7 @@ if (isNil '_escMod') then {_escMod = true;};
 if (isNil '_escTop') then {_escTop = _dstring;};
 if (isNil '_escLowTop') then {_escLowTop = _dstring;};
 if (isNil '_esclowBottom') then {_esclowBottom = _dstring;};
-if (isNil '_escColour') then {_escColour = [0.6,0,0,1];};
+if (isNil '_escColour') then {_escColour = [1,0,0,1];};
 if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;};
 if (isNil '_majorLog') then {_majorLog = true;};
 if (isNil '_minorLog') then {_minorLog = true;};
@@ -28,11 +28,6 @@ if (isnil '_debug') then {_debug = true;};
  * Load Admin IDS from Files
  * else load from configs
  */
- if (_debug) then {diag_log format['Searching for admin files'];};
-if ((preProcessFileLineNumbers ("lowadmin.sqf")) != "") then {_LA = call compile preProcessFileLineNumbers "lowadmin.sqf";_LAdmins = _LAdmins + _LA;};
-if ((preProcessFileLineNumbers ("normaladmin.sqf")) != "") then {_NA = call compile preProcessFileLineNumbers "normaladmin.sqf";_NAdmins = _NAdmins + _NA;};
-if ((preProcessFileLineNumbers ("superadmin.sqf")) != "") then {_SA = call compile preProcessFileLineNumbers "superadmin.sqf";_SAdmins = _SAdmins + _SA;};
-_allAdmins = _LAdmins + _NAdmins + _SAdmins;
 
 /*
  * Checking server Version
@@ -50,6 +45,8 @@ if (_version < 103718) then {
 /*
  * Esc Menu Stuff -- Still to test
  */
+ 
+ /* Doesn't work At the moment 
 	_colorTXT = "+str _escColour+";
 	_btnTitle0TXT = "+str _escTop+";
 	_btnTitle1TXT = "+str _escLowTop+";
@@ -79,16 +76,15 @@ if (_version < 103718) then {
 			_btnTitle2 ctrlSetTextColor _colorTXT;
 			_btnTitle2 ctrlSetScale 0.75;
 			_btnTitle2 ctrlCommit 0;
-		};
+		};*/
 
  if (_debug) then {diag_log format['Creating Admin Menu'];};
 
 /*
  * Find Admins
  */
-	_puid = getPlayerUID player; noxLowList = "+str _LAdmins+";	noxNormalList = "+str _NAdmins+"; noxSuperList = "+str _SAdmins+";
-	
-if (_key == ("+str _OpenMenuKey+")) then {call adminInit;};
+	_puid = getPlayerUID player; noxLowList = _LAdmins;	noxNormalList = _NAdmins; noxSuperList = _SAdmins;
+	if (_key == ("+str _OpenMenuKey+")) then {call adminInit;};
 /*
  * Add Items to menu
  */ 
@@ -324,7 +320,7 @@ lowAdminMenu {
  
 adminInit = {
 
-if !(dialog) then {createDialog "RscConfigEditor_Main";};
+if (!(dialog)) then {createDialog "RscConfigEditor_Main";};
 disableSerialization;
 
 if (enableAdmin) then {
@@ -373,7 +369,7 @@ if (enableAdmin) then {
 			_ctrl ctrlCommit commit_time;
 
 
-	}
+	};
 };  
  
  /*
@@ -394,7 +390,7 @@ if (enableAdmin) then {
 			_closest = _unsorted select 0;
 			{if ((getPos _x distance player) < (getPos _closest distance player)) then {_closest = _x}} forEach _unsorted;
 			_sorted = _sorted + [_closest];
-			_unsorted = _unsorted - [_closest]
+			_unsorted = _unsorted - [_closest];
 		} forEach _unsorted;
 		_sorted;
 
