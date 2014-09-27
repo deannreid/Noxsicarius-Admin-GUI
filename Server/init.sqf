@@ -1,4 +1,4 @@
-private ["_titleString","_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_escLowTop","_esclowBottom","_escTop","_dstring","_escColour","_broadcastToolUse","_majorLog","_minorLog","_unauthorisedUse","_keyKick","_sideKick","_antiTeleport","_hackBoxCheck","_cmdMenuClose","_dialogClose","_actionCheck","_allowedDialogs","_allowedCmdMenus","_allowedActions","_LA","_NA","_SA","_allAdmins","_version"];
+private ["_titleString","_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_escLowTop","_esclowBottom","_escTop","_dstring","_escColour","_broadcastToolUse","_majorLog","_minorLog","_unauthorisedUse","_antiTeleport","_LA","_NA","_SA","_allAdmins","_version","_escMod","_debug","_display","_btnTitle0","_btnTitle1","_btnTitle2","_admRPG","_noxDLLPath","_isEpoch","_puid","_key"];
 #include "config.sqf"
 
 /*
