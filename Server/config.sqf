@@ -47,20 +47,19 @@ _unauthorisedUse = true;
 /*
  * Bad Key Checks
  */
-_keyKick = true;   //Kick users for pressing admin keys more than once.
-_sideKick = false; //Kick users for using mic in side chat 
-//#Don't Enable#/
+//_keyKick = false;   //Kick users for pressing admin keys more than once.
+//_sideKick = false; //Kick users for using mic in side chat //#Don't Enable#/
 
 /*
  * Hacker Checks
  */
-_antiTeleport = true; //This will stop players from teleport hacking
-_hackBoxCheck = true; //This will check for hackers who spawn boxes in
-/*Don't Enable*/_cmdMenuClose = true; //This will check and close unauthorised CMD Menus 
-/*Don't Enable*/_dialogClose = true;  //This will check and close unauthorised open dialogues
+_antiTeleport = false; //This will stop players from teleport hacking
+//_hackBoxCheck = false; //This will check for hackers who spawn boxes in
+/*Don't Enable*/_cmdMenuClose = false; //This will check and close unauthorised CMD Menus 
+/*Don't Enable*/_dialogClose = false;  //This will check and close unauthorised open dialogues
 /*Don't Enable*/_actionCheck = false;  //This will check and close unauthorised mousewheel actions
 
-/*Don't Enable*/_allowedDialogs = [-1,106,2200,6900,6901,6902,6903,420420,41144];
+/*Don't Enable*/_allowedDialogs = [];
 /*Don't Enable*/_allowedCmdMenus = [];
 /*Don't Enable*/_allowedActions = [];
 
@@ -107,7 +106,7 @@ _plrRPP   = ""; //Remove Plot Pole Req
 _plrROB   = ""; // Remove Overburden
 _plrZsp   = ""; //Zombie Spawner
 _plrNZA   = ""; //No Zed Aggro
-_plrHarryPotter - ""; // Player Invisibility
+_plrHarryPotter = ""; // Player Invisibility
 
 //Vehicle Menu
 _p2rp     = ""; // Point to repair (Perm)
