@@ -6,7 +6,7 @@ private ["_titleString","_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_escLow
  * if not, call them
  */
 _titleString = 'by NoxSicarius';
-//if (isNil '_OpenMenuKey') then {_OpenMenuKey = 0x3C;};
+if (isNil '_OpenMenuKey') then {_OpenMenuKey = 0x3C;};
 if (isNil '_LAdmins') then {_LAdmins = [];};
 if (isNil '_NAdmins') then {_NAdmins = [];};
 if (isNil '_SAdmins') then {_SAdmins = [];};
@@ -35,48 +35,14 @@ if (isnil '_debug') then {_debug = true;};
  if (_debug) then {diag_log format['Checking Server Version'];};
 _version = productVersion select 3;
 if (_version < 103718) then {
+							if (_debug) then {
 								diag_log format['Server Arma2OA beta is outdated! (%1)',_version];
-								titleText ['This server is using an outdated version of ArmA OA, Version Required: 103718 or Higher | Version Installed: (%1)', "PLAIN",_version];
+								titleText ['This server is using an outdated version of ArmA OA, Version Required: 103718 or Higher | Version Installed: (%1)', "PLAIN",_version];};
 							}else {
+							if (_debug) then {	
 									diag_log format['Server Version Up-to-Date!'];
-									titleText ["This Server is Up-To-Date", "PLAIN"];
+									titleText ["This Server is Up-To-Date", "PLAIN"];};
 								  };
-
-/*
- * Esc Menu Stuff -- Still to test
- */
- 
- /* Doesn't work At the moment 
-	_colorTXT = "+str _escColour+";
-	_btnTitle0TXT = "+str _escTop+";
-	_btnTitle1TXT = "+str _escLowTop+";
-	_btnTitle2TXT = "+str _escLowBottom+";
-	disableSerialization;
-	_startTime = time;
-		if (_escMod) then
-		{
-		 if (_debug) then {diag_log format['Adding Esc Menu Items'];};
-			waitUntil {!isNull findDisplay 49};
-			_display = findDisplay 49;	
-			
-			_btnTitle0 = _display displayCtrl 523;
-			_btnTitle0 ctrlSetText _btnTitle0TXT;
-			_btnTitle0 ctrlSetTextColor _colorTXT;
-			_btnTitle0 ctrlSetScale 0.9;
-			_btnTitle0 ctrlCommit 0;
-			
-			_btnTitle1 = _display displayCtrl 121;
-			_btnTitle1 ctrlSetText _btnTitle1TXT;
-			_btnTitle1 ctrlSetTextColor _colorTXT;
-			_btnTitle1 ctrlSetScale 0.75;
-			_btnTitle1 ctrlCommit 0;
-			
-			_btnTitle2 = _display displayCtrl 120;
-			_btnTitle2 ctrlSetText _btnTitle2TXT;
-			_btnTitle2 ctrlSetTextColor _colorTXT;
-			_btnTitle2 ctrlSetScale 0.75;
-			_btnTitle2 ctrlCommit 0;
-		};*/
 
  if (_debug) then {diag_log format['Creating Admin Menu'];};
 
@@ -93,8 +59,7 @@ if (_version < 103718) then {
 	private = [_key];
 	_key = _this select 1;
 	
-//  if (_key == ("+str _OpenMenuKey+")) then {call adminInit;};
-	if (_key == (0x3C)) then {call adminInit;};
+    if (_key == ("+str _OpenMenuKey+")) then {call adminInit;};
 	};
 /*
  * Add Items to menu

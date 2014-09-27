@@ -22,12 +22,15 @@ _LAdmins = ["0","0","0"];
 
 /*
  * Esc Menu Information
+ * Don't use, Not Implemented Yet..
  */
-_escMod = true;
+ 
+ /*
+_escMod = false;
 _escTop = "Admin Tools V2 Dialog";
 _escLowTop = "by";
 _esclowBottom = "DeanReid";
-_escColour = [0,0.5,1,0.1]; // for colours go here http://en.wikipedia.org/wiki/Web_colors Convert % to numbers e.g  [75% = 0.75]
+_escColour = [0,0.5,1,0.1]; // for colours go here http://en.wikipedia.org/wiki/Web_colors Convert % to numbers e.g  [75% = 0.75]*/
 
 
 /*
@@ -98,9 +101,6 @@ _vUnlock  = ""; // Unlock Vehicle
 _vSpawnT  = ""; //Spawn Temp Vehicle
 _vSpawnP  = ""; //Spawn Perm Vehicle
 
-//Weather/Time
-
-
 //Crates
 _prvWcrate   = ""; //Private Weapons/Ammo Crate
 _prvIcrate   = ""; //Private Items Crate
@@ -113,5 +113,3 @@ _pubIcrate   = ""; //Public Items Crate
 _pubAIOcrate = ""; //Public AIO Crate
 _pubBcrate   = ""; //Public Buildable Crate
 _pubBPcrate  = ""; //Public Backpack Crate
-
-//Skins
