@@ -57,7 +57,7 @@ if (_version < 103718) then{	diag_log format['Server Arma2OA beta is outdated! (
 	_btnTitle2TXT = "+str _escLowBottom+";
 	disableSerialization;
 	_startTime = time;
-		if (_escMod == true) then
+		if (_escMod) then
 		{
 			waitUntil {!isNull findDisplay 49};
 			_display = findDisplay 49;	
