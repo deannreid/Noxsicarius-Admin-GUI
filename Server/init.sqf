@@ -31,11 +31,12 @@ if (isNil '_allowedCmdMenus') then {_allowedCmdMenus = [];};
 if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;};
 if (isNil '_allowedActions') then {_allowedActions = [];};
 if (isNil 'enableAdmin') then {enableAdmin = true;}; /*Don't Disable*/
-
+if (isnil '_debug') then {_debug = true;};
 /*
  * Load Admin IDS from Files
  * else load from configs
  */
+ if (_debug) then {diag_log format['Searching for admin files'];};
 if ((preProcessFileLineNumbers ("lowadmin.sqf")) != "") then {_LA = call compile preProcessFileLineNumbers "lowadmin.sqf";_LAdmins = _LAdmins + _LA;};
 if ((preProcessFileLineNumbers ("normaladmin.sqf")) != "") then {_NA = call compile preProcessFileLineNumbers "normaladmin.sqf";_NAdmins = _NAdmins + _NA;};
 if ((preProcessFileLineNumbers ("superadmin.sqf")) != "") then {_SA = call compile preProcessFileLineNumbers "superadmin.sqf";_SAdmins = _SAdmins + _SA;};
@@ -43,7 +44,8 @@ _allAdmins = _LAdmins + _NAdmins + _SAdmins;
 
 /*
  * Checking server Version
- */
+ */ 
+ if (_debug) then {diag_log format['Checking Server Version'];};
 _version = productVersion select 3;
 if (_version < 103718) then{	diag_log format['Server Arma2OA beta is outdated! (%1)',_version];	titleText ['This server is using an outdated version of ArmA OA, Version Required: 103718 or Higher | Version Installed: (%1)',_version]
 };
@@ -59,6 +61,7 @@ if (_version < 103718) then{	diag_log format['Server Arma2OA beta is outdated! (
 	_startTime = time;
 		if (_escMod) then
 		{
+		 if (_debug) then {diag_log format['Adding Esc Menu Items'];};
 			waitUntil {!isNull findDisplay 49};
 			_display = findDisplay 49;	
 			
@@ -81,14 +84,14 @@ if (_version < 103718) then{	diag_log format['Server Arma2OA beta is outdated! (
 			_btnTitle2 ctrlCommit 0;
 		};
 
-diag_log format['NoxSicarius AdminTools - Creating'];
+ if (_debug) then {diag_log format['Creating Admin Menu'];};
 
 /*
  * Find Admins
  */
 	_puid = getPlayerUID player; noxLowList = "+str _LAdmins+";	noxNormalList = "+str _NAdmins+"; noxSuperList = "+str _SAdmins+";
 	
-if (_key == ("+str _OpenMenuKey+")) then {call admin_init;};
+if (_key == ("+str _OpenMenuKey+")) then {call adminInit;};
 
 
 
@@ -107,6 +110,7 @@ noxAdminMain = {
  
 adminMenuFill = 
 	{
+ if (_debug) then {diag_log format['Admin Menu Fill '];};
 _puid = getPlayerUID player; 
 if (_puid in noxSuperlist) then
 	{
@@ -367,13 +371,14 @@ lowAdminMenu {
 
 	};
  
-AdminInit = {
+adminInit = {
 
 if !(dialog) then {createDialog "RscConfigEditor_Main";};
 disableSerialization;
 
 if (enableAdmin) then {
 //Header Box
+ if (_debug) then {diag_log format['Creating GUI'];};
 			_ctrl = 3 call getControl;
 			_ctrl ctrlSetBackgroundColor [0.42,0.17,0.52,0];
 			_ctrl ctrlSetFont "TahomaB";
@@ -425,6 +430,7 @@ if (enableAdmin) then {
   * Fill with Names
   */
  	playerBoxFill =	{
+	 if (_debug) then {diag_log format['Filling GUI ||| Player Box'];};
 		disableSerialization;
 		_ctrl = 1 call getControl;
 		lbclear _ctrl;
@@ -462,6 +468,7 @@ if (enableAdmin) then {
 	};
  
  	adminBoxFill =	{
+	 if (_debug) then {diag_log format['Filling GUI ||| Admin Box'];};
 		inSub = false;
 		_ctrl = 2 call getControl;
 		lbclear _ctrl;

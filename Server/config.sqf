@@ -11,7 +11,7 @@
 _noxDLLPath = ""; //Empty = arma2oa dir
 _OpenMenuKey = 0x3C;    /* google DIK_KeyCodes (0x3C is F2) */
 _isEpoch = true;
-
+_debug = true; //Debug Mode
 /*
  * Admin Configs
  */
