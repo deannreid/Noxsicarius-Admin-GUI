@@ -39,30 +39,6 @@ _minorLog = true;
 _unauthorisedUse = true;
 
 
-/*
- * Basic Anti-Cheat
- */
- 
- 
-/*
- * Bad Key Checks
- */
-//_keyKick = false;   //Kick users for pressing admin keys more than once.
-//_sideKick = false; //Kick users for using mic in side chat //#Don't Enable#/
-
-/*
- * Hacker Checks
- */
-_antiTeleport = false; //This will stop players from teleport hacking
-//_hackBoxCheck = false; //This will check for hackers who spawn boxes in
-/*Don't Enable*/_cmdMenuClose = false; //This will check and close unauthorised CMD Menus 
-/*Don't Enable*/_dialogClose = false;  //This will check and close unauthorised open dialogues
-/*Don't Enable*/_actionCheck = false;  //This will check and close unauthorised mousewheel actions
-
-/*Don't Enable*/_allowedDialogs = [];
-/*Don't Enable*/_allowedCmdMenus = [];
-/*Don't Enable*/_allowedActions = [];
-
 //////////////////////////////////////
 //////Don't Edit Below This Line//////
 //Unless you know what you are doing//

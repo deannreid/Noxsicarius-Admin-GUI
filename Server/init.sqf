@@ -19,19 +19,11 @@ if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;};
 if (isNil '_majorLog') then {_majorLog = true;};
 if (isNil '_minorLog') then {_minorLog = true;};
 if (isNil '_unauthorisedUse') then {_unauthorisedUse = true;};
-if (isNil '_keyKick') then {_keyKick = true;};
-if (isNil '_sideKick') then {_sideKick = true;};
 if (isNil '_antiTeleport') then {_antiTeleport = true;};
-if (isNil '_hackBoxCheck') then {_hackBoxCheck = true;};
-if (isNil '_cmdMenuClose') then {_cmdMenuClose = true;};
-if (isNil '_dialogClose') then {_dialogClose = true;};
-if (isNil '_actionCheck') then {_actionCheck = true;};
-if (isNil '_allowedDialogs') then {_allowedDialogs = [-1,106,2200,6900,6901,6902,6903,420420,41144];};
-if (isNil '_allowedCmdMenus') then {_allowedCmdMenus = [];};
 if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;};
-if (isNil '_allowedActions') then {_allowedActions = [];};
 if (isNil 'enableAdmin') then {enableAdmin = true;}; /*Don't Disable*/
 if (isnil '_debug') then {_debug = true;};
+
 /*
  * Load Admin IDS from Files
  * else load from configs
@@ -47,8 +39,13 @@ _allAdmins = _LAdmins + _NAdmins + _SAdmins;
  */ 
  if (_debug) then {diag_log format['Checking Server Version'];};
 _version = productVersion select 3;
-if (_version < 103718) then{	diag_log format['Server Arma2OA beta is outdated! (%1)',_version];	titleText ['This server is using an outdated version of ArmA OA, Version Required: 103718 or Higher | Version Installed: (%1)',_version]
-};
+if (_version < 103718) then {
+								diag_log format['Server Arma2OA beta is outdated! (%1)',_version];
+								titleText ['This server is using an outdated version of ArmA OA, Version Required: 103718 or Higher | Version Installed: (%1)',_version];
+							}else {
+									diag_log format['Server Version Up-to-Date!'];
+									titleText ['This server is Up-to-Date'];
+								  };
 
 /*
  * Esc Menu Stuff -- Still to test
