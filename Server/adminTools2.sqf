@@ -23,8 +23,8 @@ if (isnil '_debug') then {_debug = true;};
  if (_debug) then {diag_log format['Checking Server Version'];};
 _version = productVersion select 3;
 if (_version < 103718) then {
+							diag_log format['Server Arma2OA beta is outdated! (%1)',_version];
 							if (_debug) then {
-								diag_log format['Server Arma2OA beta is outdated! (%1)',_version];
 								titleText ['This server is using an outdated version of ArmA OA, Version Required: 103718 or Higher | Version Installed: (%1)', "PLAIN",_version];};
 							}else {
 							if (_debug) then {	
@@ -32,7 +32,22 @@ if (_version < 103718) then {
 									titleText ["This Server is Up-To-Date", "PLAIN"];};
 								  };
 
-								  
+/*
+ * Broadcast Tool
+ */		
+if () then {};
+/*
+ * Major Log
+ */		
+if () then {};
+/*
+ * Minor Log
+ */		
+if () then {};
+/*
+ * Unauthorised Usage Log
+ */		
+ if () then {};
 
 //Check Admins
 	_puid = getPlayerUID player; 
@@ -50,7 +65,6 @@ if (_version < 103718) then {
 	
 
 diag_log "Creating Menu";
-adminMain {
 
 //Init Admin Code > Create GUI
 adminInit {};
@@ -74,5 +88,3 @@ boxPlayerFill {};
 
 //Fill Central Box with Tools
 boxAdminFill {};
-
-};
