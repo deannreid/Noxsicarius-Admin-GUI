@@ -1,7 +1,5 @@
-
-/*
- * Add Items to menu
- */ 
+boxAdminFill {
+noxadmin = [];
 //Super Admin
 superAdminMenu {
 	noxadmin = noxadmin + ["-----------------Map Markers----------------",[]];		
@@ -228,6 +226,5 @@ lowAdminMenu {
 	noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _pubBPcrate,[]];	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice
 	noxadmin = noxadmin + ["-----------------Weather/Time----------------",[]];	
-
-
 	};
+};

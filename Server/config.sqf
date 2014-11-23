@@ -12,6 +12,7 @@ _noxDLLPath = ""; //Empty = arma2oa dir
 _OpenMenuKey = 0x3C;    /* google DIK_KeyCodes Default is F2*/
 _isEpoch = true;
 _debug = true; //Debug Mode
+_restartTime = 180; //This will be used to add restart time to menu
 /*
  * Admin Configs
  */

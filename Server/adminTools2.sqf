@@ -1,90 +1,131 @@
-//Var Check
-if (isNil '_OpenMenuKey') then {_OpenMenuKey = 0x3C;};
-if (isNil '_LAdmins') then {_LAdmins = [];};
-if (isNil '_NAdmins') then {_NAdmins = [];};
-if (isNil '_SAdmins') then {_SAdmins = [];};
-if (isNil '_escMod') then {_escMod = true;};
-if (isNil '_escTop') then {_escTop = _dstring;};
-if (isNil '_escLowTop') then {_escLowTop = _dstring;};
-if (isNil '_esclowBottom') then {_esclowBottom = _dstring;};
-if (isNil '_escColour') then {_escColour = [1,0,0,1];};
-if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;};
-if (isNil '_majorLog') then {_majorLog = true;};
-if (isNil '_minorLog') then {_minorLog = true;};
-if (isNil '_unauthorisedUse') then {_unauthorisedUse = true;};
-if (isNil '_antiTeleport') then {_antiTeleport = true;};
-if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;};
-if (isNil 'enableAdmin') then {enableAdmin = true;}; /*Don't Disable*/
-if (isnil '_debug') then {_debug = true;};
-
 /*
- * Checking server Version
+ * Variable Check 
  */ 
- if (_debug) then {diag_log format['Checking Server Version'];};
-_version = productVersion select 3;
-if (_version < 103718) then {
-							diag_log format['Server Arma2OA beta is outdated! (%1)',_version];
-							if (_debug) then {
-								titleText ['This server is using an outdated version of ArmA OA, Version Required: 103718 or Higher | Version Installed: (%1)', "PLAIN",_version];};
-							}else {
-							if (_debug) then {	
-									diag_log format['Server Version Up-to-Date!'];
-									titleText ["This Server is Up-To-Date", "PLAIN"];};
-								  };
-
-/*
- * Broadcast Tool
- */		
-if () then {};
-/*
- * Major Log
- */		
-if () then {};
-/*
- * Minor Log
- */		
-if () then {};
-/*
- * Unauthorised Usage Log
- */		
- if () then {};
+if (isNil '_OpenMenuKey') then {_OpenMenuKey = 0x3C;_varErr =true;};
+if (isNil '_LAdmins') then {_LAdmins = [];_varErr =true;};
+if (isNil '_adminGUI') then {_adminGUI = true;_varErr =true;};
+if (isNil '_NAdmins') then {_NAdmins = [];_varErr =true;};
+if (isNil '_SAdmins') then {_SAdmins = [];_varErr =true;};
+if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;_varErr =true;};
+if (isNil '_majorLog') then {_majorLog = true;_varErr =true;};
+if (isNil '_minorLog') then {_minorLog = true;_varErr =true;};
+if (isNil '_unauthorisedUse') then {_unauthorisedUse = true;_varErr =true;};
+if (isNil '_antiTeleport') then {_antiTeleport = true;_varErr =true;};
+if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;_varErr =true;};
+if (_varErr) then {diag_log "Your Config File is missing Variables"}
 
 //Check Admins
 	_puid = getPlayerUID player; 
 	noxLowList = _LAdmins;	
 	noxNormalList = _NAdmins; 
 	noxSuperList = _SAdmins;
-	noxadmin = [];
+	noxAllAdmins = _LAdmins + _NAdmins + _SAdmins;
 
-
-//Setting Menu Keybind and future keybinds
-	keyBinds = {
-	private = [_key];
-	_key = _this select 1;
-    if (_key == ("+str _OpenMenuKey+")) then {call adminInit;};};
-	
+/*
+ * KeyBinds
+ */
+	adminKeybinds {
+		private ['_key'];
+			_key = _this select 1;
+				if (_key == ("+str _OpenMenuKey+")) then {call admin_init;};
+	};
 
 diag_log "Creating Menu";
 
-//Init Admin Code > Create GUI
-adminInit {};
 
-//Create GUI
-if (enableAdmin) then {
+//Scroll Code if selected
+adminScrollCode = {
 
-}; 
+};
 
-//Player Menu EH
-adminDBClick1 {};
-
-//Admin Menu EH
-adminDBClick2 {};
+//###############//
+adminGUICode = {
 
 //Fill Shortcut Box
-boxShortFill {};
+boxShortFill {
+
+};
 
 //Fill Player Box with Names > IDs
-boxPlayerFill {};
+boxPlayerFill {
+
+};
 
 //Fill Central Box with Tools
-boxAdminFill {};
+boxAdminFill {
+
+};
+
+//Init Admin Code > Create GUI
+adminInit {
+		if (isNil "adminGUI") then {adminGUI = {}};
+		if (isNil "commitC") then {commitC = 0;};
+		if (isNil "restartCount") then {restartCount = 180}
+		_time = (restartCount-(round(serverTime / 60)));
+		
+		if !(dialog) then {createDialog "RscConfigEditor_Main";};
+		disableSerialization;
+		
+if (adminGUI) then 
+		{
+		//Header Box
+			_ctrl = 3 call getControl;
+			_ctrl ctrlSetBackgroundColor [0,0,0,1];
+			_ctrl ctrlSetFont "TahomaB";
+			_ctrl ctrlSetScale 1.6;
+			_ctrl ctrlSetTextColor [0,1,0.52,1];
+			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, 0.02];
+			if (getPlayerUID player in noxLowList) then {
+				_ctrl ctrlSetText format["Low Admin Menu  |  NoxSicarius Admin Menu  |  Restart in: %1",_time];
+			};
+			if (getPlayerUID player in noxHighList) then {
+				_ctrl ctrlSetText format["Higher Admin Menu  |  NoxSicarius Admin Menu  |  Restart in: %1",_time];
+			};
+			if (getPlayerUID player in noxSuperList) then {
+				_ctrl ctrlSetText format["Super Admin Menu  |  NoxSicarius Admin Menu  |  Restart in: %1",_time2r];
+			};
+			_ctrl ctrlSetForegroundColor [0.1,0.6,0.9,0];
+			_ctrl ctrlCommit 0;
+		
+        //Admin Box		
+			_ctrl = 2 call getControl;
+			_ctrl ctrlSetFont "TahomaB";
+			_ctrl ctrlSetPosition [safezoneXAbs + 0.465, safezoneY + 0.05, 1.445, (safeZoneH - 0.10)*0.758];
+			_ctrl ctrlSetScale 1.35;
+			_ctrl ctrlSetForegroundColor [0.4,0,0,1];
+			_ctrl ctrlCommit commitC;
+			_ctrl ctrlSetEventHandler ["LBDblClick", "call admin_dbclick;"];
+			call admin_filllist;
+		
+		//Admin Box Players	
+			_ctrl = 1 call getControl;
+			_ctrl ctrlSetFont "TahomaB";
+			_ctrl ctrlSetPosition [safezoneXAbs + 0.005, safezoneY + 0.05, (0.485)*0.7, (safeZoneH - 0.10)*0.758];
+			_ctrl ctrlSetScale 1.35;
+			_ctrl ctrlSetForegroundColor [0.4,0,0,1];
+			_ctrl ctrlCommit commitC;
+			_ctrl ctrlSetEventHandler ["LBDblClick", "call admin_dbclick_2;"]; //Enable Spectate
+			call admin_fillplr;
+			
+		//Frame	
+			_ctrl = -1 call getControl;
+			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, safezoneH];
+			_ctrl ctrlSetForegroundColor [0.1,0.6,0.9,0];
+			_ctrl ctrlCommit commitC;
+		};	
+};
+
+
+
+//Player Menu EH
+adminDBClick1 {
+
+};
+
+//Admin Menu EH
+adminDBClick2 {
+
+};
+
+
+};
