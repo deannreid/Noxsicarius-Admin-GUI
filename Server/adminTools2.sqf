@@ -24,10 +24,10 @@ if (_varErr) then {diag_log "Your Config File is missing Variables"}
 /*
  * KeyBinds
  */
-	adminKeybinds {
+	adminKeybind {
 		private ['_key'];
 			_key = _this select 1;
-				if (_key == ("+str _OpenMenuKey+")) then {call admin_init;};
+				if (_key == ("+str _OpenMenuKey+")) then {call adminInit;};
 	};
 
 diag_log "Creating Menu";
@@ -70,19 +70,19 @@ if (adminGUI) then
 		{
 		//Header Box
 			_ctrl = 3 call getControl;
-			_ctrl ctrlSetBackgroundColor [0,0,0,1];
+			_ctrl ctrlSetBackgroundColor [0.4,0.2,1,1];
 			_ctrl ctrlSetFont "TahomaB";
 			_ctrl ctrlSetScale 1.6;
 			_ctrl ctrlSetTextColor [0,1,0.52,1];
-			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, 0.02];
+			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, 0.04];
 			if (getPlayerUID player in noxLowList) then {
-				_ctrl ctrlSetText format["Low Admin Menu  |  NoxSicarius Admin Menu  |  Restart in: %1",_time];
+				_ctrl ctrlSetText format["Low Admin Menu | Restart in: %1",_time];
 			};
 			if (getPlayerUID player in noxHighList) then {
-				_ctrl ctrlSetText format["Higher Admin Menu  |  NoxSicarius Admin Menu  |  Restart in: %1",_time];
+				_ctrl ctrlSetText format["High Admin Menu | Restart in: %1",_time];
 			};
 			if (getPlayerUID player in noxSuperList) then {
-				_ctrl ctrlSetText format["Super Admin Menu  |  NoxSicarius Admin Menu  |  Restart in: %1",_time2r];
+				_ctrl ctrlSetText format["Super Admin Menu | Restart in: %1",_time2r];
 			};
 			_ctrl ctrlSetForegroundColor [0.1,0.6,0.9,0];
 			_ctrl ctrlCommit 0;
@@ -115,8 +115,6 @@ if (adminGUI) then
 		};	
 };
 
-
-
 //Player Menu EH
 adminDBClick1 {
 
@@ -126,6 +124,5 @@ adminDBClick1 {
 adminDBClick2 {
 
 };
-
 
 };
