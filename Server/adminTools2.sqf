@@ -27,7 +27,7 @@ if (_varErr) then {diag_log "Your Config File is missing Variables"}
 	adminKeybinds {
 		private ['_key'];
 			_key = _this select 1;
-				if (_key == ("+str _OpenMenuKey+")) then {call admin_init;};
+				if (_key == ("+str _OpenMenuKey+")) then {call adminInit;};
 	};
 
 diag_log "Creating Menu";
