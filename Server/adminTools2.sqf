@@ -75,15 +75,7 @@ if (adminGUI) then
 			_ctrl ctrlSetScale 1.6;
 			_ctrl ctrlSetTextColor [0,1,0.52,1];
 			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, 0.04];
-			if (getPlayerUID player in noxLowList) then {
-				_ctrl ctrlSetText format["Low Admin Menu | Restart in: %1",_time];
-			};
-			if (getPlayerUID player in noxHighList) then {
-				_ctrl ctrlSetText format["High Admin Menu | Restart in: %1",_time];
-			};
-			if (getPlayerUID player in noxSuperList) then {
-				_ctrl ctrlSetText format["Super Admin Menu | Restart in: %1",_time2r];
-			};
+			_ctrl ctrlSetText format["Noxsicarius Admin Menu | Restart in: %1",_time];
 			_ctrl ctrlSetForegroundColor [0.1,0.6,0.9,0];
 			_ctrl ctrlCommit 0;
 		
