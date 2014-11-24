@@ -62,7 +62,7 @@ adminInit {
 		if (isNil "commitC") then {commitC = 0;};
 		if (isNil "restartCount") then {restartCount = 180}
 		_time = (restartCount-(round(serverTime / 60)));
-		
+		closeDialog 0;
 		if !(dialog) then {createDialog "RscConfigEditor_Main";};
 		disableSerialization;
 		
@@ -94,7 +94,7 @@ if (adminGUI) then
 			_ctrl ctrlSetScale 1.35;
 			_ctrl ctrlSetForegroundColor [0.4,0,0,1];
 			_ctrl ctrlCommit commitC;
-			_ctrl ctrlSetEventHandler ["LBDblClick", "call admin_dbclick;"];
+			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDBClick2;"];
 			call admin_filllist;
 		
 		//Admin Box Players	
@@ -104,7 +104,7 @@ if (adminGUI) then
 			_ctrl ctrlSetScale 1.35;
 			_ctrl ctrlSetForegroundColor [0.4,0,0,1];
 			_ctrl ctrlCommit commitC;
-			_ctrl ctrlSetEventHandler ["LBDblClick", "call admin_dbclick_2;"]; //Enable Spectate
+			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDBClick1;"]; //Enable Spectate
 			call admin_fillplr;
 			
 		//Frame	
