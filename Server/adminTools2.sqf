@@ -75,7 +75,7 @@ if (adminGUI) then
 			_ctrl ctrlSetScale 1.6;
 			_ctrl ctrlSetTextColor [0,1,0.52,1];
 			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, 0.04];
-			_ctrl ctrlSetText format["Noxsicarius Admin Menu | Restart in: %1",_time];
+			_ctrl ctrlSetText format["N Admin Menu | Restart in: %1",_time];
 			_ctrl ctrlSetForegroundColor [0.1,0.6,0.9,0];
 			_ctrl ctrlCommit 0;
 		
