@@ -1,18 +1,26 @@
 /*
  * Variable Check 
  */ 
-if (isNil '_OpenMenuKey') then {_OpenMenuKey = 0x3C;_varErr =true;};
-if (isNil '_LAdmins') then {_LAdmins = [];_varErr =true;};
-if (isNil '_adminGUI') then {_adminGUI = true;_varErr =true;};
-if (isNil '_NAdmins') then {_NAdmins = [];_varErr =true;};
-if (isNil '_SAdmins') then {_SAdmins = [];_varErr =true;};
-if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;_varErr =true;};
-if (isNil '_majorLog') then {_majorLog = true;_varErr =true;};
-if (isNil '_minorLog') then {_minorLog = true;_varErr =true;};
-if (isNil '_unauthorisedUse') then {_unauthorisedUse = true;_varErr =true;};
-if (isNil '_antiTeleport') then {_antiTeleport = true;_varErr =true;};
-if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;_varErr =true;};
-if (_varErr) then {diag_log "Your Config File is missing Variables"}
+if (isNil '_OpenMenuKey') then {_OpenMenuKey = 0x3C;_varErr1 =true;};
+if (_varErr1) then {diag_log "Your Config File is missing Variable  'OpenMenuKey'"};
+if (isNil '_LAdmins') then {_LAdmins = [];_varErr2 =true;};
+if (_varErr2) then {diag_log "Your Config File is missing Variable  'LAdmins'"};
+if (isNil '_NAdmins') then {_NAdmins = [];_varErr2.5 =true;};
+if (_varErr2.5) then {diag_log "Your Config File is missing Variable  'NAdmins'"};
+if (isNil '_SAdmins') then {_SAdmins = [];_varErr2.6 =true;};
+if (_varErr2.6) then {diag_log "Your Config File is missing Variable  'SAdmins'"};
+if (isNil '_adminGUI') then {_adminGUI = true;_varErr3 =true;};
+if (_varErr3) then {diag_log "Your Config File is missing Variable  'adminGUI'"};
+if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;_varErr4 =true;};
+if (_varErr4) then {diag_log "Your Config File is missing Variable  'broadcastToolUse'"};
+if (isNil '_majorLog') then {_majorLog = true;_varErr5 =true;};
+if (_varErr5) then {diag_log "Your Config File is missing Variable  'majorLog'"};
+if (isNil '_minorLog') then {_minorLog = true;_varErr6 =true;};
+if (_varErr6) then {diag_log "Your Config File is missing Variable  'minorLog'"};
+if (isNil '_unauthorisedUse') then {_unauthorisedUse = true;_varErr7 =true;};
+if (_varErr7) then {diag_log "Your Config File is missing Variable  'unauthorisedUse'"};
+if (isNil '_antiTeleport') then {_antiTeleport = true;_varErr8 =true;};
+if (_varErr8) then {diag_log "Your Config File is missing Variable  'antiTeleport'"};
 
 //Check Admins
 	_puid = getPlayerUID player; 
@@ -75,7 +83,7 @@ if (adminGUI) then
 			_ctrl ctrlSetScale 1.6;
 			_ctrl ctrlSetTextColor [0,1,0.52,1];
 			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, 0.04];
-			_ctrl ctrlSetText format["N Admin Menu | Restart in: %1",_time];
+			_ctrl ctrlSetText format["Noxsicarius Admin Menu | Restart in: %1",_time];
 			_ctrl ctrlSetForegroundColor [0.1,0.6,0.9,0];
 			_ctrl ctrlCommit 0;
 		
