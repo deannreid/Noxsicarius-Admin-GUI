@@ -29,15 +29,6 @@ if (_varErr8) then {diag_log "Your Config File is missing Variable  'antiTelepor
 	noxSuperList = _SAdmins;
 	noxAllAdmins = _LAdmins + _NAdmins + _SAdmins;
 
-/*
- * KeyBinds
- */
-	adminKeybind {
-		private ['_key'];
-			_key = _this select 1;
-				if (_key == ("+str _OpenMenuKey+")) then {call adminInit;};
-	};
-
 diag_log "Creating Menu";
 
 
@@ -95,7 +86,7 @@ if (adminGUI) then
 			_ctrl ctrlSetForegroundColor [0.4,0,0,1];
 			_ctrl ctrlCommit commitC;
 			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDBClick2;"];
-			call admin_filllist;
+			call boxAdminFill;
 		
 		//Admin Box Players	
 			_ctrl = 1 call getControl;
@@ -105,7 +96,7 @@ if (adminGUI) then
 			_ctrl ctrlSetForegroundColor [0.4,0,0,1];
 			_ctrl ctrlCommit commitC;
 			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDBClick1;"]; //Enable Spectate
-			call admin_fillplr;
+			call boxPlayerFill;
 			
 		//Frame	
 			_ctrl = -1 call getControl;
@@ -116,12 +107,12 @@ if (adminGUI) then
 };
 
 //Player Menu EH
-adminDBClick1 {
+adminDBClick1 { //Player Spectate EH
 
 };
 
 //Admin Menu EH
-adminDBClick2 {
+adminDBClick2 { //Admin Toggle
 
 };
 
