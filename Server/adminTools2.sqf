@@ -21,6 +21,25 @@ if (isNil '_unauthorisedUse') then {_unauthorisedUse = true;_varErr7 =true;};
 if (_varErr7) then {diag_log "Your Config File is missing Variable  'unauthorisedUse'"};
 if (isNil '_antiTeleport') then {_antiTeleport = true;_varErr8 =true;};
 if (_varErr8) then {diag_log "Your Config File is missing Variable  'antiTeleport'"};
+if (isNil '_osLinux') then {_osLinux = false;_varErr9 =true;};
+if (_varErr9) then {diag_log "Your Config File is missing Variable  'osLinux'"};
+
+//Epoch
+if (isNil '_gmEpoch') then {_gmEpoch = false;_varErr10 =true;};
+if (_varErr10) then {diag_log "Your Config File is missing Variable  'gmEpoch'"};
+//Evolved
+if (isNil '_gmEvolve') then {_gmEvolve = false;_varErr11 =true;};
+if (_varErr11) then {diag_log "Your Config File is missing Variable  'gmEvolve'"};
+
+//Most of these only effect the players menu to give extra options.
+//Zupa Single Currency
+if (isNil '_ZSC') then {_ZSC = false;_varErr12 =true;};
+if (_varErr12) then {diag_log "Your Config File is missing Variable  'ZSC'"};
+//Plot 4 Life
+if (isNil '_P4L') then {_P4L = false;_varErr13 =true;};
+if (_varErr13) then {diag_log "Your Config File is missing Variable  'ZSC'"};
+
+
 
 //Check Admins
 	_puid = getPlayerUID player; 
@@ -47,18 +66,18 @@ boxShortFill {
 
 //Fill Player Box with Names > IDs
 boxPlayerFill {
-
+diag_log format ['boxPlayerFill'];
 };
 
 //Fill Central Box with Tools
 boxAdminFill {
-
+diag_log format ['boxAdminFill'];
 };
 
 //Init Admin Code > Create GUI
 adminInit {
 		if (isNil "adminGUI") then {adminGUI = {}};
-		if (isNil "commitC") then {commitC = 0;};
+		if (isNil "comT") then {comT = 0;};
 		if (isNil "restartCount") then {restartCount = 180}
 		_time = (restartCount-(round(serverTime / 60)));
 		closeDialog 0;
@@ -67,6 +86,7 @@ adminInit {
 		
 if (adminGUI) then 
 		{
+		diag_log format ['GUI Loaded'];
 		//Header Box
 			_ctrl = 3 call getControl;
 			_ctrl ctrlSetBackgroundColor [0.4,0.2,1,1];
@@ -74,7 +94,11 @@ if (adminGUI) then
 			_ctrl ctrlSetScale 1.6;
 			_ctrl ctrlSetTextColor [0,1,0.52,1];
 			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, 0.04];
-			_ctrl ctrlSetText format["Noxsicarius Admin Menu | Restart in: %1",_time];
+			if !(getPlayerUID player in noxAllAdmins) then {
+			_ctrl ctrlSetText format["Noxsicarius Player Menu | Restart in: %1",_time];
+			} else {
+					_ctrl ctrlSetText format["Noxsicarius Admin Menu | Restart in: %1",_time];
+				   };
 			_ctrl ctrlSetForegroundColor [0.1,0.6,0.9,0];
 			_ctrl ctrlCommit 0;
 		
@@ -84,7 +108,7 @@ if (adminGUI) then
 			_ctrl ctrlSetPosition [safezoneXAbs + 0.465, safezoneY + 0.05, 1.445, (safeZoneH - 0.10)*0.758];
 			_ctrl ctrlSetScale 1.35;
 			_ctrl ctrlSetForegroundColor [0.4,0,0,1];
-			_ctrl ctrlCommit commitC;
+			_ctrl ctrlCommit comT;
 			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDBClick2;"];
 			call boxAdminFill;
 		
@@ -94,7 +118,7 @@ if (adminGUI) then
 			_ctrl ctrlSetPosition [safezoneXAbs + 0.005, safezoneY + 0.05, (0.485)*0.7, (safeZoneH - 0.10)*0.758];
 			_ctrl ctrlSetScale 1.35;
 			_ctrl ctrlSetForegroundColor [0.4,0,0,1];
-			_ctrl ctrlCommit commitC;
+			_ctrl ctrlCommit comT;
 			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDBClick1;"]; //Enable Spectate
 			call boxPlayerFill;
 			
@@ -102,7 +126,7 @@ if (adminGUI) then
 			_ctrl = -1 call getControl;
 			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, safezoneH];
 			_ctrl ctrlSetForegroundColor [0.1,0.6,0.9,0];
-			_ctrl ctrlCommit commitC;
+			_ctrl ctrlCommit comT;
 		};	
 };
 

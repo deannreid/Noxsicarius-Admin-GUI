@@ -1,47 +1,46 @@
 /*
  * Admin Tools V2 by NoxSicarius
- * GUI Design by DeanReid
- * 
+ * GUI Edition by DeanReid
+ *
  * Edit Configs below to your own use
  */ 
  
-/*
- * General Configs
- */
-_noxDLLPath = ""; //Empty = arma2oa dir
-_OpenMenuKey = 0x3C;    /* google DIK_KeyCodes Default is F2*/
-_isEpoch = true;
-_debug = true; //Debug Mode
-_restartTime = 180; //This will be used to add restart time to menu
-/*
+ /*
  * Admin Configs
  */
-
 _SAdmins = ["76561198001768308","0","0"];
 _NAdmins = ["0","0","0"];
 _LAdmins = ["0","0","0"];
 
-/*
- * Esc Menu Information
- * Don't use, Not Implemented Yet..
- */
- 
- /*
-_escMod = false;
-_escTop = "Admin Tools V2 Dialog";
-_escLowTop = "by";
-_esclowBottom = "DeanReid";
-_escColour = [0,0.5,1,0.1]; /*for colours go here http://en.wikipedia.org/wiki/Web_colors Convert % to numbers e.g  [75% = 0.75]*/
-*/
 
+
+/*
+ * General Configs
+ */
+_noxDLLPath = ""; //Empty = arma2oa dir
+_OpenMenuKey = 0x3C;    /* Default is F2*/
+_restartTime = 180; //This will be used to add restart time to menu
+_osLinux = false;  //Is your server using linux? *This will allow for the writer.pl changes on Skin change/Vehicle Spawn*
+
+/*
+ * Gamemodes
+ */
+_gmEpoch = false; //Epoch
+_gmEvolve = false; //Evolve
+
+/*
+* Mods Installed *Mostly Effect Player Menu
+*/
+_ZSC = false; //Zupa Single Currency
+_P4L = false; //Plot 4 Life
 
 /*
  * Logging
  */
-_broadcastToolUse = true;
-_majorLog = true;
-_minorLog = true;
-_unauthorisedUse = true;
+_broadcastToolUse = false;
+_majorLog = false;
+_minorLog = false;
+_unauthorisedUse = false;
 
 
 //////////////////////////////////////
