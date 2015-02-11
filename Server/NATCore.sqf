@@ -403,13 +403,13 @@ lowAdminMenu {
 			diag_log "GUI Loaded";
 			//Header Box
 			_ctrl = 3 call getControl;
-			_ctrl ctrlSetBackgroundColor [0.4,0.2,1,1];
+			_ctrl ctrlSetBackgroundColor [0,0.1,0,1];
 			_ctrl ctrlSetFont "TahomaB";
 			_ctrl ctrlSetScale 1.6;
-			_ctrl ctrlSetTextColor [0,1,0.52,1];
+			_ctrl ctrlSetTextColor [1,1,1,1];
 			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, 0.04];
 			_ctrl ctrlSetText format["Noxsicarius Admin Menu ' Restart in: %1",_time];
-			_ctrl ctrlSetForegroundColor [0.1,0.6,0.9,0];
+			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
 			_ctrl ctrlCommit 0;
 		
 			//Admin Box		
@@ -417,7 +417,7 @@ lowAdminMenu {
 			_ctrl ctrlSetFont "TahomaB";
 			_ctrl ctrlSetPosition [safezoneXAbs + 0.465, safezoneY + 0.05, 1.445, (safeZoneH - 0.10)*0.758];
 			_ctrl ctrlSetScale 1.35;
-			_ctrl ctrlSetForegroundColor [0.4,0,0,1];
+			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
 			_ctrl ctrlCommit comT;
 			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDBClick2;"];
 				call boxAdminFill;
@@ -427,7 +427,7 @@ lowAdminMenu {
 			_ctrl ctrlSetFont "TahomaB";
 			_ctrl ctrlSetPosition [safezoneXAbs + 0.005, safezoneY + 0.05, (0.485)*0.7, (safeZoneH - 0.10)*0.758];
 			_ctrl ctrlSetScale 1.35;
-			_ctrl ctrlSetForegroundColor [0.4,0,0,1];
+			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
 			_ctrl ctrlCommit comT;
 			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDBClick1;"]; //Enable User Select
 				call boxPlayerFill;
@@ -435,7 +435,7 @@ lowAdminMenu {
 			//Frame	
 			_ctrl = -1 call getControl;
 			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, safezoneH];
-			_ctrl ctrlSetForegroundColor [0.1,0.6,0.9,0];
+			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
 			_ctrl ctrlCommit comT;
 		};	
 	};
