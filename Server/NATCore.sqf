@@ -1,4 +1,4 @@
-private ["_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_adminGUI","_broadcastToolUse","_majorLog","_minorLog","_unauthorisedUse","_antiTeleport","_osLinux","_gmEpoch","_gmEvolve","_ZSC","_P4L","_puid","_fnc_VarGenerator","_noxAllAdmins"];
+private ["_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_adminGUI","_broadcastToolUse","_majorLog","_minorLog","_unauthorisedUse","_antiTeleport","_osLinux","_gmEpoch","_gmEvolve","_ZSC","_P4L","_puid","_fnc_VarGenerator","_noxAllAdmins","_varErr1","_varErr2","_varErr25","_varErr26","_varErr3","_varErr4","_varErr5","_varErr6","_varErr7","_varErr8","_varErr9","_varErr10","_varErr11","_varErr12","_varErr13"];
 #include "NATConfig.sqf"
 
 diag_log ("NATI: Waiting for BIS_fnc_init");
@@ -8,42 +8,42 @@ waitUntil {uiSleep 0.5;!isNil "BIS_fnc_init"};
  * Variable Check 
  */ 
 if (isNil '_OpenMenuKey') then {_OpenMenuKey = 0x3C;_varErr1 =true;};
-//if (_varErr1) then {diag_log "Your Config File is missing Variable  |OpenMenuKey|";};
+if (_varErr1) then {diag_log "Your Config File is missing Variable  |OpenMenuKey|";};
 if (isNil '_LAdmins') then {_LAdmins = [];_varErr2 =true;};
-//if (_varErr2) then {diag_log "Your Config File is missing Variable  |LAdmins|";};
+if (_varErr2) then {diag_log "Your Config File is missing Variable  |LAdmins|";};
 if (isNil '_NAdmins') then {_NAdmins = [];_varErr25 =true;};
-//if (_varErr25) then {diag_log "Your Config File is missing Variable  |NAdmins|";};
+if (_varErr25) then {diag_log "Your Config File is missing Variable  |NAdmins|";};
 if (isNil '_SAdmins') then {_SAdmins = [];_varErr26 =true;};
-//if (_varErr26) then {diag_log "Your Config File is missing Variable  |SAdmins|";};
+if (_varErr26) then {diag_log "Your Config File is missing Variable  |SAdmins|";};
 if (isNil '_adminGUI') then {_adminGUI = true;_varErr3 =true;};
-//if (_varErr3) then {diag_log "Your Config File is missing Variable  |adminGUI|";};
+if (_varErr3) then {diag_log "Your Config File is missing Variable  |adminGUI|";};
 if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;_varErr4 =true;};
-//if (_varErr4) then {diag_log "Your Config File is missing Variable  |broadcastToolUse|";};
+if (_varErr4) then {diag_log "Your Config File is missing Variable  |broadcastToolUse|";};
 if (isNil '_majorLog') then {_majorLog = true;_varErr5 =true;};
-//if (_varErr5) then {diag_log "Your Config File is missing Variable  |majorLog|";};
+if (_varErr5) then {diag_log "Your Config File is missing Variable  |majorLog|";};
 if (isNil '_minorLog') then {_minorLog = true;_varErr6 =true;};
-//if (_varErr6) then {diag_log "Your Config File is missing Variable  |minorLog|";};
+if (_varErr6) then {diag_log "Your Config File is missing Variable  |minorLog|";};
 if (isNil '_unauthorisedUse') then {_unauthorisedUse = true;_varErr7 =true;};
-//if (_varErr7) then {diag_log "Your Config File is missing Variable  |unauthorisedUse|";};
+if (_varErr7) then {diag_log "Your Config File is missing Variable  |unauthorisedUse|";};
 if (isNil '_antiTeleport') then {_antiTeleport = true;_varErr8 =true;};
-//if (_varErr8) then {diag_log "Your Config File is missing Variable  |antiTeleport|";};
+if (_varErr8) then {diag_log "Your Config File is missing Variable  |antiTeleport|";};
 if (isNil '_osLinux') then {_osLinux = false;_varErr9 =true;};
-//if (_varErr9) then {diag_log "Your Config File is missing Variable  |osLinux|";};
+if (_varErr9) then {diag_log "Your Config File is missing Variable  |osLinux|";};
 
 //Epoch
 if (isNil '_gmEpoch') then {_gmEpoch = false;_varErr10 =true;};
-//if (_varErr10) then {diag_log "Your Config File is missing Variable  |gmEpoch|";};
+if (_varErr10) then {diag_log "Your Config File is missing Variable  |gmEpoch|";};
 //Evolved
 if (isNil '_gmEvolve') then {_gmEvolve = false;_varErr11 =true;};
-//if (_varErr11) then {diag_log "Your Config File is missing Variable  |gmEvolve|";};
+if (_varErr11) then {diag_log "Your Config File is missing Variable  |gmEvolve|";};
 
 //Most of these only effect the players menu to give extra options.
 //Zupa Single Currency
 if (isNil '_ZSC') then {_ZSC = false;_varErr12 =true;};
-//if (_varErr12) then {diag_log "Your Config File is missing Variable  |ZSC|";};
+if (_varErr12) then {diag_log "Your Config File is missing Variable  |ZSC|";};
 //Plot 4 Life
 if (isNil '_P4L') then {_P4L = false;_varErr13 =true;};
-//if (_varErr13) then {diag_log "Your Config File is missing Variable  |ZSC|";};
+if (_varErr13) then {diag_log "Your Config File is missing Variable  |ZSC|";};
 
 //Check Admins
 	_puid = getPlayerUID player; 
