@@ -409,7 +409,7 @@ lowAdminMenu {
 			_ctrl ctrlSetTextColor [1,1,1,1];
 			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, 0.04];
 			_ctrl ctrlSetText format["Noxsicarius Admin Menu ' Restart in: %1",_time];
-			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
+			_ctrl ctrlSetForegroundColor [0,0.1,0,1];
 			_ctrl ctrlCommit 0;
 		
 			//Admin Box		

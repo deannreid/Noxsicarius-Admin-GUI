@@ -12,6 +12,15 @@ _SAdmins = ["76561198001768308","0","0"];
 _NAdmins = ["0","0","0"];
 _LAdmins = ["0","0","0"];
 
+/*
+ * Cosmetics
+ */
+_guiTitleColour = [1,1,1,1];
+_guiTitleBGColour = [0,0.1,0,1];
+
+//_guiMainTextColour = 
+
+_guiFrameColour = [0,0.36,0.85,1];
 
 /*
  * General Configs
@@ -20,6 +29,14 @@ _noxDLLPath = ""; //Empty = arma2oa dir
 _OpenMenuKey = 0x0F;    /* Default is Tab*/
 _restartTime = 180; //This will be used to add restart time to menu
 _osLinux = false;  //false = Hive DLL || true = writer.pl for linux 
+
+/*
+ * Cosmetics
+ */
+_guiTitleColour = [1,1,1,1];
+_guiTitleBGColour = [0,0.1,0,1];
+
+//_guiMainTextColour = 
 
 /*
  * Gamemodes
