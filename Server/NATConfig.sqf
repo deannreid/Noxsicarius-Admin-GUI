@@ -31,14 +31,6 @@ _restartTime = 180; //This will be used to add restart time to menu
 _osLinux = false;  //false = Hive DLL || true = writer.pl for linux 
 
 /*
- * Cosmetics
- */
-_guiTitleColour = [1,1,1,1];
-_guiTitleBGColour = [0,0.1,0,1];
-
-//_guiMainTextColour = 
-
-/*
  * Gamemodes
  */
 _gmEpoch = true; //Epoch

@@ -149,15 +149,39 @@ diag_log "NOXAT - Initing AdminStart";
 	
 //###############//
 adminCode = {
-
-//Fill Shortcut Box
-	//boxHighlightFill {};
+	subMenu = false;
 
 //Fill Player Box with Names > IDs
-	//boxPlayerFill {};
+getPlayerDetails = {
+		_player = "";
+		_playerList = lbtext [1, (lbCurSel 1)];
+	
+		if (_playerList != "") then 
+		{
+			{
+				_userID = getPlayerUID _pid;
+				if (_userID != "") then
+				{
+					if (_playerList == format["%1 (PID: %2)",name _x,_x _userID]) then
+					{
+					_name = name _x;
+					_adminName = _name;
+					_adminUID = _userID;
+					_adminVehicle = vehicle _x;
+					_adminPosition = getPosAtl _x;
+					};
+				};			
+			} forEach playableUnits;
+		};
+		_name
+};
+	
+boxPlayerFill = {
+
+};
 
 boxAdminFill {
-noxadmin = [];
+	noxadmin = [];
 //Super Admin
 superAdminMenu {
 	noxadmin = noxadmin + ["-----------------Map Markers----------------",[]];		
@@ -388,18 +412,13 @@ lowAdminMenu {
 };
 
 //Init Admin Code > Create GUI
-	adminInit {
-		//if (isNil "adminGUI") then {adminGUI = {};};
-		//if (isNil "comT") then {comT = 0;};
-		//if (isNil "restartCount") then {restartCount = 180;};
+	adminInit = {
+		if (isNil "restartCount") then {restartCount = 180;};
 		_time = (restartCount-(round(serverTime / 60)));
-		adminGUI = 0;
 		closeDialog 0;
 		if !(dialog) then {createDialog "RscConfigEditor_Main";};
 		disableSerialization;
 		
-		if (adminGUI == 0) then 
-		{
 			diag_log "GUI Loaded";
 			//Header Box
 			_ctrl = 3 call getControl;
@@ -436,7 +455,6 @@ lowAdminMenu {
 			_ctrl = -1 call getControl;
 			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, safezoneH];
 			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
-			_ctrl ctrlCommit comT;
-		};	
+			_ctrl ctrlCommit comT;	
 	};
 };
