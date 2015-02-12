@@ -144,10 +144,7 @@ call compile ("
 	
 diag_log "NOXAT - AntiCheat Loaded";
 diag_log "NOXAT - Initing AdminStart";
-	
 
-	
-//###############//
 adminCode = {
 	subMenu = false;
 
@@ -162,7 +159,7 @@ getPlayerDetails = {
 				_userID = getPlayerUID _pid;
 				if (_userID != "") then
 				{
-					if (_playerList == format["%1 (PID: %2)",name _x,_x _userID]) then
+					if (_playerList == format["%1 (PUID: %2)",_name _x,_x _userID]) then
 					{
 					_name = name _x;
 					_adminName = _name;
@@ -177,6 +174,83 @@ getPlayerDetails = {
 };
 	
 boxPlayerFill = {
+	disableSerialization;
+		_ctrl = 1 call getControl;
+		lbclear _ctrl;
+		_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
+		_setup = [];
+		_userID = getPlayerUID _x;
+		
+		if(getPlayerUID player in noxSuperList) then {
+			_superadmin = {getPlayerUID _x in noxSuperList} count _setup;
+			if(_superadmin => 0) then	{
+				_ctrl lbAdd "=== Super Admins ===";
+				_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+				_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
+				{
+					if(_userID in noxSuperList) then {
+						_setup = _setup - [_x];
+						_ctrl lbAdd format["%1 (PUID: %2)",_name _x,_x _userID];
+						_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+						_ctrl lbSetColor [(lbsize _ctrl)-1, [0.12,0.65,0.94,1]];
+					};
+				} count _setup;
+			};
+		};
+		
+		if(getPlayerUID player in noxNormalList) then {
+			_normalAdmin = {getPlayerUID _x in noxNormalList} count _setup;
+			if(_normalAdmin => 0) then	{
+				_ctrl lbAdd "=== Standard Admins ===";
+				_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+				_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
+				{
+					if(_userID in noxNormalList) then {
+						_setup = _setup - [_x];
+						_ctrl lbAdd format["%1 (PUID: %2)",_name _x,_x _userID];
+						_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+						_ctrl lbSetColor [(lbsize _ctrl)-1, [0.12,0.65,0.94,1]];
+					};
+				} count _setup;
+			};
+		};
+		
+		if(getPlayerUID player in noxLowList) then {		
+			_lowAdmin = {getPlayerUID _x in noxLowList} count _setup;
+			if(_lowAdmin => 0) then {
+				_ctrl lbAdd "=== Low Admisn ===";
+				_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+				_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
+				{
+					if(_userID in noxLowList) then {
+						_setup = _setup - [_x];
+						_ctrl lbAdd format["%1 (PUID: %2)",_name _x,_x _userID];
+						_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+						_ctrl lbSetColor [(lbsize _ctrl)-1, [0.12,0.65,0.94,1]];
+					};
+				} count _setup;
+			};
+		};
+
+		_NormalPlayer = {(!(getPlayerUID _x in noxLowList && noxNormalList && noxSuperList))} count _setup;
+		if(_NormalPlayer => 0) then {
+			_ctrl lbAdd "=== Member ===";
+			_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+			_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
+			{
+				if(_NormalPlayer) then	{
+					_setup = _setup - [_x];
+					_ctrl lbAdd format["%1 (PID: %2)",_name _x,_x _userID];
+					_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+					_ctrl lbSetColor [(lbsize _ctrl)-1, [0.12,0.65,0.94,1]];		
+				};
+			} count _setup;
+		};
+};
+
+adminMainSetup = {
+
+//Insert Setup Here
 
 };
 
@@ -411,6 +485,20 @@ lowAdminMenu {
 	};
 };
 
+boxPopulate ={
+		inSub = false;
+		noxadmin = [];
+		_ctrl = 2 call getControl;
+		lbclear _ctrl;
+		_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
+		
+		if(getPlayerUID player in noxLowList) then {call lowAdminMenu;};
+		if(getPlayerUID player in noxNormalList) then {call normalAdminMenu;};
+		if(getPlayerUID player in noxSuperList) then {call superAdminMenu;};
+		call adminMainSetup
+		
+};
+
 //Init Admin Code > Create GUI
 	adminInit = {
 		if (isNil "restartCount") then {restartCount = 180;};
@@ -418,43 +506,42 @@ lowAdminMenu {
 		closeDialog 0;
 		if !(dialog) then {createDialog "RscConfigEditor_Main";};
 		disableSerialization;
-		
-			diag_log "GUI Loaded";
 			//Header Box
 			_ctrl = 3 call getControl;
-			_ctrl ctrlSetBackgroundColor [0,0.1,0,1];
-			_ctrl ctrlSetFont "TahomaB";
-			_ctrl ctrlSetScale 1.6;
-			_ctrl ctrlSetTextColor [1,1,1,1];
 			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, 0.04];
-			_ctrl ctrlSetText format["Noxsicarius Admin Menu ' Restart in: %1",_time];
+			_ctrl ctrlSetBackgroundColor [0,0.1,0,1];
+			_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
+			_ctrl ctrlSetTextColor [1,1,1,1];
+			_ctrl ctrlSetScale 1.6;
 			_ctrl ctrlSetForegroundColor [0,0.1,0,1];
+			_ctrl ctrlSetText format["Noxsicarius Admin Menu ' Restart in: %1",_time];
 			_ctrl ctrlCommit 0;
 		
 			//Admin Box		
 			_ctrl = 2 call getControl;
-			_ctrl ctrlSetFont "TahomaB";
 			_ctrl ctrlSetPosition [safezoneXAbs + 0.465, safezoneY + 0.05, 1.445, (safeZoneH - 0.10)*0.758];
+			_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
 			_ctrl ctrlSetScale 1.35;
 			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
-			_ctrl ctrlCommit comT;
+			_ctrl ctrlCommit commitT;
 			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDBClick2;"];
 				call boxAdminFill;
 		
-			//Admin Box Players	
+			//Players	
 			_ctrl = 1 call getControl;
-			_ctrl ctrlSetFont "TahomaB";
 			_ctrl ctrlSetPosition [safezoneXAbs + 0.005, safezoneY + 0.05, (0.485)*0.7, (safeZoneH - 0.10)*0.758];
+			_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
 			_ctrl ctrlSetScale 1.35;
 			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
-			_ctrl ctrlCommit comT;
+			_ctrl ctrlCommit commitT;
 			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDBClick1;"]; //Enable User Select
+				call boxPopulate;
 				call boxPlayerFill;
 			
 			//Frame	
 			_ctrl = -1 call getControl;
 			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, safezoneH];
 			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
-			_ctrl ctrlCommit comT;	
+			_ctrl ctrlCommit commitT;	
 	};
 };
