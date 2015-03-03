@@ -18,7 +18,8 @@ _LAdmins = ["0","0","0"];
 _guiTitleColour = [1,1,1,1];
 _guiTitleBGColour = [0,0.1,0,1];
 
-//_guiMainTextColour = 
+_guiMainTextNonToggleColour = [0.3,0.3,0.3,1];
+_guiMainTextToggleColour = [0.5,0.5,0.5,1];
 
 _guiFrameColour = [0,0.36,0.85,1];
 
