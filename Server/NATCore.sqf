@@ -2,7 +2,7 @@ private ["_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_adminGUI","_broadcast
 #include "NATConfig.sqf"
 
 diag_log ("NATI: Waiting for BIS_fnc_init");
-waitUntil {uiSleep 0.5;!isNil "BIS_fnc_init"};
+	waitUntil {sleep 0.5;!isNil "BIS_fnc_init";};
 
 /*
  * Variable Check 
@@ -52,113 +52,33 @@ if (_varErr13) then {diag_log "Your Config File is missing Variable  |ZSC|";};
 	noxSuperList = _SAdmins;
 	noxAllAdmins = _LAdmins + _NAdmins + _SAdmins;
 
-	_fnc_VarGenerator = 
-	{
-	_array = ["a","A","c","D","d","e","F","3","1","6","G","h","f","5","7","I","j","9","8","L","l","m","M","o","P","Q","R","s","T","u","V","w","W","x","y","Y","z"];
-	_generator = "S";
-
-		for "_i" from 1 to 9 do {_generator = _generator + (_array select (random  ((count _array)-1)));};
-		_number = str(round(random 482689));
-		_generator = _generator + ':' + _number;
-		_generator;
-	};
-	diag_log format ['NATS: _fnc_VarGenerator - %1',_fnc_VarGenerator];
-	
-	_random1 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random1: %1',__random1];
-	_random2 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random2: %1',__random2];
-	_random3 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random3: %1',__random3];
-	_random4 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random4: %1',_random4];
-	_random5 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random5: %1',_random5];
-	_random6 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random6: %1',_random6];
-	_random8 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random8: %1',_random8];
-	_random11 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random11: %1',_random11];
-	_random12 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random12: %1',_random12];
-	_random13 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random13: %1',_random13];	
-	_random19 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random19: %1',_random19];
-	_random20 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random20: %1',_random20];
-	_random21 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random21: %1',_random21];
-	_random27 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random27: %1',_random27];
-	
-call compile ("
-	[] spawn {
-		waitUntil {uiSleep 0.5; !isNil 'sm_done'};
-		uiSleep 30;
-
-		if(_antiTeleport) then {
-			'"+_random1+"' addPublicVariableEventHandler {player setVariable['"+_random1+"',PVNT_adminCheck,true];};
-		};
-	
-		if(_unauthorisedUse) then {
-			'"+_random2+"' addPublicVariableEventHandler {player setVariable['"+_random2+"',PVNT_adminCheck,true];};
-		
-		
-		};
-		
-		if (_majorLog) then {
-			'"+_random3+"' addPublicVariableEventHandler {player setVariable['"+_random3+"',PVNT_adminCheck,true];};
-		
-		};
-		
-		if (_minorLog) then {
-			'"+_random4+"' addPublicVariableEventHandler {player setVariable['"+_random4+"',PVNT_adminCheck,true];};
+	#include "NATAH.sqf"
+		if (NoxAH) then {
+						diag_log "NOXAT - AntiCheat Loaded";
+		} else {
+				diag_log "NOXAT - AntiCheat Failed to load correctly and could make your server vulnerable.";
 		};
 
-		if (_broadcastToolUse) then{
-			'"+_random4+"' addPublicVariableEventHandler {player setVariable['"+_random4+"',PVNT_adminCheck,true];};
-		};
-	};
-	
-		if(_puid in "+str _noxAllAdmins+") then
-		{	
-			'"+_random5+"' addPublicVariableEventHandler {player setVariable['"+_random5+"',PVNT_adminCheck,true];};
-			admindefaultKeybinds =
-			{
-				private ['_key','_shift','_ctrl','_alt'];
-				_key = _this select 1;
-				_shift = _this select 2;
-				_ctrl = _this select 3;
-				if(_key == "+str _OpenMenuKey+") then {call adminInit;};
-			};	
-			
-		};
-			publicVariable """+_random1+""";
-			publicVariable """+_random2+""";
-			publicVariable """+_random3+""";
-			publicVariable """+_random4+""";
-			publicVariable """+_random5+""";
-");
-	
-diag_log "NOXAT - AntiCheat Loaded";
-diag_log "NOXAT - Initing AdminStart";
+
+diag_log ("NATI: Waiting for NAT_AH_init");
+	waitUntil {sleep 0.5;!isNil "NAT_AH_init";};
+		diag_log "NOXAT - Initing AdminStart";
+
+
+
 /*
 	//TODO: Redo code layout to make it more friendly to my brain.
 	//    : Setup Console Debug Messages to double check everythings doing what it is meant too.
 */
 adminCode = {
 	subMenu = false;
-
-//TODO: Should be done, unsure of name being global or local need to test both.
-//Fill Player Box with Names > IDs
-getPlayerDetails = {
+	//TODO: Should be done, unsure of name being global or local need to test both.
+	//Fill Player Box with Names > IDs
+	getPlayerDetails = {
 		_player = "";
 		_playerList = lbtext [1, (lbCurSel 1)];
 	
-		if (_playerList != "") then 
-		{
+		if (_playerList != "") then {
 			{
 				_userID = getPlayerUID _pid;
 				if (_userID != "") then
@@ -174,18 +94,18 @@ getPlayerDetails = {
 				};			
 			} forEach playableUnits;
 		};
-		_name
-};
+		_name;
+	};
 	
-//TODO: Setup Variable for Allowing Colour change in NATConfig - When everything works.
-boxPlayerFill = {
-	disableSerialization;
+	//TODO: Setup Variable for Allowing Colour change in NATConfig - When everything works.
+	boxPlayerFill = {
+		disableSerialization;
 		_ctrl = 1 call getControl;
 		lbclear _ctrl;
 		_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
 		_setup = [];
 		_userID = getPlayerUID _x;
-		
+
 		if(getPlayerUID player in noxSuperList) then {
 			_superadmin = {getPlayerUID _x in noxSuperList} count _setup;
 			if(_superadmin => 0) then	{
@@ -202,7 +122,6 @@ boxPlayerFill = {
 				} count _setup;
 			};
 		};
-		
 		if(getPlayerUID player in noxNormalList) then {
 			_normalAdmin = {getPlayerUID _x in noxNormalList} count _setup;
 			if(_normalAdmin => 0) then	{
@@ -218,8 +137,7 @@ boxPlayerFill = {
 					};
 				} count _setup;
 			};
-		};
-		
+		};	
 		if(getPlayerUID player in noxLowList) then {		
 			_lowAdmin = {getPlayerUID _x in noxLowList} count _setup;
 			if(_lowAdmin => 0) then {
@@ -236,7 +154,6 @@ boxPlayerFill = {
 				} count _setup;
 			};
 		};
-
 		_NormalPlayer = {(!(getPlayerUID _x in noxLowList && noxNormalList && noxSuperList))} count _setup;
 		if(_NormalPlayer => 0) then {
 			_ctrl lbAdd "=== Member ===";
@@ -251,7 +168,7 @@ boxPlayerFill = {
 				};
 			} count _setup;
 		};
-};
+	};
 
 adminMainSetup = {
 
@@ -513,16 +430,16 @@ lowAdminMenu {
 };
 
 boxPopulate ={
-		inSub = false;
-		noxadmin = [];
-		_ctrl = 2 call getControl;
-		lbclear _ctrl;
-		_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
-		
-		if(getPlayerUID player in noxLowList) then {call lowAdminMenu;};
-		if(getPlayerUID player in noxNormalList) then {call normalAdminMenu;};
-		if(getPlayerUID player in noxSuperList) then {call superAdminMenu;};
-		call adminMainSetup	
+	inSub = false;
+	noxadmin = [];
+	_ctrl = 2 call getControl;
+	lbclear _ctrl;
+	_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
+	
+	if(getPlayerUID player in noxLowList) then {call lowAdminMenu;};
+	if(getPlayerUID player in noxNormalList) then {call normalAdminMenu;};
+	if(getPlayerUID player in noxSuperList) then {call superAdminMenu;};
+	call adminMainSetup	
 };
 
 /////////////
@@ -553,7 +470,7 @@ boxPopulate ={
 			_ctrl ctrlSetScale 1.35;
 			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
 			_ctrl ctrlCommit commitT;
-			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDBClick2;"];
+			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDblClick1;"]; //Enable menu select/toggle
 				call boxAdminFill;
 		
 			//Players	
@@ -563,7 +480,7 @@ boxPopulate ={
 			_ctrl ctrlSetScale 1.35;
 			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
 			_ctrl ctrlCommit commitT;
-			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDBClick1;"]; //Enable User Select
+			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDblClick;"]; //Enable User Select
 				call boxPopulate;
 				call boxPlayerFill;
 			
