@@ -426,6 +426,10 @@ lowAdminMenu {
 	};
 };
 
+/////////////
+//Completed//
+/////////////
+//Spawn respective menus 
 boxPopulate ={
 	inSub = false;
 	noxadmin = [];
@@ -436,7 +440,8 @@ boxPopulate ={
 	if(getPlayerUID player in noxLowList) then {call lowAdminMenu;};
 	if(getPlayerUID player in noxNormalList) then {call normalAdminMenu;};
 	if(getPlayerUID player in noxSuperList) then {call superAdminMenu;};
-	call adminMainSetup	
+	if (_playerMenu) then{if(!(getPlayerUID _x in noxLowList && noxNormalList && noxSuperList)) then {call playerMenu};};
+	call adminMainSetup;	
 };
 
 /////////////
@@ -467,7 +472,7 @@ boxPopulate ={
 			_ctrl ctrlSetScale 1.35;
 			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
 			_ctrl ctrlCommit commitT;
-			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDblClick1;"]; //Enable menu select/toggle
+			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDblClick;"]; //Enable menu select/toggle
 				call boxAdminFill;
 		
 			//Players	
@@ -477,7 +482,6 @@ boxPopulate ={
 			_ctrl ctrlSetScale 1.35;
 			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
 			_ctrl ctrlCommit commitT;
-			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDblClick;"]; //Enable User Select
 				call boxPopulate;
 				call boxPlayerFill;
 			
