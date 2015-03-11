@@ -36,6 +36,9 @@ if (_varErr10) then {diag_log "Your Config File is missing Variable  |gmEpoch|";
 //Evolved
 if (isNil '_gmEvolve') then {_gmEvolve = false;_varErr11 =true;};
 if (_varErr11) then {diag_log "Your Config File is missing Variable  |gmEvolve|";};
+//Island Life
+if (isNil '_gmILife') then {_gmILife = false;_varErr11 =true;};
+if (_varErr11) then {diag_log "Your Config File is missing Variable  |gmILife|";};
 
 //Most of these only effect the players menu to give extra options.
 //Zupa Single Currency
@@ -53,6 +56,7 @@ if (_varErr13) then {diag_log "Your Config File is missing Variable  |ZSC|";};
 	noxAllAdmins = _LAdmins + _NAdmins + _SAdmins;
 
 	#include "NATAH.sqf"
+	uiSleep 10;
 		if (NoxAH) then {
 						diag_log "NOXAT - AntiCheat Loaded";
 		} else {
@@ -62,7 +66,7 @@ if (_varErr13) then {diag_log "Your Config File is missing Variable  |ZSC|";};
 
 diag_log ("NATI: Waiting for NAT_AH_init");
 	waitUntil {sleep 0.5;!isNil "NAT_AH_init";};
-		diag_log "NOXAT - Initing AdminStart";
+		diag_log "NOXAT - Init AdminStart";
 
 
 
@@ -71,9 +75,14 @@ diag_log ("NATI: Waiting for NAT_AH_init");
 	//    : Setup Console Debug Messages to double check everythings doing what it is meant too.
 */
 adminCode = {
+
+	adminMainSetup = {
+
+	//Insert Setup Here
+
+	};
+
 	subMenu = false;
-	//TODO: Should be done, unsure of 'name' being global or local need to test both.
-	//Fill Player Box with Names > IDs
 	getPlayerDetails = {
 		_player = "";
 		_playerList = lbtext [1, (lbCurSel 1)];
@@ -91,7 +100,7 @@ adminCode = {
 					_adminVehicle = vehicle _x;
 					_adminPosition = getPosAtl _x;
 					};
-				};			
+				};		
 			} forEach playableUnits;
 		};
 		_name;
@@ -100,7 +109,7 @@ adminCode = {
 	//TODO: Setup Variable for Allowing Colour change in NATConfig - When everything works.
 	boxPlayerFill = {
 		disableSerialization;
-		_ctrl = 1 call getControl;
+		_ctrl = 1 call getControl; //Left Box
 		lbclear _ctrl;
 		_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
 		_setup = [];
@@ -108,7 +117,6 @@ adminCode = {
 
 		if(getPlayerUID player in noxSuperList) then {
 			_superadmin = {getPlayerUID _x in noxSuperList} count _setup;
-			if(_superadmin => 0) then	{
 				_ctrl lbAdd "=== Super Admins ===";
 				_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
 				_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
@@ -117,14 +125,13 @@ adminCode = {
 						_setup = _setup - [_x];
 						_ctrl lbAdd format["%1 (PUID: %2)",_name _x,_x _userID];
 						_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
-						_ctrl lbSetColor [(lbsize _ctrl)-1, [0.12,0.65,0.94,1]];
+						_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
 					};
 				} count _setup;
-			};
 		};
+		
 		if(getPlayerUID player in noxNormalList) then {
 			_normalAdmin = {getPlayerUID _x in noxNormalList} count _setup;
-			if(_normalAdmin => 0) then	{
 				_ctrl lbAdd "=== Standard Admins ===";
 				_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
 				_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
@@ -133,15 +140,14 @@ adminCode = {
 						_setup = _setup - [_x];
 						_ctrl lbAdd format["%1 (PUID: %2)",_name _x,_x _userID];
 						_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
-						_ctrl lbSetColor [(lbsize _ctrl)-1, [0.12,0.65,0.94,1]];
+						_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
 					};
 				} count _setup;
-			};
 		};	
+		
 		if(getPlayerUID player in noxLowList) then {		
 			_lowAdmin = {getPlayerUID _x in noxLowList} count _setup;
-			if(_lowAdmin => 0) then {
-				_ctrl lbAdd "=== Low Admisn ===";
+				_ctrl lbAdd "=== Low Admins ===";
 				_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
 				_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
 				{
@@ -149,282 +155,274 @@ adminCode = {
 						_setup = _setup - [_x];
 						_ctrl lbAdd format["%1 (PUID: %2)",_name _x,_x _userID];
 						_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
-						_ctrl lbSetColor [(lbsize _ctrl)-1, [0.12,0.65,0.94,1]];
+						_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
 					};
 				} count _setup;
-			};
 		};
+		
 		_NormalPlayer = {(!(getPlayerUID _x in noxLowList && noxNormalList && noxSuperList))} count _setup;
 		if(_NormalPlayer => 0) then {
 			_ctrl lbAdd "=== Member ===";
 			_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
 			_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
 			{
-				if(_NormalPlayer) then	{
 					_setup = _setup - [_x];
 					_ctrl lbAdd format["%1 (PID: %2)",_name _x,_x _userID];
 					_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
-					_ctrl lbSetColor [(lbsize _ctrl)-1, [0.12,0.65,0.94,1]];		
-				};
+					_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];		
 			} count _setup;
 		};
 	};
-
-adminMainSetup = {
-
-//Insert Setup Here
-
-};
 
 boxAdminFill {
 	noxadmin = [];
 //Super Admin
 superAdminMenu {
 	noxadmin = noxadmin + ["                 Map Markers                 ",[]];		
-	noxadmin = noxadmin + ["Player Markers",call compile preprocessFileLineNumbers _plrMarker,[_guiMainTextToggleColour]];	
-	noxadmin = noxadmin + ["Corpse Markers",call compile preprocessFileLineNumbers _corMarker,[_guiMainTextToggleColour]];		
-	noxadmin = noxadmin + ["Wreck Markers",call compile preprocessFileLineNumbers _wreMarker,[_guiMainTextToggleColour]];	
-	noxadmin = noxadmin + ["Tent Markers",call compile preprocessFileLineNumbers _tntMarker,[_guiMainTextToggleColour]];
+	noxadmin = noxadmin + ["Player Markers",call compile preprocessFileLineNumbers _plrMarker,_guiMainTextToggleColour];	
+	noxadmin = noxadmin + ["Corpse Markers",call compile preprocessFileLineNumbers _corMarker,_guiMainTextToggleColour];		
+	noxadmin = noxadmin + ["Wreck Markers",call compile preprocessFileLineNumbers _wreMarker,_guiMainTextToggleColour];	
+	noxadmin = noxadmin + ["Tent Markers",call compile preprocessFileLineNumbers _tntMarker,_guiMainTextToggleColour];
 		if (_isEpoch) then
 		{
-			noxadmin = noxadmin + ["Safe Markers",call compile preprocessFileLineNumbers _sfeMarker,[_guiMainTextToggleColour]];		
-			noxadmin = noxadmin + ["Plot Markers",call compile preprocessFileLineNumbers _pltMarker,[_guiMainTextToggleColour]];
+			noxadmin = noxadmin + ["Safe Markers",call compile preprocessFileLineNumbers _sfeMarker,_guiMainTextToggleColour];		
+			noxadmin = noxadmin + ["Plot Markers",call compile preprocessFileLineNumbers _pltMarker,_guiMainTextToggleColour];
 		};
-	noxadmin = noxadmin + ["Vehicle Markers (Unlocked)",call compile preprocessFileLineNumbers _vulMarker,[_guiMainTextToggleColour]];	
-	noxadmin = noxadmin + ["Vehicle Markers (Locked)",call compile preprocessFileLineNumbers _vlMarker,[_guiMainTextToggleColour]];	
+	noxadmin = noxadmin + ["Vehicle Markers (Unlocked)",call compile preprocessFileLineNumbers _vulMarker,_guiMainTextToggleColour];	
+	noxadmin = noxadmin + ["Vehicle Markers (Locked)",call compile preprocessFileLineNumbers _vlMarker,_guiMainTextToggleColour];	
 	
 	noxadmin = noxadmin + ["",[]];//Spacer to Keep it looking nice	
 											    
 	noxadmin = noxadmin + ["                 Teleport                 ",[]];		
-	noxadmin = noxadmin + ["Teleport to Player",call compile preprocessFileLineNumbers _plrTP2,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Teleport Player to You",call compile preprocessFileLineNumbers _plrTP2S,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Map Teleport",call compile preprocessFileLineNumbers _plrTPWM,[_guiMainTextNonToggleColour]];	
+	noxadmin = noxadmin + ["Teleport to Player",call compile preprocessFileLineNumbers _plrTP2,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Teleport Player to You",call compile preprocessFileLineNumbers _plrTP2S,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Map Teleport",call compile preprocessFileLineNumbers _plrTPWM,_guiMainTextNonToggleColour];	
 	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice	
 	noxadmin = noxadmin + ["                 Admin Tools                 ",[]];		
-	noxadmin = noxadmin + ["Kick Player",call compile preprocessFileLineNumbers _admPKick,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Ban Player",call compile preprocessFileLineNumbers _admPBan,[_guiMainTextNonToggleColour]];		
-	noxadmin = noxadmin + ["Kill Player",call compile preprocessFileLineNumbers _admPKill,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Remove Player Gear",call compile preprocessFileLineNumbers _admRPG,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Spectate Player",call compile preprocessFileLineNumbers _admSpec,[_guiMainTextNonToggleColour]];	
+	noxadmin = noxadmin + ["Kick Player",call compile preprocessFileLineNumbers _admPKick,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Ban Player",call compile preprocessFileLineNumbers _admPBan,_guiMainTextNonToggleColour];		
+	noxadmin = noxadmin + ["Kill Player",call compile preprocessFileLineNumbers _admPKill,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Remove Player Gear",call compile preprocessFileLineNumbers _admRPG,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Spectate Player",call compile preprocessFileLineNumbers _admSpec,_guiMainTextNonToggleColour];	
 	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice			
 	noxadmin = noxadmin + ["                 Player Tools                 ",[]];	
-	noxadmin = noxadmin + ["Heal Player",call compile preprocessFileLineNumbers _plrHeal,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Zombie Shield",call compile preprocessFileLineNumbers _plrZS,[_guiMainTextToggleColour]];		
-	noxadmin = noxadmin + ["Zombie Remove Aggro",call compile preprocessFileLineNumbers _plrNZA,[_guiMainTextToggleColour]];		
-	noxadmin = noxadmin + ["Infinite Ammo",call compile preprocessFileLineNumbers _plrUA,[_guiMainTextToggleColour]];		
-	noxadmin = noxadmin + ["No Recoil",call compile preprocessFileLineNumbers _plrRR,[_guiMainTextToggleColour]];		
-	noxadmin = noxadmin + ["God",call compile preprocessFileLineNumbers _plrGod,[_guiMainTextToggleColour]];		
-	noxadmin = noxadmin + ["Car God",call compile preprocessFileLineNumbers _plrCGod,[_guiMainTextToggleColour]];		
-	noxadmin = noxadmin + ["Invisibility",call compile preprocessFileLineNumbers _plrHarryPotter,[_guiMainTextToggleColour]];		
+	noxadmin = noxadmin + ["Heal Player",call compile preprocessFileLineNumbers _plrHeal,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Zombie Shield",call compile preprocessFileLineNumbers _plrZS,_guiMainTextToggleColour];		
+	noxadmin = noxadmin + ["Zombie Remove Aggro",call compile preprocessFileLineNumbers _plrNZA,_guiMainTextToggleColour];		
+	noxadmin = noxadmin + ["Infinite Ammo",call compile preprocessFileLineNumbers _plrUA,_guiMainTextToggleColour];		
+	noxadmin = noxadmin + ["No Recoil",call compile preprocessFileLineNumbers _plrRR,_guiMainTextToggleColour];		
+	noxadmin = noxadmin + ["God",call compile preprocessFileLineNumbers _plrGod,_guiMainTextToggleColour];		
+	noxadmin = noxadmin + ["Car God",call compile preprocessFileLineNumbers _plrCGod,_guiMainTextToggleColour];		
+	noxadmin = noxadmin + ["Invisibility",call compile preprocessFileLineNumbers _plrHarryPotter,_guiMainTextToggleColour];		
 		if (_isEpoch) then
 		{	
-			noxadmin = noxadmin + ["Remove Build Limit",call compile preprocessFileLineNumbers _plrRBL,[_guiMainTextToggleColour]];		
-			noxadmin = noxadmin + ["1 Step Building",call compile preprocessFileLineNumbers _plr1SB,[_guiMainTextToggleColour]];		
-			noxadmin = noxadmin + ["No Plot Pole",call compile preprocessFileLineNumbers _plrRPP,[_guiMainTextToggleColour]];		
-			noxadmin = noxadmin + ["No Overburden",call compile preprocessFileLineNumbers _plrROB,[_guiMainTextToggleColour]];	
+			noxadmin = noxadmin + ["Remove Build Limit",call compile preprocessFileLineNumbers _plrRBL,_guiMainTextToggleColour];		
+			noxadmin = noxadmin + ["1 Step Building",call compile preprocessFileLineNumbers _plr1SB,_guiMainTextToggleColour];		
+			noxadmin = noxadmin + ["No Plot Pole",call compile preprocessFileLineNumbers _plrRPP,_guiMainTextToggleColour];		
+			noxadmin = noxadmin + ["No Overburden",call compile preprocessFileLineNumbers _plrROB,_guiMainTextToggleColour];	
 		};
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["                 Vehicle Tools                 ",[]];	
-	noxadmin = noxadmin + ["Point to Repair (Perm)",call compile preprocessFileLineNumbers _p2rp,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Point to Repair (Temp)",call compile preprocessFileLineNumbers _p2rt,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Point to Delete (Perm)",call compile preprocessFileLineNumbers _p2dp,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Point to Delete (Temp)",call compile preprocessFileLineNumbers _p2dt,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Flip Vehicle",call compile preprocessFileLineNumbers _p2f,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Refuel Vehicle",call compile preprocessFileLineNumbers _p2r,[_guiMainTextNonToggleColour]];
+	noxadmin = noxadmin + ["Point to Repair (Perm)",call compile preprocessFileLineNumbers _p2rp,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Point to Repair (Temp)",call compile preprocessFileLineNumbers _p2rt,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Point to Delete (Perm)",call compile preprocessFileLineNumbers _p2dp,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Point to Delete (Temp)",call compile preprocessFileLineNumbers _p2dt,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Flip Vehicle",call compile preprocessFileLineNumbers _p2f,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Refuel Vehicle",call compile preprocessFileLineNumbers _p2r,_guiMainTextNonToggleColour];
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice	
-	noxadmin = noxadmin + ["Lock Vehicle (1)",call compile preprocessFileLineNumbers _vLock,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Unlock Vehicle (2)",call compile preprocessFileLineNumbers _vUnlock,[_guiMainTextNonToggleColour]];	
+	noxadmin = noxadmin + ["Lock Vehicle (1)",call compile preprocessFileLineNumbers _vLock,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Unlock Vehicle (2)",call compile preprocessFileLineNumbers _vUnlock,_guiMainTextNonToggleColour];	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
-	noxadmin = noxadmin + ["Spawn Vehicle",call compile preprocessFileLineNumbers _vSpawnT,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Spawn Vehicle HIVE",call compile preprocessFileLineNumbers _vSpawnP,[_guiMainTextNonToggleColour]];
+	noxadmin = noxadmin + ["Spawn Vehicle",call compile preprocessFileLineNumbers _vSpawnT,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Spawn Vehicle HIVE",call compile preprocessFileLineNumbers _vSpawnP,_guiMainTextNonToggleColour];
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["                 Crates                 ",[]];	
 	noxadmin = noxadmin + ["---Private",[]];	
-	noxadmin = noxadmin + ["Weapons & Ammo",call compile preprocessFileLineNumbers _prvWcrate,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _prvIcrate,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["All in One",call compile preprocessFileLineNumbers _prvAIOcrate,[_guiMainTextNonToggleColour]];
+	noxadmin = noxadmin + ["Weapons & Ammo",call compile preprocessFileLineNumbers _prvWcrate,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _prvIcrate,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["All in One",call compile preprocessFileLineNumbers _prvAIOcrate,_guiMainTextNonToggleColour];
 		if (_isEpoch) then
 		{	
-			noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _prvBcrate,[_guiMainTextNonToggleColour]];
+			noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _prvBcrate,_guiMainTextNonToggleColour];
 		};
-	noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _prvBPcrate,[_guiMainTextNonToggleColour]];	
+	noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _prvBPcrate,_guiMainTextNonToggleColour];	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["---Public",[]];	
-	noxadmin = noxadmin + ["Weapons & Ammo",call compile preprocessFileLineNumbers _pubWcrate,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _pubIcrate,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["All in One",call compile preprocessFileLineNumbers _pubAIOcrate,[_guiMainTextNonToggleColour]];
+	noxadmin = noxadmin + ["Weapons & Ammo",call compile preprocessFileLineNumbers _pubWcrate,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _pubIcrate,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["All in One",call compile preprocessFileLineNumbers _pubAIOcrate,_guiMainTextNonToggleColour];
 		if (_isEpoch) then
 		{	
-			noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _pubBcrate,[_guiMainTextNonToggleColour]];
+			noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _pubBcrate,_guiMainTextNonToggleColour];
 		};
-	noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _pubBPcrate,[_guiMainTextNonToggleColour]];	
+	noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _pubBPcrate,_guiMainTextNonToggleColour];	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice
 	noxadmin = noxadmin + ["                 Weather/Time                 ",[]];	
 	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["                 HouseKeeping                 ",[]];
-	noxadmin = noxadmin + ["Delete Zombies",call compile preprocessFileLineNumbers ,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Delete Dead Bodys",call compile preprocessFileLineNumbers ,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Delete Loot",call compile preprocessFileLineNumbers ,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Delete Weapon Crates",call compile preprocessFileLineNumbers ,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Delete Destroyed Vehicles",call compile preprocessFileLineNumbers ,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Reset Vehicles (Deletes all vehicles with ID:0 won't Respawn until restart)",call compile preprocessFileLineNumbers ,[_guiMainTextNonToggleColour]];
+	noxadmin = noxadmin + ["Delete Zombies",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Delete Dead Bodys",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Delete Loot",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Delete Weapon Crates",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Delete Destroyed Vehicles",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Reset Vehicles (Deletes all vehicles with ID:0 won't Respawn until restart)",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
 };
 
 //Normal Admin
 normalAdminMenu {
 	noxadmin = noxadmin + ["                 Map Markers                 ",[]];		
-	noxadmin = noxadmin + ["Player Markers",call compile preprocessFileLineNumbers _plrMarker,[_guiMainTextToggleColour]];	
-	noxadmin = noxadmin + ["Corpse Markers",call compile preprocessFileLineNumbers _corMarker,[_guiMainTextToggleColour]];		
-	noxadmin = noxadmin + ["Wreck Markers",call compile preprocessFileLineNumbers _wreMarker,[_guiMainTextToggleColour]];	
-	noxadmin = noxadmin + ["Tent Markers",call compile preprocessFileLineNumbers _tntMarker,[_guiMainTextToggleColour]];
+	noxadmin = noxadmin + ["Player Markers",call compile preprocessFileLineNumbers _plrMarker,_guiMainTextToggleColour];	
+	noxadmin = noxadmin + ["Corpse Markers",call compile preprocessFileLineNumbers _corMarker,_guiMainTextToggleColour];		
+	noxadmin = noxadmin + ["Wreck Markers",call compile preprocessFileLineNumbers _wreMarker,_guiMainTextToggleColour];	
+	noxadmin = noxadmin + ["Tent Markers",call compile preprocessFileLineNumbers _tntMarker,_guiMainTextToggleColour];
 		if (_isEpoch) then
 		{
-			noxadmin = noxadmin + ["Safe Markers",call compile preprocessFileLineNumbers _sfeMarker,[_guiMainTextToggleColour]];		
-			noxadmin = noxadmin + ["Plot Markers",call compile preprocessFileLineNumbers _pltMarker,[_guiMainTextToggleColour]];
+			noxadmin = noxadmin + ["Safe Markers",call compile preprocessFileLineNumbers _sfeMarker,_guiMainTextToggleColour];		
+			noxadmin = noxadmin + ["Plot Markers",call compile preprocessFileLineNumbers _pltMarker,_guiMainTextToggleColour];
 		};
-	noxadmin = noxadmin + ["Vehicle Markers (Unlocked)",call compile preprocessFileLineNumbers _vulMarker,[_guiMainTextToggleColour]];	
-	noxadmin = noxadmin + ["Vehicle Markers (Locked)",call compile preprocessFileLineNumbers _vlMarker,[_guiMainTextToggleColour]];	
+	noxadmin = noxadmin + ["Vehicle Markers (Unlocked)",call compile preprocessFileLineNumbers _vulMarker,_guiMainTextToggleColour];	
+	noxadmin = noxadmin + ["Vehicle Markers (Locked)",call compile preprocessFileLineNumbers _vlMarker,_guiMainTextToggleColour];	
 	
 	noxadmin = noxadmin + ["",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["                 Teleport                 ",[]];		
-	noxadmin = noxadmin + ["Teleport to Player",call compile preprocessFileLineNumbers _plrTP2,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Teleport Player to You",call compile preprocessFileLineNumbers _plrTP2S,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Map Teleport",call compile preprocessFileLineNumbers _plrTPWM,[_guiMainTextNonToggleColour]];	
+	noxadmin = noxadmin + ["Teleport to Player",call compile preprocessFileLineNumbers _plrTP2,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Teleport Player to You",call compile preprocessFileLineNumbers _plrTP2S,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Map Teleport",call compile preprocessFileLineNumbers _plrTPWM,_guiMainTextNonToggleColour];	
 	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice	
 	noxadmin = noxadmin + ["                 Admin Tools                 ",[]];		
-	noxadmin = noxadmin + ["Kick Player",call compile preprocessFileLineNumbers _admPKick,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Kill Player",call compile preprocessFileLineNumbers _admPKill,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Remove Player Gear",call compile preprocessFileLineNumbers _admRPG,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Spectate Player",call compile preprocessFileLineNumbers _admSpec,[_guiMainTextNonToggleColour]];	
+	noxadmin = noxadmin + ["Kick Player",call compile preprocessFileLineNumbers _admPKick,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Kill Player",call compile preprocessFileLineNumbers _admPKill,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Remove Player Gear",call compile preprocessFileLineNumbers _admRPG,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Spectate Player",call compile preprocessFileLineNumbers _admSpec,_guiMainTextNonToggleColour];	
 	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice			
 	noxadmin = noxadmin + ["                 Player Tools                 ",[]];	
-	noxadmin = noxadmin + ["Heal Player",call compile preprocessFileLineNumbers _plrHeal,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Zombie Shield",call compile preprocessFileLineNumbers _plrZS,[_guiMainTextToggleColour]];		
-	noxadmin = noxadmin + ["Zombie Remove Aggro",call compile preprocessFileLineNumbers _plrNZA,[_guiMainTextToggleColour]];		
-	noxadmin = noxadmin + ["Infinite Ammo",call compile preprocessFileLineNumbers _plrUA,[_guiMainTextToggleColour]];		
-	noxadmin = noxadmin + ["No Recoil",call compile preprocessFileLineNumbers _plrRR,[_guiMainTextToggleColour]];		
-	noxadmin = noxadmin + ["God",call compile preprocessFileLineNumbers _plrGod,[_guiMainTextToggleColour]];		
-	noxadmin = noxadmin + ["Car God",call compile preprocessFileLineNumbers _plrCGod,[_guiMainTextToggleColour]];		
-	noxadmin = noxadmin + ["Invisibility",call compile preprocessFileLineNumbers _plrHarryPotter,[_guiMainTextToggleColour]];		
+	noxadmin = noxadmin + ["Heal Player",call compile preprocessFileLineNumbers _plrHeal,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Zombie Shield",call compile preprocessFileLineNumbers _plrZS,_guiMainTextToggleColour];		
+	noxadmin = noxadmin + ["Zombie Remove Aggro",call compile preprocessFileLineNumbers _plrNZA,_guiMainTextToggleColour];		
+	noxadmin = noxadmin + ["Infinite Ammo",call compile preprocessFileLineNumbers _plrUA,_guiMainTextToggleColour];		
+	noxadmin = noxadmin + ["No Recoil",call compile preprocessFileLineNumbers _plrRR,_guiMainTextToggleColour];		
+	noxadmin = noxadmin + ["God",call compile preprocessFileLineNumbers _plrGod,_guiMainTextToggleColour];		
+	noxadmin = noxadmin + ["Car God",call compile preprocessFileLineNumbers _plrCGod,_guiMainTextToggleColour];		
+	noxadmin = noxadmin + ["Invisibility",call compile preprocessFileLineNumbers _plrHarryPotter,_guiMainTextToggleColour];		
 		if (_isEpoch) then
 		{	
-			noxadmin = noxadmin + ["Remove Build Limit",call compile preprocessFileLineNumbers _plrRBL,[_guiMainTextToggleColour]];		
-			noxadmin = noxadmin + ["1 Step Building",call compile preprocessFileLineNumbers _plr1SB,[_guiMainTextToggleColour]];		
-			noxadmin = noxadmin + ["No Plot Pole",call compile preprocessFileLineNumbers _plrRPP,[_guiMainTextToggleColour]];		
-			noxadmin = noxadmin + ["No Overburden",call compile preprocessFileLineNumbers _plrROB,[_guiMainTextToggleColour]];	
+			noxadmin = noxadmin + ["Remove Build Limit",call compile preprocessFileLineNumbers _plrRBL,_guiMainTextToggleColour];		
+			noxadmin = noxadmin + ["1 Step Building",call compile preprocessFileLineNumbers _plr1SB,_guiMainTextToggleColour];		
+			noxadmin = noxadmin + ["No Plot Pole",call compile preprocessFileLineNumbers _plrRPP,_guiMainTextToggleColour];		
+			noxadmin = noxadmin + ["No Overburden",call compile preprocessFileLineNumbers _plrROB,_guiMainTextToggleColour];	
 		};
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["                 Vehicle Tools                 ",[]];	
-	noxadmin = noxadmin + ["Point to Repair (Perm)",call compile preprocessFileLineNumbers _p2rp,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Point to Repair (Temp)",call compile preprocessFileLineNumbers _p2rt,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Point to Delete (Temp)",call compile preprocessFileLineNumbers _p2dt,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Flip Vehicle",call compile preprocessFileLineNumbers _p2f,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Refuel Vehicle",call compile preprocessFileLineNumbers _p2r,[_guiMainTextNonToggleColour]];
+	noxadmin = noxadmin + ["Point to Repair (Perm)",call compile preprocessFileLineNumbers _p2rp,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Point to Repair (Temp)",call compile preprocessFileLineNumbers _p2rt,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Point to Delete (Temp)",call compile preprocessFileLineNumbers _p2dt,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Flip Vehicle",call compile preprocessFileLineNumbers _p2f,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Refuel Vehicle",call compile preprocessFileLineNumbers _p2r,_guiMainTextNonToggleColour];
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice	
-	noxadmin = noxadmin + ["Lock Vehicle (1)",call compile preprocessFileLineNumbers _vLock,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Unlock Vehicle (2)",call compile preprocessFileLineNumbers _vUnlock,[_guiMainTextNonToggleColour]];	
+	noxadmin = noxadmin + ["Lock Vehicle (1)",call compile preprocessFileLineNumbers _vLock,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Unlock Vehicle (2)",call compile preprocessFileLineNumbers _vUnlock,_guiMainTextNonToggleColour];	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
-	noxadmin = noxadmin + ["Spawn Vehicle",call compile preprocessFileLineNumbers _vSpawnT,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Spawn Vehicle HIVE",call compile preprocessFileLineNumbers _vSpawnP,[_guiMainTextNonToggleColour]];
+	noxadmin = noxadmin + ["Spawn Vehicle",call compile preprocessFileLineNumbers _vSpawnT,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Spawn Vehicle HIVE",call compile preprocessFileLineNumbers _vSpawnP,_guiMainTextNonToggleColour];
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["                 Crates                 ",[]];	
 	noxadmin = noxadmin + ["---Private",[]];	
-	noxadmin = noxadmin + ["Weapons & Ammo",call compile preprocessFileLineNumbers _prvWcrate,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _prvIcrate,[_guiMainTextNonToggleColour]];
+	noxadmin = noxadmin + ["Weapons & Ammo",call compile preprocessFileLineNumbers _prvWcrate,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _prvIcrate,_guiMainTextNonToggleColour];
 		if (_isEpoch) then
 		{	
-			noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _prvBcrate,[_guiMainTextNonToggleColour]];
+			noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _prvBcrate,_guiMainTextNonToggleColour];
 		};
-	noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _prvBPcrate,[_guiMainTextNonToggleColour]];	
+	noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _prvBPcrate,_guiMainTextNonToggleColour];	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["---Public",[]];	
-	noxadmin = noxadmin + ["Weapons & Ammo",call compile preprocessFileLineNumbers _pubWcrate,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _pubIcrate,[_guiMainTextNonToggleColour]];
+	noxadmin = noxadmin + ["Weapons & Ammo",call compile preprocessFileLineNumbers _pubWcrate,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _pubIcrate,_guiMainTextNonToggleColour];
 		if (_isEpoch) then
 		{	
-			noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _pubBcrate,[_guiMainTextNonToggleColour]];
+			noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _pubBcrate,_guiMainTextNonToggleColour];
 		};
-	noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _pubBPcrate,[_guiMainTextNonToggleColour]];	
+	noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _pubBPcrate,_guiMainTextNonToggleColour];	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice
 	noxadmin = noxadmin + ["                 Weather/Time                 ",[]];	
 
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["                 HouseKeeping                 ",[]];
-	noxadmin = noxadmin + ["Delete Loot",call compile preprocessFileLineNumbers ,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Delete Weapon Crates",call compile preprocessFileLineNumbers ,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Delete Destroyed Vehicles",call compile preprocessFileLineNumbers ,[_guiMainTextNonToggleColour]];
+	noxadmin = noxadmin + ["Delete Loot",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Delete Weapon Crates",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Delete Destroyed Vehicles",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
 	};
 //Low Admin
 lowAdminMenu {
 	noxadmin = noxadmin + ["                 Map Markers                 ",[]];		
-	noxadmin = noxadmin + ["Player Markers",call compile preprocessFileLineNumbers _plrMarker,[_guiMainTextToggleColour]];	
-	noxadmin = noxadmin + ["Corpse Markers",call compile preprocessFileLineNumbers _corMarker,[_guiMainTextToggleColour]];		
-	noxadmin = noxadmin + ["Wreck Markers",call compile preprocessFileLineNumbers _wreMarker,[_guiMainTextToggleColour]];	
-	noxadmin = noxadmin + ["Tent Markers",call compile preprocessFileLineNumbers _tntMarker,[_guiMainTextToggleColour]];
-	noxadmin = noxadmin + ["Vehicle Markers (Unlocked)",call compile preprocessFileLineNumbers _vulMarker,[_guiMainTextToggleColour]];	
-	noxadmin = noxadmin + ["Vehicle Markers (Locked)",call compile preprocessFileLineNumbers _vlMarker,[_guiMainTextToggleColour]];	
+	noxadmin = noxadmin + ["Player Markers",call compile preprocessFileLineNumbers _plrMarker,_guiMainTextToggleColour];	
+	noxadmin = noxadmin + ["Corpse Markers",call compile preprocessFileLineNumbers _corMarker,_guiMainTextToggleColour];		
+	noxadmin = noxadmin + ["Wreck Markers",call compile preprocessFileLineNumbers _wreMarker,_guiMainTextToggleColour];	
+	noxadmin = noxadmin + ["Tent Markers",call compile preprocessFileLineNumbers _tntMarker,_guiMainTextToggleColour];
+	noxadmin = noxadmin + ["Vehicle Markers (Unlocked)",call compile preprocessFileLineNumbers _vulMarker,_guiMainTextToggleColour];	
+	noxadmin = noxadmin + ["Vehicle Markers (Locked)",call compile preprocessFileLineNumbers _vlMarker,_guiMainTextToggleColour];	
 	
 	noxadmin = noxadmin + ["",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["                 Teleport                 ",[]];		
-	noxadmin = noxadmin + ["Teleport to Player",call compile preprocessFileLineNumbers _plrTP2,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Teleport Player to You",call compile preprocessFileLineNumbers _plrTP2S,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Map Teleport",call compile preprocessFileLineNumbers _plrTPWM,[_guiMainTextToggleColour]];	
+	noxadmin = noxadmin + ["Teleport to Player",call compile preprocessFileLineNumbers _plrTP2,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Teleport Player to You",call compile preprocessFileLineNumbers _plrTP2S,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Map Teleport",call compile preprocessFileLineNumbers _plrTPWM,_guiMainTextToggleColour];	
 	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice	
 	noxadmin = noxadmin + ["                 Admin Tools                 ",[]];		
-	noxadmin = noxadmin + ["Kick Player",call compile preprocessFileLineNumbers _admPKick,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Spectate Player",call compile preprocessFileLineNumbers _admSpec,[_guiMainTextNonToggleColour]];	
+	noxadmin = noxadmin + ["Kick Player",call compile preprocessFileLineNumbers _admPKick,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Spectate Player",call compile preprocessFileLineNumbers _admSpec,_guiMainTextNonToggleColour];	
 	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice			
 	noxadmin = noxadmin + ["                 Player Tools                 ",[]];	
-	noxadmin = noxadmin + ["Heal Player",call compile preprocessFileLineNumbers _plrHeal,[_guiMainTextNonToggleColour]];		
-	noxadmin = noxadmin + ["No Recoil",call compile preprocessFileLineNumbers _plrRR,[_guiMainTextToggleColour]];		
-	noxadmin = noxadmin + ["God",call compile preprocessFileLineNumbers _plrGod,[_guiMainTextToggleColour]];			
+	noxadmin = noxadmin + ["Heal Player",call compile preprocessFileLineNumbers _plrHeal,_guiMainTextNonToggleColour];		
+	noxadmin = noxadmin + ["No Recoil",call compile preprocessFileLineNumbers _plrRR,_guiMainTextToggleColour];		
+	noxadmin = noxadmin + ["God",call compile preprocessFileLineNumbers _plrGod,_guiMainTextToggleColour];			
 		if (_isEpoch) then
 		{		
-			noxadmin = noxadmin + ["1 Step Building",call compile preprocessFileLineNumbers _plr1SB,[_guiMainTextToggleColour]];		
-			noxadmin = noxadmin + ["No Plot Pole",call compile preprocessFileLineNumbers _plrRPP,[_guiMainTextToggleColour]];		
-			noxadmin = noxadmin + ["No Overburden",call compile preprocessFileLineNumbers _plrROB,[_guiMainTextToggleColour]];	
+			noxadmin = noxadmin + ["1 Step Building",call compile preprocessFileLineNumbers _plr1SB,_guiMainTextToggleColour];		
+			noxadmin = noxadmin + ["No Plot Pole",call compile preprocessFileLineNumbers _plrRPP,_guiMainTextToggleColour];		
+			noxadmin = noxadmin + ["No Overburden",call compile preprocessFileLineNumbers _plrROB,_guiMainTextToggleColour];	
 		};
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["                 Vehicle Tools                 ",[]];	
-	noxadmin = noxadmin + ["Point to Repair (Perm)",call compile preprocessFileLineNumbers _p2rp,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Point to Repair (Temp)",call compile preprocessFileLineNumbers _p2rt,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Flip Vehicle",call compile preprocessFileLineNumbers _p2f,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Refuel Vehicle",call compile preprocessFileLineNumbers _p2r,[_guiMainTextNonToggleColour]];
+	noxadmin = noxadmin + ["Point to Repair (Perm)",call compile preprocessFileLineNumbers _p2rp,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Point to Repair (Temp)",call compile preprocessFileLineNumbers _p2rt,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Flip Vehicle",call compile preprocessFileLineNumbers _p2f,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Refuel Vehicle",call compile preprocessFileLineNumbers _p2r,_guiMainTextNonToggleColour];
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice	
-	noxadmin = noxadmin + ["Lock Vehicle (1)",call compile preprocessFileLineNumbers _vLock,[_guiMainTextNonToggleColour]];	
-	noxadmin = noxadmin + ["Unlock Vehicle (2)",call compile preprocessFileLineNumbers _vUnlock,[_guiMainTextNonToggleColour]];	
+	noxadmin = noxadmin + ["Lock Vehicle (1)",call compile preprocessFileLineNumbers _vLock,_guiMainTextNonToggleColour];	
+	noxadmin = noxadmin + ["Unlock Vehicle (2)",call compile preprocessFileLineNumbers _vUnlock,_guiMainTextNonToggleColour];	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
-	noxadmin = noxadmin + ["Spawn Vehicle",call compile preprocessFileLineNumbers _vSpawnT,[_guiMainTextNonToggleColour]];
+	noxadmin = noxadmin + ["Spawn Vehicle",call compile preprocessFileLineNumbers _vSpawnT,_guiMainTextNonToggleColour];
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["                 Crates                 ",[]];	
 	noxadmin = noxadmin + ["---Private",[]];	
-	noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _prvIcrate,[_guiMainTextNonToggleColour]];
+	noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _prvIcrate,_guiMainTextNonToggleColour];
 		if (_isEpoch) then
 		{	
-			noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _prvBcrate,[_guiMainTextNonToggleColour]];
+			noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _prvBcrate,_guiMainTextNonToggleColour];
 		};
-	noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _prvBPcrate,[_guiMainTextNonToggleColour]];	
+	noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _prvBPcrate,_guiMainTextNonToggleColour];	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["---Public",[]];	
-	noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _pubIcrate,[_guiMainTextNonToggleColour]];
+	noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _pubIcrate,_guiMainTextNonToggleColour];
 		if (_isEpoch) then
 		{	
-			noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _pubBcrate,[_guiMainTextNonToggleColour]];
+			noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _pubBcrate,_guiMainTextNonToggleColour];
 		};
-	noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _pubBPcrate,[_guiMainTextNonToggleColour]];	
+	noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _pubBPcrate,_guiMainTextNonToggleColour];	
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice
 
 	noxadmin = noxadmin + ["","",[]];//Spacer to Keep it looking nice		
 	noxadmin = noxadmin + ["                 HouseKeeping                 ",[]];
-	noxadmin = noxadmin + ["Delete Weapon Crates",call compile preprocessFileLineNumbers ,[_guiMainTextNonToggleColour]];
-	noxadmin = noxadmin + ["Delete Destroyed Vehicles",call compile preprocessFileLineNumbers ,[_guiMainTextNonToggleColour]];
+	noxadmin = noxadmin + ["Delete Weapon Crates",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
+	noxadmin = noxadmin + ["Delete Destroyed Vehicles",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
 	};
 };
 
@@ -454,9 +452,9 @@ boxPopulate ={
 			//Header Box
 			_ctrl = 3 call getControl;
 			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, 0.04];
-			_ctrl ctrlSetBackgroundColor [0,0.1,0,1];
+			_ctrl ctrlSetBackgroundColor _guiTitleBGColour;
 			_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
-			_ctrl ctrlSetTextColor [1,1,1,1];
+			_ctrl ctrlSetTextColor _guiTitleTextColour;
 			_ctrl ctrlSetScale 1.6;
 			_ctrl ctrlSetForegroundColor [0,0.1,0,1];
 			_ctrl ctrlSetText format["Noxsicarius Admin Menu ' Restart in: %1",_time];
@@ -486,7 +484,7 @@ boxPopulate ={
 			//Frame	
 			_ctrl = -1 call getControl;
 			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, safezoneH];
-			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
+			_ctrl ctrlSetForegroundColor _guiFrameColour;
 			_ctrl ctrlCommit commitT;	
 	};
 };

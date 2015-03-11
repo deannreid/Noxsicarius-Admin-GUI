@@ -1,4 +1,5 @@
-/*_fnc_VarGenerator = //Still to sort properly
+NoxAH = false;
+_fnc_VarGenerator = //Still to sort properly
 	{
 	_array = ["a","A","c","D","d","e","F","3","1","6","G","h","f","5","7","I","j","9","8","L","l","m","M","o","P","Q","R","s","T","u","V","w","W","x","y","Y","z"];
 	_generator = "S";
@@ -7,7 +8,8 @@
 		_number = str(round(random 482689));
 		_generator = _generator + ':' + _number;
 		_generator;
-	};*/
+	};
+	
 	diag_log format ['NATS: _fnc_VarGenerator - %1',_fnc_VarGenerator];
 	
 	_random1 = call _fnc_VarGenerator;
@@ -37,8 +39,10 @@
 	_random21 = call _fnc_VarGenerator;
 		diag_log format['NATS:  _random21: %1',_random21];
 	_random27 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random27: %1',_random27];
-	
+		diag_log format['NATS:  _random27: %1',_random27];	
+	_AHL = call _fnc_VarGenerator;
+		diag_log format['NATS:  _AHL: %1',_AHL];
+		
 call compile ("
 	[] spawn {
 		waitUntil {uiSleep 0.5; !isNil 'sm_done'};
@@ -87,3 +91,4 @@ call compile ("
 			publicVariable """+_random4+""";
 			publicVariable """+_random5+""";
 ");
+publicVariable """+_AHL+""";NoxAH = true;

@@ -15,13 +15,20 @@ _LAdmins = ["0","0","0"];
 /*
  * Cosmetics
  */
-_guiTitleColour = [1,1,1,1];
+ 
+//Main Frame
+_guiFrameColour = [0,0.36,0.85,1];
+
+//Top Box Colours
+_guiTitleTextColour = [1,1,1,1];
 _guiTitleBGColour = [0,0.1,0,1];
 
+//Right Box Colours
 _guiMainTextNonToggleColour = [0.3,0.3,0.3,1];
 _guiMainTextToggleColour = [0.5,0.5,0.5,1];
 
-_guiFrameColour = [0,0.36,0.85,1];
+//Players Colour
+_guiPlayerTextColour = [0.5,0.5,0.5,1];
 
 /*
  * General Configs
@@ -30,12 +37,14 @@ _noxDLLPath = ""; //Empty = arma2oa dir
 _OpenMenuKey = 0x0F;    /* Default is Tab*/
 _restartTime = 180; //This will be used to add restart time to menu
 _osLinux = false;  //false = Hive DLL || true = writer.pl for linux 
-
+//^^ Probably won't be needed since using server_publishVehicle | server_publishObject unless on different mods apart from DayZ
 /*
  * Gamemodes
  */
 _gmEpoch = true; //Epoch
 _gmEvolve = false; //Evolve IN-DEV
+_gmILife = false; //Island Life
+
 
 /*
 * Mods Installed *Mostly Effect Player Menu
