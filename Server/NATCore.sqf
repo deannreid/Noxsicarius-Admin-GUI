@@ -112,7 +112,7 @@ adminCode = {
 		disableSerialization;
 		_ctrl = 1 call getControl; //Left Box
 		lbclear _ctrl;
-		_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
+		_ctrl ctrlSetFont format ["%1",_guiMainFont];
 		_setup = [];
 		_userID = getPlayerUID _x;
 
@@ -431,7 +431,7 @@ boxPopulate ={
 	noxadmin = [];
 	_ctrl = 2 call getControl;
 	lbclear _ctrl;
-	_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
+	_ctrl ctrlSetFont format ["%1",_guiMainFont];
 	
 	if(getPlayerUID player in noxLowList) then {call lowAdminMenu;};
 	if(getPlayerUID player in noxNormalList) then {call normalAdminMenu;};
@@ -445,13 +445,13 @@ boxPopulate ={
 		if (isNil "restartCount") then {restartCount = 180;};
 		_time = (restartCount-(round(serverTime / 60)));
 		closeDialog 0;
-		if !(dialog) then {createDialog "RscConfigEditor_Main";};
+		if !(dialog) then {createDialog "RscConfigEditor_Main";hint "Admin Menu Loaded!"}else{hint "Problem Loading Dialog, You should never see this. EVER!!, If you do, Make sure no other dialog is open. e.g infiSTAR";};
 		disableSerialization;
 			//Header Box
 			_ctrl = 3 call getControl;
 			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, 0.04];
 			_ctrl ctrlSetBackgroundColor _guiTitleBGColour;
-			_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
+			_ctrl ctrlSetFont format ["%1",_guiMainFont];
 			_ctrl ctrlSetTextColor _guiTitleTextColour;
 			_ctrl ctrlSetScale 1.6;
 			_ctrl ctrlSetForegroundColor [0,0.1,0,1];
@@ -461,7 +461,7 @@ boxPopulate ={
 			//Admin Box		
 			_ctrl = 2 call getControl;
 			_ctrl ctrlSetPosition [safezoneXAbs + 0.465, safezoneY + 0.05, 1.445, (safeZoneH - 0.10)*0.758];
-			_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
+			_ctrl ctrlSetFont format ["%1",_guiMainFont];
 			_ctrl ctrlSetScale 1.35;
 			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
 			_ctrl ctrlCommit commitT;
@@ -471,7 +471,7 @@ boxPopulate ={
 			//Players	
 			_ctrl = 1 call getControl;
 			_ctrl ctrlSetPosition [safezoneXAbs + 0.005, safezoneY + 0.05, (0.485)*0.7, (safeZoneH - 0.10)*0.758];
-			_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
+			_ctrl ctrlSetFont format ["%1",_guiMainFont];
 			_ctrl ctrlSetScale 1.35;
 			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
 			_ctrl ctrlCommit commitT;

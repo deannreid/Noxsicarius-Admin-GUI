@@ -13,9 +13,9 @@ _NAdmins = ["0","0","0"];
 _LAdmins = ["0","0","0"];
 
 /*
- * Cosmetics
+ * Cosmetics -|- Will soon make it so you can change these in-game and make it save to file in Arma Dir.
  */
- 
+//To convert colours check out this link http://bit.ly/armacolour
 //Main Frame
 _guiFrameColour = [0,0.36,0.85,1];
 
@@ -28,13 +28,16 @@ _guiMainTextNonToggleColour = [0.3,0.3,0.3,1];
 _guiMainTextToggleColour = [0.5,0.5,0.5,1];
 
 //Players Colour
-_guiPlayerTextColour = [0.5,0.5,0.5,1];
+_guiPlayerTextColour = [0.5,0.5,0.5,1]; 
+
+//Admin Menu Font
+_guiMainFont = EtelkaNarrowMediumPro; // Find different fonts here http://bit.ly/armafont
 
 /*
  * General Configs
  */
 _noxDLLPath = ""; //Empty = arma2oa dir
-_OpenMenuKey = 0x0F;    /* Default is Tab*/
+_OpenMenuKey = 0x0F;    /* Default is Tab*/ //Find Key Codes here http://bit.ly/armakeycodes
 _restartTime = 180; //This will be used to add restart time to menu
 _osLinux = false;  //false = Hive DLL || true = writer.pl for linux 
 //^^ Probably won't be needed since using server_publishVehicle | server_publishObject unless on different mods apart from DayZ
@@ -65,9 +68,6 @@ _unauthorisedUse = false;
 //////Don't Edit Below This Line//////
 //Unless you know what you are doing//
 //////////////////////////////////////
-
-//Insert Scripts Location Here
-
 
 //Admin Tools
 _admPBan   = "\z\addons\dayz_server\admin\scripts\admintools"; //Player Ban
