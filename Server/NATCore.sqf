@@ -78,19 +78,16 @@ diag_log ("NATI: Waiting for NAT_AH_init");
 	//TODO: Redo code layout to make it more friendly to my brain.
 	//    : Setup Console Debug Messages to double check everythings doing what it is meant too.
 */
-adminCode = {
-
-	adminMainSetup = {
-
+adminCode = {	
+    adminMainSetup = {
 	//Insert Setup Here
-
 	};
 
 	subMenu = false;
-	getPlayerDetails = {
-		_player = "";
+	getPlayerDetails = {		
+        _player = "";
 		_playerList = lbtext [1, (lbCurSel 1)];
-	
+
 		if (_playerList != "") then {
 			{
 				_userID = getPlayerUID _pid;
@@ -109,7 +106,7 @@ adminCode = {
 		};
 		_name;
 	};
-	
+
 	//TODO: Setup Variable for Allowing Colour change in NATConfig - When everything works.
 	boxPlayerFill = {
 		disableSerialization;
@@ -266,12 +263,12 @@ boxAdminFill {
 
 		noxadmin = noxadmin + ["","",[]];	
 		noxadmin = noxadmin + ["                 HouseKeeping                 ",[]];
-		noxadmin = noxadmin + ["Delete Zombies",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
-		noxadmin = noxadmin + ["Delete Dead Bodys",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
-		noxadmin = noxadmin + ["Delete Loot",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
-		noxadmin = noxadmin + ["Delete Weapon Crates",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
-		noxadmin = noxadmin + ["Delete Destroyed Vehicles",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
-		noxadmin = noxadmin + ["Reset Vehicles (Deletes all vehicles with ID:0 won't Respawn until restart)",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
+		noxadmin = noxadmin + ["Delete Zombies",call compile preprocessFileLineNumbers _hkDelZeds ,_guiMainTextNonToggleColour];
+		noxadmin = noxadmin + ["Delete Dead Bodys",call compile preprocessFileLineNumbers _hkDelDB,_guiMainTextNonToggleColour];
+		noxadmin = noxadmin + ["Delete Loot",call compile preprocessFileLineNumbers _hkDelLoot,_guiMainTextNonToggleColour];
+		noxadmin = noxadmin + ["Delete Weapon Crates",call compile preprocessFileLineNumbers _hkDelWC,_guiMainTextNonToggleColour];
+		noxadmin = noxadmin + ["Delete Destroyed Vehicles",call compile preprocessFileLineNumbers _hkDelDV,_guiMainTextNonToggleColour];
+		noxadmin = noxadmin + ["Reset Vehicles (Deletes all vehicles with ID:0 won't Respawn until restart)",call compile preprocessFileLineNumbers _hkResetVehicles ,_guiMainTextNonToggleColour];
 	};
 
 	normalAdminMenu {
@@ -355,9 +352,9 @@ boxAdminFill {
 
 		noxadmin = noxadmin + ["","",[]];	
 		noxadmin = noxadmin + ["                 HouseKeeping                 ",[]];
-		noxadmin = noxadmin + ["Delete Loot",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
-		noxadmin = noxadmin + ["Delete Weapon Crates",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
-		noxadmin = noxadmin + ["Delete Destroyed Vehicles",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
+		noxadmin = noxadmin + ["Delete Loot",call compile preprocessFileLineNumbers _hkDelLoot ,_guiMainTextNonToggleColour];
+		noxadmin = noxadmin + ["Delete Weapon Crates",call compile preprocessFileLineNumbers _hkDelWC,_guiMainTextNonToggleColour];
+		noxadmin = noxadmin + ["Delete Destroyed Vehicles",call compile preprocessFileLineNumbers _hkDelDV ,_guiMainTextNonToggleColour];
 	};
 	
 	lowAdminMenu {
@@ -423,14 +420,14 @@ boxAdminFill {
 
 		noxadmin = noxadmin + ["","",[]];	
 		noxadmin = noxadmin + ["                 HouseKeeping                 ",[]];
-		noxadmin = noxadmin + ["Delete Weapon Crates",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
-		noxadmin = noxadmin + ["Delete Destroyed Vehicles",call compile preprocessFileLineNumbers ,_guiMainTextNonToggleColour];
+		noxadmin = noxadmin + ["Delete Weapon Crates",call compile preprocessFileLineNumbers _hkDelWC,_guiMainTextNonToggleColour];
+		noxadmin = noxadmin + ["Delete Destroyed Vehicles",call compile preprocessFileLineNumbers _hkDelDV,_guiMainTextNonToggleColour];
 	};
 };
 
 //Spawn respective menus 
 boxPopulate ={
-	inSub = false;
+    inSub = false;
 	noxadmin = [];
 	_ctrl = 2 call getControl;
 	lbclear _ctrl;

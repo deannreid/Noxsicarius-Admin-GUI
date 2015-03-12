@@ -132,3 +132,11 @@ _pubIcrate   = "\z\addons\dayz_server\admin"; //Public Items Crate
 _pubAIOcrate = "\z\addons\dayz_server\admin"; //Public AIO Crate
 _pubBcrate   = "\z\addons\dayz_server\admin"; //Public Buildable Crate
 _pubBPcrate  = "\z\addons\dayz_server\admin"; //Public Backpack Crate
+
+//HouseKeeping
+_hkDelZeds = "\z\addons\dayz_server\housekeeping"; //Delete Zombies
+_hkDelDB   = "\z\addons\dayz_server\housekeeping"; //Delete Dead Bodys
+_hkDelLoot  = "\z\addons\dayz_server\housekeeping"; //Delete Loot
+_hkDelWC = "\z\addons\dayz_server\housekeeping"; //Delete Weapon Crates
+_hkDelDV   = "\z\addons\dayz_server\housekeeping"; //Delete Destroyed Vehicles
+_hkResetVehicles  = "\z\addons\dayz_server\housekeeping"; //Reset Spawned Vehicles
