@@ -107,7 +107,6 @@ adminCode = {
 		_name;
 	};
 
-	//TODO: Setup Variable for Allowing Colour change in NATConfig - When everything works.
 	boxPlayerFill = {
 		disableSerialization;
 		_ctrl = 1 call getControl; //Left Box

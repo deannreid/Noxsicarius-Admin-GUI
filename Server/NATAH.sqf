@@ -91,4 +91,4 @@ call compile ("
 			publicVariable """+_random4+""";
 			publicVariable """+_random5+""";
 ");
-publicVariable """+_AHL+""";NoxAH = true;
+publicVariable ""+_AHL+"";NoxAH = true;
