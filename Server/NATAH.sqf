@@ -1,6 +1,5 @@
 NoxAH = false;
-_fnc_VarGenerator = //Still to sort properly
-	{
+_fnc_VarGenerator = {
 	_array = ["a","A","c","D","d","e","F","3","1","6","G","h","f","5","7","I","j","9","8","L","l","m","M","o","P","Q","R","s","T","u","V","w","W","x","y","Y","z"];
 	_generator = "S";
 
@@ -8,16 +7,16 @@ _fnc_VarGenerator = //Still to sort properly
 		_number = str(round(random 482689));
 		_generator = _generator + ':' + _number;
 		_generator;
-	};
+};
 	
-	diag_log format ['NATS: _fnc_VarGenerator - %1',_fnc_VarGenerator];
+	//diag_log format ['NATS: _fnc_VarGenerator - %1',_fnc_VarGenerator];
 	
 	_random1 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random1: %1',__random1];
+		diag_log format['NATS:  _random1: %1',_random1];
 	_random2 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random2: %1',__random2];
+		diag_log format['NATS:  _random2: %1',_random2];
 	_random3 = call _fnc_VarGenerator;
-		diag_log format['NATS:  _random3: %1',__random3];
+		diag_log format['NATS:  _random3: %1',_random3];
 	_random4 = call _fnc_VarGenerator;
 		diag_log format['NATS:  _random4: %1',_random4];
 	_random5 = call _fnc_VarGenerator;
