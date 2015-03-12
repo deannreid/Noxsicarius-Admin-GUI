@@ -1,12 +1,15 @@
 NoxAH = false;
 _fnc_VarGenerator = {
-	_array = ["a","A","c","D","d","e","F","3","1","6","G","h","f","5","7","I","j","9","8","L","l","m","M","o","P","Q","R","s","T","u","V","w","W","x","y","Y","z"];
-	_generator = "S";
-
-		for "_i" from 1 to 9 do {_generator = _generator + (_array select (random  ((count _array)-1)));};
-		_number = str(round(random 482689));
-		_generator = _generator + ':' + _number;
-		_generator;
+        _array = ["a","A","c","D","d","e","F","3","1","6","G","h","f","5","7","I","j","9","8","L","l","m","M","o","P","Q","R","s","T","u","V","w","W","x","y","Y","z"];
+        _generator = "S";
+        for "_i" from 1 to 9 do {_generator = _generator + (_array select (random  ((count _array)-1)));};
+        _number = str(round(random 482689));
+        _generator = _generator + ':' + _number;
+       
+        if(isNil'numofgenerated') then {numofgenerated=1;} else {numofgenerated = numofgenerated + 1;};
+        diag_log format['NATS:  _random%1: %2',numofgenerated,_generator];
+       
+        _generator
 };
 
 	_random1 = call _fnc_VarGenerator;
