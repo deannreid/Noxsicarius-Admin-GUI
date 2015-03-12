@@ -1,4 +1,4 @@
-private ["_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_adminGUI","_broadcastToolUse","_majorLog","_minorLog","_unauthorisedUse","_antiTeleport","_osLinux","_gmEpoch","_gmEvolve","_ZSC","_P4L","_puid","_fnc_VarGenerator","_noxAllAdmins","_varErr1","_varErr2","_varErr25","_varErr26","_varErr3","_varErr4","_varErr5","_varErr6","_varErr7","_varErr8","_varErr9","_varErr10","_varErr11","_varErr12","_varErr13"];
+private ["_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_adminGUI","_broadcastToolUse","_majorLog","_minorLog","_unauthorisedUse","_antiTeleport","_osLinux","_gmEpoch","_gmILife","_gmEvolve","_ZSC","_P4L","_puid","_varErr1","_varErr2","_varErr3","_varErr4","_varErr5","_varErr6","_varErr7","_varErr8","_varErr9","_varErr10","_varErr11","_varErr12","_varErr13","_guiFrameColour","_varErr14","_guiTitleTextColour","_varErr15","_guiTitleBGColour","_varErr16","_guiMainTextNonToggleColour","_varErr17","_guiMainTextToggleColour","_varErr18","_guiPlayerTextColour","_varErr19","_varErr20","_varErr21"];
 #include "NATConfig.sqf"
 
 diag_log ("NATI: Waiting for BIS_fnc_init");
@@ -11,14 +11,10 @@ if (isNil '_OpenMenuKey') then {_OpenMenuKey = 0x3C;_varErr1 =true;};
 if (_varErr1) then {diag_log "Your Config File is missing Variable  |OpenMenuKey|";};
 if (isNil '_LAdmins') then {_LAdmins = [];_varErr2 =true;};
 if (_varErr2) then {diag_log "Your Config File is missing Variable  |LAdmins|";};
-if (isNil '_NAdmins') then {_NAdmins = [];_varErr25 =true;};
-if (_varErr25) then {diag_log "Your Config File is missing Variable  |NAdmins|";};
-if (isNil '_SAdmins') then {_SAdmins = [];_varErr26 =true;};
-if (_varErr26) then {diag_log "Your Config File is missing Variable  |SAdmins|";};
-if (isNil '_adminGUI') then {_adminGUI = true;_varErr3 =true;};
-if (_varErr3) then {diag_log "Your Config File is missing Variable  |adminGUI|";};
-if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;_varErr4 =true;};
-if (_varErr4) then {diag_log "Your Config File is missing Variable  |broadcastToolUse|";};
+if (isNil '_NAdmins') then {_NAdmins = [];_varErr3 =true;};
+if (_varErr3) then {diag_log "Your Config File is missing Variable  |NAdmins|";};
+if (isNil '_SAdmins') then {_SAdmins = [];_varErr4 =true;};
+if (_varErr4) then {diag_log "Your Config File is missing Variable  |SAdmins|";};
 if (isNil '_majorLog') then {_majorLog = true;_varErr5 =true;};
 if (_varErr5) then {diag_log "Your Config File is missing Variable  |majorLog|";};
 if (isNil '_minorLog') then {_minorLog = true;_varErr6 =true;};
@@ -29,24 +25,32 @@ if (isNil '_antiTeleport') then {_antiTeleport = true;_varErr8 =true;};
 if (_varErr8) then {diag_log "Your Config File is missing Variable  |antiTeleport|";};
 if (isNil '_osLinux') then {_osLinux = false;_varErr9 =true;};
 if (_varErr9) then {diag_log "Your Config File is missing Variable  |osLinux|";};
-
-//Epoch
 if (isNil '_gmEpoch') then {_gmEpoch = false;_varErr10 =true;};
 if (_varErr10) then {diag_log "Your Config File is missing Variable  |gmEpoch|";};
-//Evolved
 if (isNil '_gmEvolve') then {_gmEvolve = false;_varErr11 =true;};
 if (_varErr11) then {diag_log "Your Config File is missing Variable  |gmEvolve|";};
-//Island Life
 if (isNil '_gmILife') then {_gmILife = false;_varErr11 =true;};
 if (_varErr11) then {diag_log "Your Config File is missing Variable  |gmILife|";};
-
-//Most of these only effect the players menu to give extra options.
-//Zupa Single Currency
 if (isNil '_ZSC') then {_ZSC = false;_varErr12 =true;};
 if (_varErr12) then {diag_log "Your Config File is missing Variable  |ZSC|";};
-//Plot 4 Life
 if (isNil '_P4L') then {_P4L = false;_varErr13 =true;};
 if (_varErr13) then {diag_log "Your Config File is missing Variable  |ZSC|";};
+if (isNil '_guiFrameColour') then {_guiFrameColour = [0,0.36,0.85,1];_varErr14 =true;};
+if (_varErr14) then {diag_log "Your Config File is missing Variable  |guiFrameColour|";};
+if (isNil '_guiTitleTextColour') then {_guiTitleTextColour = [1,1,1,1];_varErr15 =true;};
+if (_varErr15) then {diag_log "Your Config File is missing Variable  |guiTitleTextColour|";};
+if (isNil '_guiTitleBGColour') then {_guiTitleBGColour = [0,0.1,0,1];_varErr16 =true;};
+if (_varErr16) then {diag_log "Your Config File is missing Variable  |ZSC|";};
+if (isNil '_guiMainTextNonToggleColour') then {_guiMainTextNonToggleColour = [0.3,0.3,0.3,1];_varErr17 =true;};
+if (_varErr17) then {diag_log "Your Config File is missing Variable  |guiMainTextNonToggleColour|";};
+if (isNil '_guiMainTextToggleColour') then {_guiMainTextToggleColour = [0.5,0.5,0.5,1];_varErr18 =true;};
+if (_varErr18) then {diag_log "Your Config File is missing Variable  |guiMainTextToggleColour|";};
+if (isNil '_guiPlayerTextColour') then {_guiPlayerTextColour = [0.5,0.5,0.5,1];_varErr19 =true;};
+if (_varErr19) then {diag_log "Your Config File is missing Variable  |guiPlayerTextColour|";};
+if (isNil '_adminGUI') then {_adminGUI = true;_varErr20 =true;};
+if (_varErr20) then {diag_log "Your Config File is missing Variable  |adminGUI|";};
+if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;_varErr21 =true;};
+if (_varErr21) then {diag_log "Your Config File is missing Variable  |broadcastToolUse|";};
 
 //Check Admins
 	_puid = getPlayerUID player; 
