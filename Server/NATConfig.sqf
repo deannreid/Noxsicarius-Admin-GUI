@@ -30,9 +30,6 @@ _guiMainTextToggleColour = [0.5,0.5,0.5,1];
 //Players Colour
 _guiPlayerTextColour = [0.5,0.5,0.5,1]; 
 
-//Admin Menu Font
-_guiMainFont = EtelkaNarrowMediumPro; // Find different fonts here http://bit.ly/armafont
-
 /*
  * General Configs
  */
