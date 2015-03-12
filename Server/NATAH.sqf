@@ -8,9 +8,7 @@ _fnc_VarGenerator = {
 		_generator = _generator + ':' + _number;
 		_generator;
 };
-	
-	//diag_log format ['NATS: _fnc_VarGenerator - %1',_fnc_VarGenerator];
-	
+
 	_random1 = call _fnc_VarGenerator;
 		diag_log format['NATS:  _random1: %1',_random1];
 	_random2 = call _fnc_VarGenerator;
