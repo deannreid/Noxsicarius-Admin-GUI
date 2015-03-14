@@ -4,9 +4,6 @@ private ["_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_adminGUI","_broadcast
 diag_log ("NATI: Waiting for BIS_fnc_init");
 	waitUntil {sleep 0.5;!isNil "BIS_fnc_init";};
 
-/*
- * Variable Check 
- */ 
 if (isNil '_OpenMenuKey') then {_OpenMenuKey = 0x3C;_varErr1 =true;};
 if (_varErr1) then {diag_log "Your Config File is missing Variable  |OpenMenuKey|";};
 if (isNil '_LAdmins') then {_LAdmins = [];_varErr2 =true;};
@@ -60,26 +57,21 @@ if (_varErr21) then {diag_log "Your Config File is missing Variable  |broadcastT
 	noxAllAdmins = _LAdmins + _NAdmins + _SAdmins;
 
 	#include "NATAH.sqf"
-	uiSleep 10;
+	sleep 1;
 		if (NoxAH) then {
-						diag_log "NOXAT - AntiCheat Loaded";
+						diag_log ("NATI: Waiting for NAT_AH_init");
+						waitUntil {sleep 0.5;!isNil "NAT_AH_init";};
+						diag_log "NOXAT - Init AdminStart";
 		} else {
 				diag_log "NOXAT - AntiCheat Failed to load correctly and could make your server vulnerable.";
-		};
-
-
-diag_log ("NATI: Waiting for NAT_AH_init");
-	waitUntil {sleep 0.5;!isNil "NAT_AH_init";};
-		diag_log "NOXAT - Init AdminStart";
-
-
-
+				diag_log "NOXAT - Init AdminStart";
+		};	
 /*
 	//TODO: Redo code layout to make it more friendly to my brain.
 	//    : Setup Console Debug Messages to double check everythings doing what it is meant too.
 */
-adminCode = {	
-    adminMainSetup = {
+adminCode = {
+	adminMainSetup = {
 	//Insert Setup Here
 	};
 
@@ -93,7 +85,7 @@ adminCode = {
 				_userID = getPlayerUID _pid;
 				if (_userID != "") then
 				{
-					if (_playerList == format["%1 (PUID: %2)",_name _x,_x _userID]) then
+					if (_playerList == format["%1",name _x]) then
 					{
 					_name = name _x;
 					_adminName = _name;
@@ -123,8 +115,8 @@ adminCode = {
 				{
 					if(_userID in noxSuperList) then {
 						_setup = _setup - [_x];
-						_ctrl lbAdd format["%1 (PUID: %2)",_name _x,_x _userID];
-						_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+						_ctrl lbAdd format["%1",name _x];
+						_ctrl lbSetData [(lbsize _ctrl)-1, "1"]; 
 						_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
 					};
 				} count _setup;
@@ -138,8 +130,8 @@ adminCode = {
 				{
 					if(_userID in noxNormalList) then {
 						_setup = _setup - [_x];
-						_ctrl lbAdd format["%1 (PUID: %2)",_name _x,_x _userID];
-						_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+						_ctrl lbAdd format["%1",name _x];
+						_ctrl lbSetData [(lbsize _ctrl)-1, "1"]; 
 						_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
 					};
 				} count _setup;
@@ -153,24 +145,11 @@ adminCode = {
 				{
 					if(_userID in noxLowList) then {
 						_setup = _setup - [_x];
-						_ctrl lbAdd format["%1 (PUID: %2)",_name _x,_x _userID];
-						_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+						_ctrl lbAdd format["%1",name _x];
+						_ctrl lbSetData [(lbsize _ctrl)-1, "1"]; 
 						_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
 					};
 				} count _setup;
-		};
-		
-		_NormalPlayer = {(!(getPlayerUID _x in noxLowList && noxNormalList && noxSuperList))} count _setup;
-		if(_NormalPlayer => 0) then {
-			_ctrl lbAdd "=== Member ===";
-			_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
-			_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
-			{
-					_setup = _setup - [_x];
-					_ctrl lbAdd format["%1 (PID: %2)",_name _x,_x _userID];
-					_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
-					_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];		
-			} count _setup;
 		};
 	};
 
