@@ -106,19 +106,19 @@ if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;_varErr = true;};
 	//TODO: Redo code layout to make it more friendly to my brain.
 	//    : Setup Console Debug Messages to double check everythings doing what it is meant too.
 */
+	call adminCode;	
 adminCode = {
 	if(_puid in "+str noxAllAdmins+") then
 		{	
 			admindefaultKeybinds =
 			{
-				private ['_key','_shift','_ctrl'];
+				private ['_key'];
 				_key = _this select 1;
-				_shift = _this select 2;
-				_ctrl = _this select 3;
 				if(_key == "+str _OpenMenuKey+") then {call adminInit;};
 			};		
 		};
-	adminMainSetup = {
+
+		adminMainSetup = {
 
 	};
 
