@@ -5,13 +5,7 @@
  * Edit Configs below to your own use
  */ 
  
- 
- /*
-  * Enable/Diable Antihack - Keep Disabled for the moment.
-  */
- _NoxAHEnable = false;
- 
- /*
+  /*
   * Admin Configs
   */
 _SAdmins = ["76561198001768308","0","0"];
