@@ -1,53 +1,30 @@
-private ["_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_adminGUI","_broadcastToolUse","_majorLog","_minorLog","_unauthorisedUse","_antiTeleport","_osLinux","_gmEpoch","_gmILife","_gmEvolve","_ZSC","_P4L","_puid","_varErr1","_varErr2","_varErr3","_varErr4","_varErr5","_varErr6","_varErr7","_varErr8","_varErr9","_varErr10","_varErr11","_varErr12","_varErr13","_guiFrameColour","_varErr14","_guiTitleTextColour","_varErr15","_guiTitleBGColour","_varErr16","_guiMainTextNonToggleColour","_varErr17","_guiMainTextToggleColour","_varErr18","_guiPlayerTextColour","_varErr19","_varErr20","_varErr21"];
+private ["_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_broadcastToolUse","_majorLog","_minorLog","_unauthorisedUse","_antiTeleport","_gmEpoch","_gmILife","_gmEvolve","_ZSC","_P4L","_puid","_guiFrameColour","_guiTitleTextColour","_guiTitleBGColour","_guiMainTextNonToggleColour","_guiMainTextToggleColour","_guiPlayerTextColour","_NoxAHEnable","_varErr","_fnc_VarGenerator","_random1","_random2","_random3","_random4","_random5","_random6","_random8","_random11","_random12","_random13","_random19","_random20","_random21","_random27"];
 #include "NATConfig.sqf"
 
 diag_log ("NATI: Waiting for BIS_fnc_init");
 	waitUntil {sleep 0.5;!isNil "BIS_fnc_init";};
-
-if (isNil '_OpenMenuKey') then {_OpenMenuKey = 0x3C;_varErr1 =true;};
-if (_varErr1) then {diag_log "Your Config File is missing Variable  |OpenMenuKey|";};
-if (isNil '_LAdmins') then {_LAdmins = [];_varErr2 =true;};
-if (_varErr2) then {diag_log "Your Config File is missing Variable  |LAdmins|";};
-if (isNil '_NAdmins') then {_NAdmins = [];_varErr3 =true;};
-if (_varErr3) then {diag_log "Your Config File is missing Variable  |NAdmins|";};
-if (isNil '_SAdmins') then {_SAdmins = [];_varErr4 =true;};
-if (_varErr4) then {diag_log "Your Config File is missing Variable  |SAdmins|";};
-if (isNil '_majorLog') then {_majorLog = true;_varErr5 =true;};
-if (_varErr5) then {diag_log "Your Config File is missing Variable  |majorLog|";};
-if (isNil '_minorLog') then {_minorLog = true;_varErr6 =true;};
-if (_varErr6) then {diag_log "Your Config File is missing Variable  |minorLog|";};
-if (isNil '_unauthorisedUse') then {_unauthorisedUse = true;_varErr7 =true;};
-if (_varErr7) then {diag_log "Your Config File is missing Variable  |unauthorisedUse|";};
-if (isNil '_antiTeleport') then {_antiTeleport = true;_varErr8 =true;};
-if (_varErr8) then {diag_log "Your Config File is missing Variable  |antiTeleport|";};
-if (isNil '_osLinux') then {_osLinux = false;_varErr9 =true;};
-if (_varErr9) then {diag_log "Your Config File is missing Variable  |osLinux|";};
-if (isNil '_gmEpoch') then {_gmEpoch = false;_varErr10 =true;};
-if (_varErr10) then {diag_log "Your Config File is missing Variable  |gmEpoch|";};
-if (isNil '_gmEvolve') then {_gmEvolve = false;_varErr11 =true;};
-if (_varErr11) then {diag_log "Your Config File is missing Variable  |gmEvolve|";};
-if (isNil '_gmILife') then {_gmILife = false;_varErr11 =true;};
-if (_varErr11) then {diag_log "Your Config File is missing Variable  |gmILife|";};
-if (isNil '_ZSC') then {_ZSC = false;_varErr12 =true;};
-if (_varErr12) then {diag_log "Your Config File is missing Variable  |ZSC|";};
-if (isNil '_P4L') then {_P4L = false;_varErr13 =true;};
-if (_varErr13) then {diag_log "Your Config File is missing Variable  |ZSC|";};
-if (isNil '_guiFrameColour') then {_guiFrameColour = [0,0.36,0.85,1];_varErr14 =true;};
-if (_varErr14) then {diag_log "Your Config File is missing Variable  |guiFrameColour|";};
-if (isNil '_guiTitleTextColour') then {_guiTitleTextColour = [1,1,1,1];_varErr15 =true;};
-if (_varErr15) then {diag_log "Your Config File is missing Variable  |guiTitleTextColour|";};
-if (isNil '_guiTitleBGColour') then {_guiTitleBGColour = [0,0.1,0,1];_varErr16 =true;};
-if (_varErr16) then {diag_log "Your Config File is missing Variable  |ZSC|";};
-if (isNil '_guiMainTextNonToggleColour') then {_guiMainTextNonToggleColour = [0.3,0.3,0.3,1];_varErr17 =true;};
-if (_varErr17) then {diag_log "Your Config File is missing Variable  |guiMainTextNonToggleColour|";};
-if (isNil '_guiMainTextToggleColour') then {_guiMainTextToggleColour = [0.5,0.5,0.5,1];_varErr18 =true;};
-if (_varErr18) then {diag_log "Your Config File is missing Variable  |guiMainTextToggleColour|";};
-if (isNil '_guiPlayerTextColour') then {_guiPlayerTextColour = [0.5,0.5,0.5,1];_varErr19 =true;};
-if (_varErr19) then {diag_log "Your Config File is missing Variable  |guiPlayerTextColour|";};
-if (isNil '_adminGUI') then {_adminGUI = true;_varErr20 =true;};
-if (_varErr20) then {diag_log "Your Config File is missing Variable  |adminGUI|";};
-if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;_varErr21 =true;};
-if (_varErr21) then {diag_log "Your Config File is missing Variable  |broadcastToolUse|";};
+_varErr = [];
+if (isNil '_NoxAHEnable') then {_NoxAHEnable = true;_varErr = true;};
+if (isNil '_OpenMenuKey') then {_OpenMenuKey = 0x3C;_varErr = true;};
+if (isNil '_LAdmins') then {_LAdmins = [];_varErr = true;};
+if (isNil '_NAdmins') then {_NAdmins = [];_varErr = true;};
+if (isNil '_SAdmins') then {_SAdmins = [];_varErr = true;};
+if (isNil '_majorLog') then {_majorLog = true;_varErr = true;};
+if (isNil '_minorLog') then {_minorLog = true;_varErr = true;};
+if (isNil '_unauthorisedUse') then {_unauthorisedUse = true;_varErr = true;};
+if (isNil '_antiTeleport') then {_antiTeleport = true;_varErr = true;};
+if (isNil '_gmEpoch') then {_gmEpoch = false;_varErr = true;};
+if (isNil '_gmEvolve') then {_gmEvolve = false;_varErr = true;};
+if (isNil '_gmILife') then {_gmILife = false;_varErr = true;};
+if (isNil '_ZSC') then {_ZSC = false;_varErr = true;};
+if (isNil '_P4L') then {_P4L = false;_varErr = true;};
+if (isNil '_guiFrameColour') then {_guiFrameColour = [0,0.36,0.85,1];_varErr = true;};
+if (isNil '_guiTitleTextColour') then {_guiTitleTextColour = [1,1,1,1];_varErr = true;};
+if (isNil '_guiTitleBGColour') then {_guiTitleBGColour = [0,0.1,0,1];_varErr = true;};
+if (isNil '_guiMainTextNonToggleColour') then {_guiMainTextNonToggleColour = [0.3,0.3,0.3,1];_varErr = true;};
+if (isNil '_guiMainTextToggleColour') then {_guiMainTextToggleColour = [0.5,0.5,0.5,1];_varErr = true;};
+if (isNil '_guiPlayerTextColour') then {_guiPlayerTextColour = [0.5,0.5,0.5,1];_varErr = true;};
+if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;_varErr = true;};
 
 //Check Admins
 	_puid = getPlayerUID player; 
@@ -56,23 +33,93 @@ if (_varErr21) then {diag_log "Your Config File is missing Variable  |broadcastT
 	noxSuperList = _SAdmins;
 	noxAllAdmins = _LAdmins + _NAdmins + _SAdmins;
 
-	#include "NATAH.sqf"
-	sleep 1;
-		if (NoxAH) then {
-						diag_log ("NATI: Waiting for NAT_AH_init");
-						waitUntil {sleep 0.5;!isNil "NAT_AH_init";};
-						diag_log "NOXAT - Init AdminStart";
-		} else {
-				diag_log "NOXAT - AntiCheat Failed to load correctly and could make your server vulnerable.";
-				diag_log "NOXAT - Init AdminStart";
-		};	
+	NoxAH = false;
+	_fnc_VarGenerator = {
+        _array = ["a","A","c","D","d","e","F","3","1","6","G","h","f","5","7","I","j","9","8","L","l","m","M","o","P","Q","R","s","T","u","V","w","W","x","y","Y","z"];
+        _generator = "S";
+        for "_i" from 1 to 9 do {_generator = _generator + (_array select (random  ((count _array)-1)));};
+        _number = str(round(random 482689));
+        _generator = _generator + ':' + _number;
+       
+        if(isNil'numofgenerated') then {numofgenerated=1;} else {numofgenerated = numofgenerated + 1;};
+        diag_log format['NATS:  _random%1: %2',numofgenerated,_generator];
+       
+        _generator
+	};
+
+	_random1 = call _fnc_VarGenerator;
+	_random2 = call _fnc_VarGenerator;
+	_random3 = call _fnc_VarGenerator;
+	_random4 = call _fnc_VarGenerator;
+	_random5 = call _fnc_VarGenerator;
+	_random6 = call _fnc_VarGenerator;
+	_random8 = call _fnc_VarGenerator;
+	_random11 = call _fnc_VarGenerator;
+	_random12 = call _fnc_VarGenerator;
+	_random13 = call _fnc_VarGenerator;	
+	_random19 = call _fnc_VarGenerator;
+	_random20 = call _fnc_VarGenerator;
+	_random21 = call _fnc_VarGenerator;
+	_random27 = call _fnc_VarGenerator;
+	_AHL = call _fnc_VarGenerator;
+		
+	call compile ("
+		[] spawn {
+			waitUntil {uiSleep 0.5; !isNil 'sm_done'};
+			uiSleep 30;
+
+			if(_antiTeleport) then {
+				'"+_random1+"' addPublicVariableEventHandler {player setVariable['"+_random1+"'];};
+			};
+
+			if(_unauthorisedUse) then {
+				'"+_random2+"' addPublicVariableEventHandler {player setVariable['"+_random2+"'];};
+			
+			
+			};
+			
+			if (_majorLog) then {
+				'"+_random3+"' addPublicVariableEventHandler {player setVariable['"+_random3+"'];};
+			
+			};
+			
+			if (_minorLog) then {
+				'"+_random4+"' addPublicVariableEventHandler {player setVariable['"+_random4+"'];};
+			};
+
+			if (_broadcastToolUse) then {
+				'"+_random4+"' addPublicVariableEventHandler {player setVariable['"+_random4+"'];};
+			};
+		};
+				publicVariable """+_random1+""";
+				publicVariable """+_random2+""";
+				publicVariable """+_random3+""";
+				publicVariable """+_random4+""";
+				publicVariable """+_AHL+""";
+	");
+	NoxAH = true;			
+	
+	diag_log "NATI: Anti-Hack still to be fully implemented";
+	diag_log "NOXAT - Loading Admin Menu ";	
+
 /*
 	//TODO: Redo code layout to make it more friendly to my brain.
 	//    : Setup Console Debug Messages to double check everythings doing what it is meant too.
 */
 adminCode = {
+	if(_puid in "+str noxAllAdmins+") then
+		{	
+			admindefaultKeybinds =
+			{
+				private ['_key','_shift','_ctrl'];
+				_key = _this select 1;
+				_shift = _this select 2;
+				_ctrl = _this select 3;
+				if(_key == "+str _OpenMenuKey+") then {call adminInit;};
+			};		
+		};
 	adminMainSetup = {
-	//Insert Setup Here
+
 	};
 
 	subMenu = false;
@@ -98,61 +145,6 @@ adminCode = {
 		};
 		_name;
 	};
-
-	boxPlayerFill = {
-		disableSerialization;
-		_ctrl = 1 call getControl; //Left Box
-		lbclear _ctrl;
-		_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
-		_setup = [];
-		_userID = getPlayerUID _x;
-
-		if(getPlayerUID player in noxSuperList) then {
-			_superadmin = {getPlayerUID _x in noxSuperList} count _setup;
-				_ctrl lbAdd "=== Super Admins ===";
-				_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
-				_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
-				{
-					if(_userID in noxSuperList) then {
-						_setup = _setup - [_x];
-						_ctrl lbAdd format["%1",name _x];
-						_ctrl lbSetData [(lbsize _ctrl)-1, "1"]; 
-						_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
-					};
-				} count _setup;
-		};
-		
-		if(getPlayerUID player in noxNormalList) then {
-			_normalAdmin = {getPlayerUID _x in noxNormalList} count _setup;
-				_ctrl lbAdd "=== Standard Admins ===";
-				_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
-				_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
-				{
-					if(_userID in noxNormalList) then {
-						_setup = _setup - [_x];
-						_ctrl lbAdd format["%1",name _x];
-						_ctrl lbSetData [(lbsize _ctrl)-1, "1"]; 
-						_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
-					};
-				} count _setup;
-		};	
-		
-		if(getPlayerUID player in noxLowList) then {		
-			_lowAdmin = {getPlayerUID _x in noxLowList} count _setup;
-				_ctrl lbAdd "=== Low Admins ===";
-				_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
-				_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
-				{
-					if(_userID in noxLowList) then {
-						_setup = _setup - [_x];
-						_ctrl lbAdd format["%1",name _x];
-						_ctrl lbSetData [(lbsize _ctrl)-1, "1"]; 
-						_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
-					};
-				} count _setup;
-		};
-	};
-
 boxAdminFill {
 	noxadmin = [];
 	superAdminMenu {
@@ -402,6 +394,59 @@ boxAdminFill {
 		noxadmin = noxadmin + ["Delete Destroyed Vehicles",call compile preprocessFileLineNumbers _hkDelDV,_guiMainTextNonToggleColour];
 	};
 };
+	boxPlayerFill = {
+		disableSerialization;
+		_ctrl = 1 call getControl;
+		lbclear _ctrl;
+		_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
+		_setup = [];
+		_userID = getPlayerUID _x;
+
+		if(getPlayerUID player in noxSuperList) then {
+			_superadmin = {getPlayerUID _x in noxSuperList} count _setup;
+				_ctrl lbAdd "=== Super Admins ===";
+				_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+				_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
+				{
+					if(_userID in noxSuperList) then {
+						_setup = _setup - [_x];
+						_ctrl lbAdd format["%1",name _x];
+						_ctrl lbSetData [(lbsize _ctrl)-1, "1"]; 
+						_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
+					};
+				} forEach _setup
+		};
+		
+		if(getPlayerUID player in noxNormalList) then {
+			_normalAdmin = {getPlayerUID _x in noxNormalList} count _setup;
+				_ctrl lbAdd "=== Standard Admins ===";
+				_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+				_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
+				{
+					if(_userID in noxNormalList) then {
+						_setup = _setup - [_x];
+						_ctrl lbAdd format["%1",name _x];
+						_ctrl lbSetData [(lbsize _ctrl)-1, "1"]; 
+						_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
+					};
+				} forEach _setup
+		};	
+		
+		if(getPlayerUID player in noxLowList) then {		
+			_lowAdmin = {getPlayerUID _x in noxLowList} count _setup;
+				_ctrl lbAdd "=== Low Admins ===";
+				_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+				_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
+				{
+					if(_userID in noxLowList) then {
+						_setup = _setup - [_x];
+						_ctrl lbAdd format["%1",name _x];
+						_ctrl lbSetData [(lbsize _ctrl)-1, "1"]; 
+						_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
+					};
+				} forEach _setup
+		};
+	};
 
 //Spawn respective menus 
 boxPopulate ={
@@ -414,12 +459,13 @@ boxPopulate ={
 	if(getPlayerUID player in noxLowList) then {call lowAdminMenu;};
 	if(getPlayerUID player in noxNormalList) then {call normalAdminMenu;};
 	if(getPlayerUID player in noxSuperList) then {call superAdminMenu;};
-	if (_playerMenu) then{if(!(getPlayerUID _x in noxLowList && noxNormalList && noxSuperList)) then {call playerMenu};};
 	call adminMainSetup;	
 };
 
 //Init Admin Code > Create GUI
 	adminInit = {
+	diag_log "Admin Inited";
+	diag_log "Creating GUI";
 		if (isNil "restartCount") then {restartCount = 180;};
 		_time = (restartCount-(round(serverTime / 60)));
 		closeDialog 0;
@@ -442,7 +488,6 @@ boxPopulate ={
 			_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
 			_ctrl ctrlSetScale 1.35;
 			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
-			_ctrl ctrlCommit commitT;
 			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDblClick;"]; //Enable menu select/toggle
 				call boxAdminFill;
 		
@@ -452,7 +497,6 @@ boxPopulate ={
 			_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
 			_ctrl ctrlSetScale 1.35;
 			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
-			_ctrl ctrlCommit commitT;
 				call boxPopulate;
 				call boxPlayerFill;
 			
@@ -460,6 +504,6 @@ boxPopulate ={
 			_ctrl = -1 call getControl;
 			_ctrl ctrlSetPosition [safezoneX, safezoneY, safeZoneW, safezoneH];
 			_ctrl ctrlSetForegroundColor _guiFrameColour;
-			_ctrl ctrlCommit commitT;	
 	};
 };
+diag_log "Admin Menu Loaded";

@@ -5,9 +5,15 @@
  * Edit Configs below to your own use
  */ 
  
+ 
  /*
- * Admin Configs
- */
+  * Enable/Diable Antihack - Keep Disabled for the moment.
+  */
+ _NoxAHEnable = false;
+ 
+ /*
+  * Admin Configs
+  */
 _SAdmins = ["76561198001768308","0","0"];
 _NAdmins = ["0","0","0"];
 _LAdmins = ["0","0","0"];
@@ -36,15 +42,13 @@ _guiPlayerTextColour = [0.5,0.5,0.5,1];
 _noxDLLPath = ""; //Empty = arma2oa dir
 _OpenMenuKey = 0x0F;    /* Default is Tab*/ //Find Key Codes here http://bit.ly/armakeycodes
 _restartTime = 180; //This will be used to add restart time to menu
-_osLinux = false;  //false = Hive DLL || true = writer.pl for linux 
-//^^ Probably won't be needed since using server_publishVehicle | server_publishObject unless on different mods apart from DayZ
+
 /*
  * Gamemodes
  */
 _gmEpoch = true; //Epoch
 _gmEvolve = false; //Evolve IN-DEV
 _gmILife = false; //Island Life
-
 
 /*
 * Mods Installed *Mostly Effect Player Menu
@@ -59,7 +63,7 @@ _broadcastToolUse = false;
 _majorLog = false;
 _minorLog = false;
 _unauthorisedUse = false;
-
+_antiTeleport = false;
 
 //////////////////////////////////////
 //////Don't Edit Below This Line//////
