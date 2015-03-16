@@ -1,7 +1,7 @@
 private ["_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_broadcastToolUse","_majorLog","_minorLog","_unauthorisedUse","_antiTeleport","_gmEpoch","_gmILife","_gmEvolve","_ZSC","_P4L","_puid","_guiFrameColour","_guiTitleTextColour","_guiTitleBGColour","_guiMainTextNonToggleColour","_guiMainTextToggleColour","_guiPlayerTextColour","_NoxAHEnable","_varErr","_fnc_VarGenerator","_random1","_random2","_random3","_random4","_random5","_random6","_random8","_random11","_random12","_random13","_random19","_random20","_random21","_random27"];
 #include "NATConfig.sqf"
 
-diag_log ("NATI: Waiting for BIS_fnc_init");
+diag_log ("NoxAdminTools: Waiting for BIS_fnc_init");
 	waitUntil {sleep 0.5;!isNil "BIS_fnc_init";};
 _varErr = [];
 	if (isNil '_NoxAHEnable') then {_NoxAHEnable = true;_varErr = true;};
@@ -25,18 +25,18 @@ _varErr = [];
 	if (isNil '_guiMainTextToggleColour') then {_guiMainTextToggleColour = [0.5,0.5,0.5,1];_varErr = true;};
 	if (isNil '_guiPlayerTextColour') then {_guiPlayerTextColour = [0.5,0.5,0.5,1];_varErr = true;};
 	if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;_varErr = true;};
-	if (_varErr) then {diag_log "Missing Variable Error";};
+	if (_varErr) then {diag_log "NoxAdminTools: Missing Variable Error";};
 
-	diag_log "Getting Admin IDs";
+	diag_log "NoxAdminTools: Getting Admin IDs";
 		_puid = getPlayerUID player;
-	diag_log format ["Player: %1 ",_puid];
+	diag_log format ["NoxAdminTools: Player: %1 ",_puid];
 		noxLowList = _LAdmins;	
 		noxNormalList = _NAdmins; 
 		noxSuperList = _SAdmins;
 		noxAllAdmins = _LAdmins + _NAdmins + _SAdmins;
-	diag_log format ["Low Admins: %1",_LAdmins];
-	diag_log format ["Normal Admins: %1",_NAdmins];
-	diag_log format ["Super Admins: %1",_SAdmins];	
+	diag_log format ["NoxAdminTools: Low Admins: %1",_LAdmins];
+	diag_log format ["NoxAdminTools: Normal Admins: %1",_NAdmins];
+	diag_log format ["NoxAdminTools: Super Admins: %1",_SAdmins];	
 	
 	
 	//Variable Generator
@@ -47,7 +47,7 @@ _varErr = [];
 			_number = str(round(random 482689));
 			_generator = _generator + ':' + _number;
         if(isNil'numofgenerated') then {numofgenerated=1;} else {numofgenerated = numofgenerated + 1;};
-			diag_log format['NATS:  _random%1: %2',numofgenerated,_generator];
+			diag_log format['NoxAdminTools: _random%1: %2',numofgenerated,_generator];
         _generator
 	};
 	_random1 = call _fnc_VarGenerator;
@@ -101,8 +101,8 @@ _varErr = [];
 		NoxAH = true;
 	");
 */
-	diag_log "NATI: Anti-Hack still to be fully implemented";
-	diag_log "NOXAT - Loading Admin Menu";	
+	diag_log "NoxAdminTools: Anti-Hack still to be fully implemented";
+	diag_log "NoxAdminTools: Loading Admin Menu";	
 call adminCode;
 adminCode = {
 	if(_puid in "+str noxAllAdmins+") then {	
@@ -443,8 +443,8 @@ adminCode = {
 	};
 
 	adminInit = {
-	diag_log "Admin Inited";
-	diag_log "Creating GUI";
+	diag_log "NoxAdminTools: Admin Inited";
+	diag_log "NoxAdminTools: Creating GUI";
 		if (isNil "restartCount") then {restartCount = 180;};
 		_time = (restartCount-(round(serverTime / 60)));
 		closeDialog 0;
@@ -465,7 +465,7 @@ adminCode = {
 			_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
 			_ctrl ctrlSetScale 1.35;
 			_ctrl ctrlSetForegroundColor [0,0.36,0.85,1];
-			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDblClick;"]; //Enable menu select/toggle
+			_ctrl ctrlSetEventHandler ["LBDblClick", "call adminDblClick;"];
 				call boxAdminFill;
 
 			_ctrl = 1 call getControl;
@@ -481,4 +481,4 @@ adminCode = {
 			_ctrl ctrlSetForegroundColor _guiFrameColour;
 	};
 };
-diag_log "Admin Menu Loaded";
+diag_log "NoxAdminTools: Loaded";

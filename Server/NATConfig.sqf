@@ -1,6 +1,6 @@
 /*
  * Admin Tools V2 by NoxSicarius
- * GUI Edition by DeanReid
+ * GUI by DeanReid
  *
  * Edit Configs below to your own use
  */ 
@@ -58,11 +58,6 @@ _majorLog = false;
 _minorLog = false;
 _unauthorisedUse = false;
 _antiTeleport = false;
-
-//////////////////////////////////////
-//////Don't Edit Below This Line//////
-//Unless you know what you are doing//
-//////////////////////////////////////
 
 //Admin Tools
 _admPBan   = "\z\addons\dayz_server\admin\scripts\admintools"; //Player Ban
