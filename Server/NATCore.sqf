@@ -62,7 +62,7 @@ if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;_varErr = true;};
 	_random21 = call _fnc_VarGenerator;
 	_random27 = call _fnc_VarGenerator;
 	_AHL = call _fnc_VarGenerator;
-		
+/*		
 	call compile ("
 		[] spawn {
 			waitUntil {uiSleep 0.5; !isNil 'sm_done'};
@@ -96,9 +96,9 @@ if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;_varErr = true;};
 				publicVariable """+_random3+""";
 				publicVariable """+_random4+""";
 				publicVariable """+_AHL+""";
-	");
-	NoxAH = true;			
-	
+	");*/
+//	NoxAH = true;
+
 	diag_log "NATI: Anti-Hack still to be fully implemented";
 	diag_log "NOXAT - Loading Admin Menu ";	
 
