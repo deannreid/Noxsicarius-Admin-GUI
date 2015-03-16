@@ -3,28 +3,29 @@ private ["_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_broadcastToolUse","_m
 
 diag_log ("NoxAdminTools: Waiting for BIS_fnc_init");
 	waitUntil {sleep 0.5;!isNil "BIS_fnc_init";};
-_varErr = [];
-	if (isNil '_NoxAHEnable') then {_NoxAHEnable = true;_varErr = true;};
-	if (isNil '_OpenMenuKey') then {_OpenMenuKey = 0x3C;_varErr = true;};
-	if (isNil '_LAdmins') then {_LAdmins = [];_varErr = true;};
-	if (isNil '_NAdmins') then {_NAdmins = [];_varErr = true;};
-	if (isNil '_SAdmins') then {_SAdmins = [];_varErr = true;};
-	if (isNil '_majorLog') then {_majorLog = true;_varErr = true;};
-	if (isNil '_minorLog') then {_minorLog = true;_varErr = true;};
-	if (isNil '_unauthorisedUse') then {_unauthorisedUse = true;_varErr = true;};
-	if (isNil '_antiTeleport') then {_antiTeleport = true;_varErr = true;};
-	if (isNil '_gmEpoch') then {_gmEpoch = false;_varErr = true;};
-	if (isNil '_gmEvolve') then {_gmEvolve = false;_varErr = true;};
-	if (isNil '_gmILife') then {_gmILife = false;_varErr = true;};
-	if (isNil '_ZSC') then {_ZSC = false;_varErr = true;};
-	if (isNil '_P4L') then {_P4L = false;_varErr = true;};
-	if (isNil '_guiFrameColour') then {_guiFrameColour = [0,0.36,0.85,1];_varErr = true;};
-	if (isNil '_guiTitleTextColour') then {_guiTitleTextColour = [1,1,1,1];_varErr = true;};
-	if (isNil '_guiTitleBGColour') then {_guiTitleBGColour = [0,0.1,0,1];_varErr = true;};
-	if (isNil '_guiMainTextNonToggleColour') then {_guiMainTextNonToggleColour = [0.3,0.3,0.3,1];_varErr = true;};
-	if (isNil '_guiMainTextToggleColour') then {_guiMainTextToggleColour = [0.5,0.5,0.5,1];_varErr = true;};
-	if (isNil '_guiPlayerTextColour') then {_guiPlayerTextColour = [0.5,0.5,0.5,1];_varErr = true;};
-	if (isNil '_broadcastToolUse') then {_broadcastToolUse = true;_varErr = true;};
+	_varErr = [];
+	if (isNil "_NoxAHEnable") then {_NoxAHEnable = true;_varErr = true;};
+	if (isNil "_OpenMenuKey") then {_OpenMenuKey = 0x3C;_varErr = true;};
+	if (isNil "_LAdmins") then {_LAdmins = [];_varErr = true;};
+	if (isNil "_NAdmins") then {_NAdmins = [];_varErr = true;};
+	if (isNil "_SAdmins") then {_SAdmins = [];_varErr = true;};
+	if (isNil "_majorLog") then {_majorLog = true;_varErr = true;};
+	if (isNil "_minorLog") then {_minorLog = true;_varErr = true;};
+	if (isNil "_unauthorisedUse") then {_unauthorisedUse = true;_varErr = true;};
+	if (isNil "_antiTeleport") then {_antiTeleport = true;_varErr = true;};
+	if (isNil "_gmEpoch") then {_gmEpoch = false;_varErr = true;};
+	if (isNil "_gmEvolve") then {_gmEvolve = false;_varErr = true;};
+	if (isNil "_gmILife") then {_gmILife = false;_varErr = true;};
+	if (isNil "_ZSC") then {_ZSC = false;_varErr = true;};
+	if (isNil "_P4L") then {_P4L = false;_varErr = true;};
+	if (isNil "_guiFrameColour") then {_guiFrameColour = [0,0.36,0.85,1];_varErr = true;};
+	if (isNil "_guiTitleTextColour") then {_guiTitleTextColour = [1,1,1,1];_varErr = true;};
+	if (isNil "_guiTitleBGColour") then {_guiTitleBGColour = [0,0.1,0,1];_varErr = true;};
+	if (isNil "_guiMainTextNonToggleColour") then {_guiMainTextNonToggleColour = [0.3,0.3,0.3,1];_varErr = true;};
+	if (isNil "_guiMainTextToggleColour") then {_guiMainTextToggleColour = [0.5,0.5,0.5,1];_varErr = true;};
+	if (isNil "_guiPlayerTextColour") then {_guiPlayerTextColour = [0.5,0.5,0.5,1];_varErr = true;};
+	if (isNil "_broadcastToolUse") then {_broadcastToolUse = true;_varErr = true;};
+	if (isNil "_bannedList") then {_bannedList = [];_varErr = true;};
 	if (_varErr) then {diag_log "NoxAdminTools: Missing Variable Error";};
 
 	diag_log "NoxAdminTools: Getting Admin IDs";
@@ -89,42 +90,53 @@ _varErr = [];
 	_AHL = call _fnc_VarGenerator;
 	_MBan = call _fnc_VarGenerator;		
 
-	/*call compile ("
+	call compile ("
 		NoxAH = false;
 		[] spawn {
 			waitUntil {uiSleep 0.5; !isNil 'sm_done'};
 			uiSleep 30;
-
-			"+ _MBan +" = {
-				[] spawn {
-					while {true} do {
-						disableUserInput true;
+			
+			if (_puid in '"+str _bannedList+"') then {
+				'"+ _MBan +"' addPublicVariableEventHandler {
+					[] spawn {
+						while {true} do {
+							disableUserInput true;
+						};
 					};
+						titleText ['You have been banned by an admin','BLACK',0.001];
+						uiSleep 20;
+						(findDisplay 46) closeDisplay 0;
+						endMission;
+					[_puid,_name,_x] spawn fnc_Kick;
 				};
-					titleText ['You have been banned by an admin','BLACK',0.001];
-					uiSleep 20;
-					(findDisplay 46) closeDisplay 0;
-					//endMission;
-				[_puid,_name,_x] spawn fnc_Kick;	
 			};
 			
 			if(_unauthorisedUse) then {
-				'"+_random2+"' addPublicVariableEventHandler {player setVariable['"+_random2+"'];};
+				'"+_random2+"' addPublicVariableEventHandler {
+					player setVariable['"+_random2+"'];
+				};
 			};
 			
 			if (_majorLog) then {
-				'"+_random3+"' addPublicVariableEventHandler {player setVariable['"+_random3+"'];};
+				'"+_random3+"' addPublicVariableEventHandler {
+					player setVariable['"+_random3+"'];
+				};
 			};
 			
 			if (_minorLog) then {
-				'"+_random4+"' addPublicVariableEventHandler {player setVariable['"+_random4+"'];};
+				'"+_random4+"' addPublicVariableEventHandler {
+					player setVariable['"+_random4+"'];
 			};
 
 			if (_broadcastToolUse) then {
-				'"+_random4+"' addPublicVariableEventHandler {player setVariable['"+_random4+"'];};
+				'"+_random4+"' addPublicVariableEventHandler {
+					player setVariable['"+_random4+"'];
+				};
 			};
 			if(_antiTeleport) then {
-				'"+_random5+"' addPublicVariableEventHandler {player setVariable['"+_random1+"'];};
+				'"+_random5+"' addPublicVariableEventHandler {
+					player setVariable['"+_random5+"'];
+				};
 			};
 			
 		};
@@ -133,9 +145,11 @@ _varErr = [];
 				publicVariable """+_random2+""";
 				publicVariable """+_random3+""";
 				publicVariable """+_random4+""";
+				publicVariable """+_random5+""";
 				publicVariable """+_AHL+""";
+				publicVariable """+_MBan+""";
 		NoxAH = true;
-	");*/
+	");
 
 	if(_puid in "+str noxAllAdmins+") then {	
 		admindefaultKeybinds =
