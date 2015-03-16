@@ -34,9 +34,9 @@ _varErr = [];
 		noxNormalList = _NAdmins; 
 		noxSuperList = _SAdmins;
 		noxAllAdmins = _LAdmins + _NAdmins + _SAdmins;
-	diag_log format ["Low Admins: ",_LAdmins];
-	diag_log format ["Normal Admins: ",_NAdmins];
-	diag_log format ["Super Admins: ",_SAdmins];	
+	diag_log format ["Low Admins: %1",_LAdmins];
+	diag_log format ["Normal Admins: %1",_NAdmins];
+	diag_log format ["Super Admins: %1",_SAdmins];	
 	
 	
 	//Variable Generator
