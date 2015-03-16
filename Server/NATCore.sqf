@@ -27,40 +27,6 @@ diag_log ("NoxAdminTools: Waiting for BIS_fnc_init");
 	if (isNil "_broadcastToolUse") then {_broadcastToolUse = true;_varErr = true;};
 	if (isNil "_bannedList") then {_bannedList = [];_varErr = true;};
 	if (_varErr) then {diag_log "NoxAdminTools: Missing Variable Error";};
-
-	diag_log "NoxAdminTools: Getting Admin IDs";
-		_puid = getPlayerUID player;
-	diag_log format ["NoxAdminTools: Player: %1 Joined the Game ",_puid];
-		noxLowList = _LAdmins + _adminLevel 1;
-		noxNormalList = _NAdmins + _adminLevel 2;
-		noxSuperList = _SAdmins + _adminLevel 3;
-		noxAllAdmins = _LAdmins + _NAdmins + _SAdmins;
-		_name = name _x;
-		_adminName = _name;
-
-	/***************************************/
-	//Debugging Only - Remove In Release  //
-	/**************************************/			
-	diag_log format ["NoxAdminTools: Low Admins: %1 ",_LAdmins];
-	diag_log format ["NoxAdminTools: Normal Admins: %1",_NAdmins];
-	diag_log format ["NoxAdminTools: Super Admins: %1",_SAdmins];	
-
-		_adminLevel = [];
-		{
-			if ((_x select 0) == (getPlayerUID player)) exitWith {
-				_adminLevel = (_x select 1);
-			};
-		} forEach "+str noxAllAdmins+";
-		
-		if ((_adminLevel < 1) || (_adminLevel > 3)) then {
-		    (findDisplay 46) closeDisplay 0;
-		};
-		systemChat format ["NoxAdminTools: Logging in as level %1 admin.",adminLevel];
-		diag_log format ["NoxAdminTools: %1 Logged in at Level %2 admin.",_adminName, adminLevel];
-	
-	/***************************************/
-	//Debugging Only - Remove In Release  //
-	/**************************************/	
 	
 	//Variable Generator
 	_fnc_VarGenerator = {
@@ -150,7 +116,43 @@ diag_log ("NoxAdminTools: Waiting for BIS_fnc_init");
 				publicVariable """+_MBan+""";
 		NoxAH = true;
 	");
+		waitUntil {uiSleep 0.5; !isNil 'dayz_animalCheck'};
+			uiSleep 30;
+	/***************************************/
+	//Debugging Only - Remove In Release  //
+	/**************************************/		
+	systemChat "NoxAdminTools: Getting Admin IDs";
+	diag_log "NoxAdminTools: Getting Admin IDs";
+		_puid = getPlayerUID player;
+		noxLowList = _LAdmins + _adminLevel 1;
+		noxNormalList = _NAdmins + _adminLevel 2;
+		noxSuperList = _SAdmins + _adminLevel 3;
+		noxAllAdmins = _LAdmins + _NAdmins + _SAdmins;
+		_name = name _x;
+		_adminName = _name;
+	systemChat format ["NoxAdminTools: Admin: %1 Joined the Game ",_puid];
+	diag_log format ["NoxAdminTools: Player: %1 Joined the Game ",_adminName];
+	
+	diag_log format ["NoxAdminTools: Low Admins: %1 ",noxLowList];
+	diag_log format ["NoxAdminTools: Normal Admins: %1",noxNormalList];
+	diag_log format ["NoxAdminTools: Super Admins: %1",noxSuperList];	
 
+		_adminLevel = [];
+		{
+			if ((_x select 0) == (getPlayerUID player)) exitWith {
+				_adminLevel = (_x select 1);
+			};
+		} forEach "+str noxAllAdmins+";
+		
+		if ((_adminLevel < 1) || (_adminLevel > 3)) then {
+		    (findDisplay 46) closeDisplay 0;
+		};
+		systemChat format ["NoxAdminTools: Logging in as level %1 admin.",adminLevel];
+		diag_log format ["NoxAdminTools: %1 Logged in at Level %2 admin.",_adminName, adminLevel];
+	
+	/***************************************/
+	//Debugging Only - Remove In Release  //
+	/**************************************/	
 	if(_puid in "+str noxAllAdmins+") then {	
 		admindefaultKeybinds =
 		{
@@ -162,7 +164,7 @@ diag_log ("NoxAdminTools: Waiting for BIS_fnc_init");
 	
 	diag_log "NoxAdminTools: Anti-Hack still to be fully implemented";
 	diag_log "NoxAdminTools: Loading Admin Menu";	
-	
+	systemChat ["NoxAdminTools: Loading Admin Menu"];
 adminCode = {
 	adminMainSetup = {
 
@@ -574,5 +576,5 @@ adminCode = {
 	diag_log format ["NoxAdminTools: %1 Was Kicked | SUID: %2 ",_PlayerName,_playerUID]
 	};*/ //== Will sort when I can be bothered.
 
-
+systemChat "NoxAdminTools: Loaded";
 diag_log "NoxAdminTools: Loaded";
