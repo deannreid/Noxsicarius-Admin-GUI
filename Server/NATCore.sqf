@@ -29,15 +29,37 @@ _varErr = [];
 
 	diag_log "NoxAdminTools: Getting Admin IDs";
 		_puid = getPlayerUID player;
-	diag_log format ["NoxAdminTools: Player: %1 ",_puid];
-		noxLowList = _LAdmins;	
-		noxNormalList = _NAdmins; 
-		noxSuperList = _SAdmins;
+	diag_log format ["NoxAdminTools: Player: %1 Joined the Game ",_puid];
+		noxLowList = _LAdmins + _adminLevel 1;
+		noxNormalList = _NAdmins + _adminLevel 2;
+		noxSuperList = _SAdmins + _adminLevel 3;
 		noxAllAdmins = _LAdmins + _NAdmins + _SAdmins;
-	diag_log format ["NoxAdminTools: Low Admins: %1",_LAdmins];
+		_name = name _x;
+		_adminName = _name;
+
+	/***************************************/
+	//Debugging Only - Remove In Release  //
+	/**************************************/			
+	diag_log format ["NoxAdminTools: Low Admins: %1 ",_LAdmins];
 	diag_log format ["NoxAdminTools: Normal Admins: %1",_NAdmins];
 	diag_log format ["NoxAdminTools: Super Admins: %1",_SAdmins];	
+
+		_adminLevel = [];
+		{
+			if ((_x select 0) == (getPlayerUID player)) exitWith {
+				_adminLevel = (_x select 1);
+			};
+		} forEach "+str noxAllAdmins+";
+		
+		if ((_adminLevel < 1) || (_adminLevel > 3)) then {
+		    (findDisplay 46) closeDisplay 0;
+		};
+		systemChat format ["NoxAdminTools: Logging in as level %1 admin.",adminLevel];
+		diag_log format ["NoxAdminTools: %1 Logged in at Level %2 admin.",_adminName, adminLevel];
 	
+	/***************************************/
+	//Debugging Only - Remove In Release  //
+	/**************************************/	
 	
 	//Variable Generator
 	_fnc_VarGenerator = {
@@ -65,18 +87,27 @@ _varErr = [];
 	_random21 = call _fnc_VarGenerator;
 	_random27 = call _fnc_VarGenerator;
 	_AHL = call _fnc_VarGenerator;
-		
-/*
-	call compile ("
+	_MBan = call _fnc_VarGenerator;		
+
+	/*call compile ("
 		NoxAH = false;
 		[] spawn {
 			waitUntil {uiSleep 0.5; !isNil 'sm_done'};
 			uiSleep 30;
 
-			if(_antiTeleport) then {
-				'"+_random1+"' addPublicVariableEventHandler {player setVariable['"+_random1+"'];};
+			"+ _MBan +" = {
+				[] spawn {
+					while {true} do {
+						disableUserInput true;
+					};
+				};
+					titleText ['You have been banned by an admin','BLACK',0.001];
+					uiSleep 20;
+					(findDisplay 46) closeDisplay 0;
+					//endMission;
+				[_puid,_name,_x] spawn fnc_Kick;	
 			};
-
+			
 			if(_unauthorisedUse) then {
 				'"+_random2+"' addPublicVariableEventHandler {player setVariable['"+_random2+"'];};
 			};
@@ -92,28 +123,33 @@ _varErr = [];
 			if (_broadcastToolUse) then {
 				'"+_random4+"' addPublicVariableEventHandler {player setVariable['"+_random4+"'];};
 			};
+			if(_antiTeleport) then {
+				'"+_random5+"' addPublicVariableEventHandler {player setVariable['"+_random1+"'];};
+			};
+			
 		};
+		
 				publicVariable """+_random1+""";
 				publicVariable """+_random2+""";
 				publicVariable """+_random3+""";
 				publicVariable """+_random4+""";
 				publicVariable """+_AHL+""";
 		NoxAH = true;
-	");
-*/
-	diag_log "NoxAdminTools: Anti-Hack still to be fully implemented";
-	diag_log "NoxAdminTools: Loading Admin Menu";	
-call adminCode;
-adminCode = {
+	");*/
+
 	if(_puid in "+str noxAllAdmins+") then {	
 		admindefaultKeybinds =
 		{
-			private ['_key'];
+			private ["_key"];
 			_key = _this select 1;
 			if(_key == "+str _OpenMenuKey+") then {call adminInit;};
 		};		
-	};
-
+	};	
+	
+	diag_log "NoxAdminTools: Anti-Hack still to be fully implemented";
+	diag_log "NoxAdminTools: Loading Admin Menu";	
+	
+adminCode = {
 	adminMainSetup = {
 
 	};
@@ -481,4 +517,48 @@ adminCode = {
 			_ctrl ctrlSetForegroundColor _guiFrameColour;
 	};
 };
+
+//WIP -- Allow admins to change menu cosmetics
+/*	adminGUICosmetics =	{
+			private ['_temp0','_temp1'];
+			closeDialog 0;
+			uiSleep 0.01;
+			createDialog 'RscConfigEditor_Main';
+			_temp0 = ctrlPosition ((findDisplay 3030) displayCtrl 1);
+			_temp1 = ctrlPosition ((findDisplay 3030) displayCtrl 2);
+			closeDialog 0;
+			if ((preprocessFileLineNumbers 'noxAdminLayout.sqf') != '') then {
+					customLayout = call compile preprocessFileLineNumbers 'noxAdminLayout.sqf';
+				if (isNil 'customLayout') then {
+					customLayout = [[_temp0,true,1],[_temp1,true,1]];
+					diag_log format ['%1',customLayout];
+					systemChat 'NoxAdminTools: Default layout paramaters loaded.';
+					diag_log 'NoxAdminTools: No data found in ""noxAdminLayout.sqf""! Loading default layout data.';
+				} else {
+					if ((typeName customLayout) == 'STRING') then {
+						customLayout = call compile customLayout;
+					};
+					systemChat 'NoxAdminTools: Custom layout parameters loaded.';
+				};
+			} else {
+				customLayout = [[_temp0,true,1],[_temp1,true,1]];
+				systemChat 'NoxAdminTools: Default layout paramaters loaded.';
+				diag_log 'NoxAdminTools: ""noxAdminLayout.sqf"" not found in your ArmA 2 OA directory! Loading default layout data.';
+			};
+		};*/
+
+		
+		
+		
+//Antihack Stuff
+/*
+	fnc_Kick = {
+	_playerUID = _this select 0;
+	_playerName = _this select 1;
+
+	
+	diag_log format ["NoxAdminTools: %1 Was Kicked | SUID: %2 ",_PlayerName,_playerUID]
+	};*/ //== Will sort when I can be bothered.
+
+
 diag_log "NoxAdminTools: Loaded";

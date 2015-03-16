@@ -12,6 +12,8 @@ _SAdmins = ["76561198001768308","0","0"];
 _NAdmins = ["0","0","0"];
 _LAdmins = ["0","0","0"];
 
+_bannedList = []; //Manual Ban List *Can't be unbanned in-game* W.I.P
+
 /*
  * Cosmetics -|- Will soon make it so you can change these in-game and make it save to file in Arma Dir.
  */
