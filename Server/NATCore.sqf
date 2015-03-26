@@ -3,6 +3,8 @@ private ["_OpenMenuKey","_LAdmins","_NAdmins","_SAdmins","_broadcastToolUse","_m
 
 diag_log ("NoxAdminTools: Waiting for BIS_fnc_init");
 	waitUntil {sleep 0.5;!isNil "BIS_fnc_init";};
+
+//Missing Config Variable Catch
 	_varErr = [];
 	if (isNil "_NoxAHEnable") then {_NoxAHEnable = true;_varErr = true;};
 	if (isNil "_OpenMenuKey") then {_OpenMenuKey = 0x3C;_varErr = true;};
@@ -28,7 +30,7 @@ diag_log ("NoxAdminTools: Waiting for BIS_fnc_init");
 	if (isNil "_bannedList") then {_bannedList = [];_varErr = true;};
 	if (_varErr) then {diag_log "NoxAdminTools: Missing Variable Error";};
 	
-	//Variable Generator
+//Variable Generator
 	_fnc_VarGenerator = {
         _array = ["a","A","c","D","d","e","F","3","1","6","G","h","f","5","7","I","j","9","8","L","l","m","M","o","P","Q","R","s","T","u","V","w","W","x","y","Y","z"];
         _generator = "S";
@@ -56,7 +58,8 @@ diag_log ("NoxAdminTools: Waiting for BIS_fnc_init");
 	_AHL = call _fnc_VarGenerator;
 	_MBan = call _fnc_VarGenerator;		
 
-	call compile ("
+//Public Variable Stuff
+/*	call compile ("
 		NoxAH = false;
 		[] spawn {
 			waitUntil {uiSleep 0.5; !isNil 'sm_done'};
@@ -107,69 +110,49 @@ diag_log ("NoxAdminTools: Waiting for BIS_fnc_init");
 			
 		};
 		
-				publicVariable """+_random1+""";
-				publicVariable """+_random2+""";
-				publicVariable """+_random3+""";
-				publicVariable """+_random4+""";
-				publicVariable """+_random5+""";
-				publicVariable """+_AHL+""";
-				publicVariable """+_MBan+""";
+				publicVariable '"+_random1+"';
+				publicVariable '"+_random2+"';
+				publicVariable '"+_random3+"';
+				publicVariable '"+_random4+"';
+				publicVariable '"+_random5+"';
+				publicVariable '"+_AHL+"';
+				publicVariable '"+_MBan+"';
 		NoxAH = true;
-	");
-		waitUntil {uiSleep 0.5; !isNil 'dayz_animalCheck'};
+	");*/
+	diag_log "NoxAdminTools: Anti-Cheat still to be fully implemented";
+	diag_log "NoxAdminTools: Loading Admin Menu";	
+	systemChat "NoxAdminTools: Loading Admin Menu";
+	
+//Start Player Check once in-game | checks if AH is true or if AH is disabled then sm_done.
+		waitUntil {uiSleep 0.5; !isNil 'NoxAH'} else {uiSleep 0.5; !isNil 'sm_done'};
 			uiSleep 30;
 	/***************************************/
 	//Debugging Only - Remove In Release  //
 	/**************************************/		
 	systemChat "NoxAdminTools: Getting Admin IDs";
 	diag_log "NoxAdminTools: Getting Admin IDs";
-		_puid = getPlayerUID player;
-		noxLowList = _LAdmins + _adminLevel 1;
-		noxNormalList = _NAdmins + _adminLevel 2;
-		noxSuperList = _SAdmins + _adminLevel 3;
-		noxAllAdmins = _LAdmins + _NAdmins + _SAdmins;
 		_name = name _x;
 		_adminName = _name;
+		_puid = getPlayerUID player;
+		noxLowList = _LAdmins;
+		noxNormalList = _NAdmins;
+		noxSuperList = _SAdmins;
+		noxAllAdmins = _LAdmins + _NAdmins + _SAdmins;
 	systemChat format ["NoxAdminTools: Admin: %1 Joined the Game ",_puid];
 	diag_log format ["NoxAdminTools: Player: %1 Joined the Game ",_adminName];
-	
 	diag_log format ["NoxAdminTools: Low Admins: %1 ",noxLowList];
 	diag_log format ["NoxAdminTools: Normal Admins: %1",noxNormalList];
-	diag_log format ["NoxAdminTools: Super Admins: %1",noxSuperList];	
+	diag_log format ["NoxAdminTools: Super Admins: %1",noxSuperList];
 
-		_adminLevel = [];
-		{
-			if ((_x select 0) == (getPlayerUID player)) exitWith {
-				_adminLevel = (_x select 1);
-			};
-		} forEach "+str noxAllAdmins+";
-		
-		if ((_adminLevel < 1) || (_adminLevel > 3)) then {
-		    (findDisplay 46) closeDisplay 0;
-		};
-		systemChat format ["NoxAdminTools: Logging in as level %1 admin.",adminLevel];
-		diag_log format ["NoxAdminTools: %1 Logged in at Level %2 admin.",_adminName, adminLevel];
-	
-	/***************************************/
-	//Debugging Only - Remove In Release  //
-	/**************************************/	
 	if(_puid in "+str noxAllAdmins+") then {	
-		admindefaultKeybinds =
-		{
+		admindefaultKeybinds =	{
 			private ["_key"];
 			_key = _this select 1;
 			if(_key == "+str _OpenMenuKey+") then {call adminInit;};
-		};		
-	};	
-	
-	diag_log "NoxAdminTools: Anti-Hack still to be fully implemented";
-	diag_log "NoxAdminTools: Loading Admin Menu";	
-	systemChat ["NoxAdminTools: Loading Admin Menu"];
-adminCode = {
-	adminMainSetup = {
-
+		};
 	};
- 
+	
+adminCode = {
 	getPlayerDetails = {		
         _player = "";
 		_playerList = lbtext [1, (lbCurSel 1)];
@@ -177,22 +160,19 @@ adminCode = {
 		if (_playerList != "") then {
 			{
 				_userID = getPlayerUID _pid;
-				if (_userID != "") then
-				{
-					if (_playerList == format["%1",name _x]) then
-					{
-					_name = name _x;
-					_adminName = _name;
-					_adminUID = _userID;
-					_adminVehicle = vehicle _x;
-					_adminPosition = getPosAtl _x;
+				if (_userID != "") then {
+					if (_playerList == format["%1",name _x]) then {
+						_name = name _x;
+						_adminName = _name;
+						_adminUID = _userID;
+						_adminVehicle = vehicle _x;
+						_adminPosition = getPosAtl _x;
 					};
-				};		
+				};
 			} forEach playableUnits;
 		};
 		_name;
 	};
-	
 	boxAdminFill {
 		noxadmin = [];
 		superAdminMenu {
@@ -201,8 +181,7 @@ adminCode = {
 			noxadmin = noxadmin + ["Corpse Markers",call compile preprocessFileLineNumbers _corMarker,_guiMainTextToggleColour];		
 			noxadmin = noxadmin + ["Wreck Markers",call compile preprocessFileLineNumbers _wreMarker,_guiMainTextToggleColour];	
 			noxadmin = noxadmin + ["Tent Markers",call compile preprocessFileLineNumbers _tntMarker,_guiMainTextToggleColour];
-				if (_isEpoch) then
-				{
+				if (_isEpoch) then {
 					noxadmin = noxadmin + ["Safe Markers",call compile preprocessFileLineNumbers _sfeMarker,_guiMainTextToggleColour];		
 					noxadmin = noxadmin + ["Plot Markers",call compile preprocessFileLineNumbers _pltMarker,_guiMainTextToggleColour];
 				};
@@ -230,8 +209,7 @@ adminCode = {
 			noxadmin = noxadmin + ["God",call compile preprocessFileLineNumbers _plrGod,_guiMainTextToggleColour];		
 			noxadmin = noxadmin + ["Car God",call compile preprocessFileLineNumbers _plrCGod,_guiMainTextToggleColour];		
 			noxadmin = noxadmin + ["Invisibility",call compile preprocessFileLineNumbers _plrHarryPotter,_guiMainTextToggleColour];		
-				if (_isEpoch) then
-				{	
+				if (_isEpoch) then {	
 					noxadmin = noxadmin + ["Remove Build Limit",call compile preprocessFileLineNumbers _plrRBL,_guiMainTextToggleColour];		
 					noxadmin = noxadmin + ["1 Step Building",call compile preprocessFileLineNumbers _plr1SB,_guiMainTextToggleColour];		
 					noxadmin = noxadmin + ["No Plot Pole",call compile preprocessFileLineNumbers _plrRPP,_guiMainTextToggleColour];		
@@ -257,8 +235,7 @@ adminCode = {
 			noxadmin = noxadmin + ["Weapons & Ammo",call compile preprocessFileLineNumbers _prvWcrate,_guiMainTextNonToggleColour];
 			noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _prvIcrate,_guiMainTextNonToggleColour];
 			noxadmin = noxadmin + ["All in One",call compile preprocessFileLineNumbers _prvAIOcrate,_guiMainTextNonToggleColour];
-				if (_isEpoch) then
-				{	
+				if (_isEpoch) then {	
 					noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _prvBcrate,_guiMainTextNonToggleColour];
 				};
 			noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _prvBPcrate,_guiMainTextNonToggleColour];	
@@ -267,8 +244,7 @@ adminCode = {
 			noxadmin = noxadmin + ["Weapons & Ammo",call compile preprocessFileLineNumbers _pubWcrate,_guiMainTextNonToggleColour];
 			noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _pubIcrate,_guiMainTextNonToggleColour];
 			noxadmin = noxadmin + ["All in One",call compile preprocessFileLineNumbers _pubAIOcrate,_guiMainTextNonToggleColour];
-				if (_isEpoch) then
-				{	
+				if (_isEpoch) then {	
 					noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _pubBcrate,_guiMainTextNonToggleColour];
 				};
 			noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _pubBPcrate,_guiMainTextNonToggleColour];	
@@ -289,8 +265,7 @@ adminCode = {
 			noxadmin = noxadmin + ["Corpse Markers",call compile preprocessFileLineNumbers _corMarker,_guiMainTextToggleColour];		
 			noxadmin = noxadmin + ["Wreck Markers",call compile preprocessFileLineNumbers _wreMarker,_guiMainTextToggleColour];	
 			noxadmin = noxadmin + ["Tent Markers",call compile preprocessFileLineNumbers _tntMarker,_guiMainTextToggleColour];
-				if (_isEpoch) then
-				{
+				if (_isEpoch) then {
 					noxadmin = noxadmin + ["Safe Markers",call compile preprocessFileLineNumbers _sfeMarker,_guiMainTextToggleColour];		
 					noxadmin = noxadmin + ["Plot Markers",call compile preprocessFileLineNumbers _pltMarker,_guiMainTextToggleColour];
 				};
@@ -317,8 +292,7 @@ adminCode = {
 			noxadmin = noxadmin + ["God",call compile preprocessFileLineNumbers _plrGod,_guiMainTextToggleColour];		
 			noxadmin = noxadmin + ["Car God",call compile preprocessFileLineNumbers _plrCGod,_guiMainTextToggleColour];		
 			noxadmin = noxadmin + ["Invisibility",call compile preprocessFileLineNumbers _plrHarryPotter,_guiMainTextToggleColour];		
-				if (_isEpoch) then
-				{	
+				if (_isEpoch) then {	
 					noxadmin = noxadmin + ["Remove Build Limit",call compile preprocessFileLineNumbers _plrRBL,_guiMainTextToggleColour];		
 					noxadmin = noxadmin + ["1 Step Building",call compile preprocessFileLineNumbers _plr1SB,_guiMainTextToggleColour];		
 					noxadmin = noxadmin + ["No Plot Pole",call compile preprocessFileLineNumbers _plrRPP,_guiMainTextToggleColour];		
@@ -342,8 +316,7 @@ adminCode = {
 			noxadmin = noxadmin + ["---Private",[]];	
 			noxadmin = noxadmin + ["Weapons & Ammo",call compile preprocessFileLineNumbers _prvWcrate,_guiMainTextNonToggleColour];
 			noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _prvIcrate,_guiMainTextNonToggleColour];
-				if (_isEpoch) then
-				{	
+				if (_isEpoch) then {	
 					noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _prvBcrate,_guiMainTextNonToggleColour];
 				};
 			noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _prvBPcrate,_guiMainTextNonToggleColour];	
@@ -351,8 +324,7 @@ adminCode = {
 			noxadmin = noxadmin + ["---Public",[]];	
 			noxadmin = noxadmin + ["Weapons & Ammo",call compile preprocessFileLineNumbers _pubWcrate,_guiMainTextNonToggleColour];
 			noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _pubIcrate,_guiMainTextNonToggleColour];
-				if (_isEpoch) then
-				{	
+				if (_isEpoch) then {	
 					noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _pubBcrate,_guiMainTextNonToggleColour];
 				};
 			noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _pubBPcrate,_guiMainTextNonToggleColour];	
@@ -386,8 +358,7 @@ adminCode = {
 			noxadmin = noxadmin + ["Heal Player",call compile preprocessFileLineNumbers _plrHeal,_guiMainTextNonToggleColour];		
 			noxadmin = noxadmin + ["No Recoil",call compile preprocessFileLineNumbers _plrRR,_guiMainTextToggleColour];		
 			noxadmin = noxadmin + ["God",call compile preprocessFileLineNumbers _plrGod,_guiMainTextToggleColour];			
-				if (_isEpoch) then
-				{		
+				if (_isEpoch) then {		
 					noxadmin = noxadmin + ["1 Step Building",call compile preprocessFileLineNumbers _plr1SB,_guiMainTextToggleColour];		
 					noxadmin = noxadmin + ["No Plot Pole",call compile preprocessFileLineNumbers _plrRPP,_guiMainTextToggleColour];		
 					noxadmin = noxadmin + ["No Overburden",call compile preprocessFileLineNumbers _plrROB,_guiMainTextToggleColour];	
@@ -407,16 +378,14 @@ adminCode = {
 			noxadmin = noxadmin + ["                 Crates                 ",[]];	
 			noxadmin = noxadmin + ["---Private",[]];	
 			noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _prvIcrate,_guiMainTextNonToggleColour];
-				if (_isEpoch) then
-				{	
+				if (_isEpoch) then {	
 					noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _prvBcrate,_guiMainTextNonToggleColour];
 				};
 			noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _prvBPcrate,_guiMainTextNonToggleColour];	
 			noxadmin = noxadmin + ["","",[]];	
 			noxadmin = noxadmin + ["---Public",[]];	
 			noxadmin = noxadmin + ["Items",call compile preprocessFileLineNumbers _pubIcrate,_guiMainTextNonToggleColour];
-				if (_isEpoch) then
-				{	
+				if (_isEpoch) then {	
 					noxadmin = noxadmin + ["Epoch Crate",call compile preprocessFileLineNumbers _pubBcrate,_guiMainTextNonToggleColour];
 				};
 			noxadmin = noxadmin + ["Backpack Crate",call compile preprocessFileLineNumbers _pubBPcrate,_guiMainTextNonToggleColour];	
@@ -427,7 +396,6 @@ adminCode = {
 			noxadmin = noxadmin + ["Delete Destroyed Vehicles",call compile preprocessFileLineNumbers _hkDelDV,_guiMainTextNonToggleColour];
 		};
 	};
-	
 	boxPlayerFill = {
 		disableSerialization;
 		_ctrl = 1 call getControl;
@@ -438,62 +406,62 @@ adminCode = {
 		
 		if(getPlayerUID player in noxSuperList) then {
 			_SAdmins = {getPlayerUID _x in noxSuperList} count _setup;
-				_ctrl lbAdd "=== Super Admins ===";
-				_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
-				_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
-				{
-					if(_userID in noxSuperList) then {
-						_setup = _setup - [_x];
-						_ctrl lbAdd format["%1",name _x];
-						_ctrl lbSetData [(lbsize _ctrl)-1, "1"]; 
-						_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
-					};
-				} forEach _setup
+			_ctrl lbAdd "=== Super Admins ===";
+			_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+			_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
+			{
+				if(_userID in noxSuperList) then {
+					_setup = _setup - [_x];
+					_ctrl lbAdd format["%1",name _x];
+					_ctrl lbSetData [(lbsize _ctrl)-1, "1"]; 
+					_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
+				};
+			} forEach _setup
 		};
 		
 		if(getPlayerUID player in noxNormalList) then {
 			_NAdmins = {getPlayerUID _x in noxNormalList} count _setup;
-				_ctrl lbAdd "=== Standard Admins ===";
-				_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
-				_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
-				{
-					if(_userID in noxNormalList) then {
-						_setup = _setup - [_x];
-						_ctrl lbAdd format["%1",name _x];
-						_ctrl lbSetData [(lbsize _ctrl)-1, "1"]; 
-						_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
-					};
-				} forEach _setup
+			_ctrl lbAdd "=== Standard Admins ===";
+			_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+			_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
+			{
+				if(_userID in noxNormalList) then {
+					_setup = _setup - [_x];
+					_ctrl lbAdd format["%1",name _x];
+					_ctrl lbSetData [(lbsize _ctrl)-1, "1"]; 
+					_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
+				};
+			} forEach _setup
 		};	
 		
 		if(getPlayerUID player in noxLowList) then {		
 			_LAdmins = {getPlayerUID _x in noxLowList} count _setup;
-				_ctrl lbAdd "=== Low Admins ===";
-				_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
-				_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
-				{
-					if(_userID in noxLowList) then {
-						_setup = _setup - [_x];
-						_ctrl lbAdd format["%1",name _x];
-						_ctrl lbSetData [(lbsize _ctrl)-1, "1"]; 
-						_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
-					};
-				} forEach _setup
+			_ctrl lbAdd "=== Low Admins ===";
+			_ctrl lbSetData [(lbsize _ctrl)-1, "1"];
+			_ctrl lbSetColor [(lbsize _ctrl)-1, [1,1,1,1]];
+			{
+				if(_userID in noxLowList) then {
+					_setup = _setup - [_x];
+					_ctrl lbAdd format["%1",name _x];
+					_ctrl lbSetData [(lbsize _ctrl)-1, "1"]; 
+					_ctrl lbSetColor [(lbsize _ctrl)-1, _guiPlayerTextColour];
+				};
+			} forEach _setup
 		};
 	};
-
 	boxPopulate ={
 		noxadmin = [];
 		_ctrl = 2 call getControl;
 		lbclear _ctrl;
 		_ctrl ctrlSetFont "EtelkaNarrowMediumPro";
-
+		
+		call getPlayerDetails;
 		if(getPlayerUID player in noxLowList) then {call lowAdminMenu;};
 		if(getPlayerUID player in noxNormalList) then {call normalAdminMenu;};
 		if(getPlayerUID player in noxSuperList) then {call superAdminMenu;};
-		call adminMainSetup;	
+		call boxPlayerFill;
 	};
-
+	
 	adminInit = {
 	diag_log "NoxAdminTools: Admin Inited";
 	diag_log "NoxAdminTools: Creating GUI";
@@ -534,47 +502,40 @@ adminCode = {
 	};
 };
 
-//WIP -- Allow admins to change menu cosmetics
-/*	adminGUICosmetics =	{
-			private ['_temp0','_temp1'];
-			closeDialog 0;
-			uiSleep 0.01;
-			createDialog 'RscConfigEditor_Main';
-			_temp0 = ctrlPosition ((findDisplay 3030) displayCtrl 1);
-			_temp1 = ctrlPosition ((findDisplay 3030) displayCtrl 2);
-			closeDialog 0;
-			if ((preprocessFileLineNumbers 'noxAdminLayout.sqf') != '') then {
-					customLayout = call compile preprocessFileLineNumbers 'noxAdminLayout.sqf';
-				if (isNil 'customLayout') then {
-					customLayout = [[_temp0,true,1],[_temp1,true,1]];
-					diag_log format ['%1',customLayout];
-					systemChat 'NoxAdminTools: Default layout paramaters loaded.';
-					diag_log 'NoxAdminTools: No data found in ""noxAdminLayout.sqf""! Loading default layout data.';
-				} else {
-					if ((typeName customLayout) == 'STRING') then {
-						customLayout = call compile customLayout;
-					};
-					systemChat 'NoxAdminTools: Custom layout parameters loaded.';
-				};
-			} else {
+	adminGUICosmetics =	{
+		private ['_temp0','_temp1'];
+		closeDialog 0;
+		uiSleep 0.01;
+		createDialog 'RscConfigEditor_Main';
+		_temp0 = ctrlPosition ((findDisplay 3030) displayCtrl 1);
+		_temp1 = ctrlPosition ((findDisplay 3030) displayCtrl 2);
+		closeDialog 0;
+		if ((preprocessFileLineNumbers 'noxAdminLayout.sqf') != '') then {
+				customLayout = call compile preprocessFileLineNumbers 'noxAdminLayout.sqf';
+			if (isNil 'customLayout') then {
 				customLayout = [[_temp0,true,1],[_temp1,true,1]];
+				diag_log format ['%1',customLayout];
 				systemChat 'NoxAdminTools: Default layout paramaters loaded.';
-				diag_log 'NoxAdminTools: ""noxAdminLayout.sqf"" not found in your ArmA 2 OA directory! Loading default layout data.';
+				diag_log 'NoxAdminTools: No data found in ""noxAdminLayout.sqf""! Loading default layout data.';
+			} else {
+				if ((typeName customLayout) == 'STRING') then {
+					customLayout = call compile customLayout;
+				};
+				systemChat 'NoxAdminTools: Custom layout parameters loaded.';
 			};
-		};*/
+		} else {
+			customLayout = [[_temp0,true,1],[_temp1,true,1]];
+			systemChat 'NoxAdminTools: Default layout paramaters loaded.';
+			diag_log 'NoxAdminTools: ""noxAdminLayout.sqf"" not found in your ArmA 2 OA directory! Loading default layout data.';
+		};
+	};
 
-		
-		
-		
 //Antihack Stuff
-/*
 	fnc_Kick = {
-	_playerUID = _this select 0;
-	_playerName = _this select 1;
-
-	
-	diag_log format ["NoxAdminTools: %1 Was Kicked | SUID: %2 ",_PlayerName,_playerUID]
-	};*/ //== Will sort when I can be bothered.
+		_playerUID = _this select 0;
+		_playerName = _this select 1;
+		diag_log format ["NoxAdminTools: %1 Was Kicked | SUID: %2 ",_PlayerName,_playerUID]
+	}; //== Will sort when I can be bothered.
 
 systemChat "NoxAdminTools: Loaded";
 diag_log "NoxAdminTools: Loaded";
